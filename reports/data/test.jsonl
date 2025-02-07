@@ -3,3 +3,13 @@
 {"query": "Is there any recent work that used an implicit model to produce a non-parametric distribution over SO(3) that can model objects with large symmetry groups?", "date": "31-12-2024", "target": ["2106.05965"]}
 {"query": "How can LLM agents be evaluated and benchmarked for financial tasks? Note that I am referring to agents.", "date": "31-12-2024", "target": ["2409.14913"]}
 {"query": "Which paper introduced the MQAR (multi-query associative recall) task?", "date": "31-12-2024", "target": ["2312.04927"]}
+{"query": "Which paper shows llms need minimal instruction data (like 1000 samples) for high-quality output, with most knowledge being acquired during pretraining?", "date": "07-02-2025", "target": ["2305.11206"]}
+{"query": "Which paper proposed a decoding strategy for llms by dynamically selecting layers and contrasting their logits?", "date": "07-02-2025", "target": ["2309.03883"]}
+{"query": "Which paper introduces a self-speculative decoding method for llms that allows early exit at initial layers?", "date": "07-02-2025", "target": ["2404.16710"]}
+{"query": "Which paper introduces a method where chunking is applied after the transformer model?", "date": "07-02-2025", "target": ["2409.04701"]}
+{"query": "Find the paper that indroduces self-reflexive tokens to call rag adaptively", "date": "07-02-2025", "target": ["2310.11511"]}
+{"query": "Which paper explores whether multilingual language models use English as an internal reference language?", "date": "07-02-2025", "target": ["2402.10588"]}
+{"query": "Find the paper about uncertainty estimation by researchers from skoltech and airi universities? The authors also introduce open source framework", "date": "07-02-2025", "target": ["2311.07383"]}
+{"query": "Which paper presents a method for accelerating the output of large language models using additional decoding heads for parallel prediction of multiple tokens?", "date": "07-02-2025", "target": ["2401.10774"]}
+{"query": "Which paper introduces the method for adaptive rag using uncertainty scores?", "date": "07-02-2025", "target": ["2406.19215", "2501.12835", "2305.06983", "2403.10081"]}
+{"query": "Find the paper for adaptive rag using prober on internal representaion", "date": "07-02-2025", "target": ["2410.13339", "2405.18727"]}
