@@ -46,7 +46,7 @@ def _has_cyrillic(text: str) -> bool:
 
 def _parse_query(query: str, paper: Any) -> bool:
     conditions = re.split(r"\s+(AND|OR|ANDNOT)\s+", query)
-    result = None
+    result = False
     for i in range(0, len(conditions), 2):
         condition = conditions[i]
         field, value = condition.split(":", 1) if ":" in condition else ("ti", condition)
