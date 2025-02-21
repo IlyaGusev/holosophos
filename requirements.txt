@@ -16,3 +16,4 @@ fire >= 0.7.0
 tqdm >= 4.66.0
 types-tqdm >= 4.66.0
 arize-phoenix-otel >= 0.8.0
+acl-anthology >= 0.5.1
