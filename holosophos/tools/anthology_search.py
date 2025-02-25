@@ -5,6 +5,10 @@ from typing import Optional, List, Dict, Any, Union
 
 from acl_anthology import Anthology
 
+
+anthology = Anthology.from_repo()
+anthology.load_all()
+ALL_PAPERS = [paper for paper in anthology.papers() if paper.abstract and str(paper.abstract).strip()]
 SORT_BY_OPTIONS = ("relevance", "published")
 SORT_ORDER_OPTIONS = ("ascending", "descending")
 
@@ -143,10 +147,7 @@ def anthology_search(
     assert not _has_cyrillic(query), "Error: use only Latin script for queries"
     assert include_abstracts is not None, "Error: include_abstracts must be bool"
 
-    anthology = Anthology.from_repo()
-    anthology.load_all()
-    all_papers = list(anthology.papers())
-    all_papers = [paper for paper in all_papers if paper.abstract and str(paper.abstract).strip()]
+    all_papers = ALL_PAPERS.copy()
 
     if start_date or end_date:
         start_year = _convert_to_year(start_date) if start_date else 1900
