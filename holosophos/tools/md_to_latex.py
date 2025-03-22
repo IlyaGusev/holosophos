@@ -305,7 +305,7 @@ class Link2Latex:
         return r'\href{%s}{%s}' % (href, desc) if href != desc else r'\url{%s}' % href
 
 def convert_md_to_latex(input_path, output_path):
-    with open(input_path, 'r', encoding='utf-8') as infile:
+    with open(f'{WORKSPACE_DIR_PATH}/{input_path}', 'r', encoding='utf-8') as infile:
         md_content = infile.read()
 
     md = markdown.Markdown(extensions=[LaTeXExtension()])
@@ -335,5 +335,5 @@ def convert_md_to_latex(input_path, output_path):
 
 \\end{{document}}"""
 
-    with open(output_path, 'w', encoding='utf-8') as outfile:
+    with open(f'{WORKSPACE_DIR_PATH}/{output_path}', 'w', encoding='utf-8') as outfile:
         outfile.write(latex_content)
