@@ -9,6 +9,7 @@ from holosophos.tools import (
     CustomVisitWebpageTool,
     remote_text_editor_tool,
     remote_bash_tool,
+    remote_download_tool,
     hf_datasets_search_tool,
 )
 
@@ -16,13 +17,13 @@ NAME = "mle_solver"
 DESCRIPTION = """This team member is an egineer that writes code and runs computational experiments using remote GPUs.
 He has access to tools that write and execute code on a remote GPU.
 Ask him when you need to solve any programming tasks that require GPU.
-Give him your task as an argument."""
+Give him your detailed task as an argument. List ALL possible details."""
 
 
 def get_mle_solver_agent(
     model: Model,
     max_steps: int = 42,
-    planning_interval: Optional[int] = 6,
+    planning_interval: Optional[int] = 7,
     max_print_outputs_length: int = 20000,
     verbosity_level: int = 2,
 ) -> CodeAgent:
@@ -32,6 +33,7 @@ def get_mle_solver_agent(
         tools=[
             remote_bash_tool,
             remote_text_editor_tool,
+            remote_download_tool,
             hf_datasets_search_tool,
             DuckDuckGoSearchTool(),
             CustomVisitWebpageTool(),

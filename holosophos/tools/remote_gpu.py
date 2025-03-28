@@ -17,6 +17,8 @@ from holosophos.files import WORKSPACE_DIR_PATH
 BASE_IMAGE = "phoenix120/holosophos_mle"
 DEFAULT_GPU_TYPE = "RTX_3090"
 GLOBAL_TIMEOUT = 43200
+VAST_AI_GREETING = """Welcome to vast.ai. If authentication fails, try again after a few seconds, and double check your ssh key.
+Have fun!"""
 
 
 @dataclass
@@ -298,9 +300,22 @@ def remote_bash(command: str, timeout: Optional[int] = 60) -> str:
     assert _instance_info
     assert timeout
     result = run_command(_instance_info, command, timeout=timeout)
-    if result.stdout:
-        return result.stdout
-    return result.stderr
+    output = ("STDOUT: " + result.stdout + "\n") if result.stdout else ""
+    output += ("STDERR: " + result.stderr) if result.stderr else ""
+    return output.replace(VAST_AI_GREETING, "")
+
+
+def remote_download(file_path: str) -> str:
+    """
+    Copies a file from a remote machine to the local work directory.
+    Use it to download final artefacts of the runs.
+    Args:
+        file_path: Path to the file on a remote machine.
+    """
+    init_all()
+    assert _instance_info
+    recieve_rsync(_instance_info, f"/root/{file_path}", f"{WORKSPACE_DIR_PATH}")
+    return f"File '{file_path}' downloaded!"
 
 
 def create_remote_text_editor(

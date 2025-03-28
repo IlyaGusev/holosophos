@@ -9,9 +9,14 @@ from holosophos.tools.bash import bash
 from holosophos.tools.text_editor import text_editor
 from holosophos.tools.document_qa import DocumentQATool
 from holosophos.tools.visit_webpage import CustomVisitWebpageTool
-from holosophos.tools.remote_gpu import remote_bash, create_remote_text_editor
+from holosophos.tools.remote_gpu import (
+    remote_bash,
+    create_remote_text_editor,
+    remote_download,
+)
 from holosophos.tools.hf_datasets_search import hf_datasets_search
 from holosophos.tools.s2_citations import s2_citations
+from holosophos.tools.show_image import show_image
 
 
 def convert_tool_to_smolagents(function: Callable[..., Any]) -> Tool:
@@ -26,9 +31,11 @@ anthology_search_tool = convert_tool_to_smolagents(anthology_search)
 bash_tool = convert_tool_to_smolagents(bash)
 text_editor_tool = convert_tool_to_smolagents(text_editor)
 remote_bash_tool = convert_tool_to_smolagents(remote_bash)
+remote_download_tool = convert_tool_to_smolagents(remote_download)
 remote_text_editor_tool = convert_tool_to_smolagents(remote_text_editor)
 hf_datasets_search_tool = convert_tool_to_smolagents(hf_datasets_search)
 s2_citations_tool = convert_tool_to_smolagents(s2_citations)
+show_image_tool = convert_tool_to_smolagents(show_image)
 
 
 __all__ = [
@@ -46,11 +53,15 @@ __all__ = [
     "bash_tool",
     "text_editor_tool",
     "remote_bash",
+    "remote_download",
     "remote_text_editor",
     "remote_bash_tool",
     "remote_text_editor_tool",
+    "remote_download_tool",
     "hf_datasets_search",
     "hf_datasets_search_tool",
     "s2_citations",
     "s2_citations_tool",
+    "show_image",
+    "show_image_tool",
 ]

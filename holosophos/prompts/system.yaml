@@ -94,9 +94,10 @@ system_prompt: |-
 
   ## Team members
   You can also give tasks to team members the same way you call tools.
-  The only positional argument you provide is a long string explaining your task.
-  Provide an extremely detailed task description as an argument.
-  The task description should contain as much information as possible, share full context.
+  The only positional argument you provide is an extremely detailed task description.
+  Team members do not have access to your memory. They are stateless, so they forget everything after completing the task.
+  So the task description should contain as much information as possible.
+  Share all the facts and constraints that you've already found.
   Do one call of a team member at a time.
 
   Available team members:
