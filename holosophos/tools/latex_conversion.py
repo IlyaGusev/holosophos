@@ -1,5 +1,8 @@
 import markdown
 import re
+import os
+import subprocess
+import shutil
 import xml.dom.minidom
 import xml.etree.ElementTree as etree
 
@@ -276,7 +279,7 @@ class Img2Latex:
         return """
 \\begin{figure}[H]
 \\centering
-\\includegraphics[max width=\\linewidth]{%s}
+\\includegraphics[width=\\linewidth]{%s} 
 \\caption{%s}
 \\end{figure}
 """ % (src, alt)
@@ -304,9 +307,13 @@ class Link2Latex:
         desc = re.search(r'>([^<]+)', instr).group(1)
         return r'\href{%s}{%s}' % (href, desc) if href != desc else r'\url{%s}' % href
 
-def convert_md_to_latex(input_path, output_path):
-    with open(f'{WORKSPACE_DIR_PATH}/{input_path}', 'r', encoding='utf-8') as infile:
-        md_content = infile.read()
+def convert_md_to_latex(md_content: str) -> str:
+    """
+    Converts Markdown file to LaTeX.
+
+    Parameters:
+        md_content : str
+    """
 
     md = markdown.Markdown(extensions=[LaTeXExtension()])
     latex_content = md.convert(md_content)
@@ -315,6 +322,10 @@ def convert_md_to_latex(input_path, output_path):
 
     latex_content = f"""\\documentclass{{article}}
 \\usepackage[utf8]{{inputenc}}
+\\usepackage[T1]{{fontenc}}
+\\usepackage{{textcomp}}
+\\usepackage{{amsmath}}
+\\usepackage{{float}}
 \\usepackage{{graphicx}}
 \\usepackage{{enumitem}}
 \\usepackage{{quoting}}
@@ -335,5 +346,56 @@ def convert_md_to_latex(input_path, output_path):
 
 \\end{{document}}"""
 
-    with open(f'{WORKSPACE_DIR_PATH}/{output_path}', 'w', encoding='utf-8') as outfile:
-        outfile.write(latex_content)
+    return latex_content
+
+def md_to_pdf(markdown_text: str, output_filename: str = "output") -> str:
+    """
+    Convert Markdown to PDF via LaTeX.
+    
+    Args:
+        markdown_text: Markdown text
+        output_filename: Output filename (without extension)
+    
+    Returns:
+        Message about the compilation result
+    """
+    
+    latex_code = convert_md_to_latex(markdown_text)
+    
+    temp_dir = os.path.join(WORKSPACE_DIR_PATH, "temp_latex")
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    tex_file_path = os.path.join(temp_dir, "temp.tex")
+    with open(tex_file_path, "w", encoding="utf-8") as f:
+        f.write(latex_code)
+    
+    try:
+        result = subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", "-output-directory", temp_dir, tex_file_path],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=30
+        )
+        
+    except subprocess.TimeoutExpired:
+        # If the compilation takes too long, return a timeout message
+        return "Compilation timed out after 30 seconds"
+    except subprocess.CalledProcessError as e:
+        # If there is an error during LaTeX compilation, return the error message
+        error_msg = e.stdout.decode('utf-8') 
+        error_lines = [line for line in error_msg.split('\n') if 'error' in line.lower() or '!' in line]
+        if error_lines:
+            return f"Compilation failed. LaTeX errors:\n" + '\n'.join(error_lines)
+        return f"Compilation failed. Full LaTeX output:\n{error_msg}"
+    
+    pdf_path = os.path.join(temp_dir, "temp.pdf")
+    output_pdf_path = os.path.join(WORKSPACE_DIR_PATH, f"{output_filename}.pdf")
+    
+    if os.path.exists(pdf_path):
+        shutil.move(pdf_path, output_pdf_path)
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        return f"Compilation successful! PDF file saved as {output_filename}.pdf"
+    else:
+        return "Compilation completed, but PDF file was not created. Check LaTeX code for errors."
+    

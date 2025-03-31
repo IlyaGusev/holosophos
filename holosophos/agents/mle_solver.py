@@ -11,6 +11,7 @@ from holosophos.tools import (
     remote_bash_tool,
     remote_download_tool,
     hf_datasets_search_tool,
+    md_to_pdf_tool,
 )
 
 NAME = "mle_solver"
@@ -35,6 +36,7 @@ def get_mle_solver_agent(
             remote_text_editor_tool,
             remote_download_tool,
             hf_datasets_search_tool,
+            md_to_pdf_tool,
             DuckDuckGoSearchTool(),
             CustomVisitWebpageTool(),
         ],
