@@ -22,7 +22,7 @@ def run_eval(
     verbosity_level: int = 2,
     nrows: Optional[int] = None,
     enable_phoenix: bool = False,
-    phoenix_project_name: str = "holosophos-aboriskin",
+    phoenix_project_name: str = "holosophos",
     phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
 ) -> None:
     with open(input_path) as f:
