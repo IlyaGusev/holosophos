@@ -34,6 +34,7 @@ system_prompt: |-
   - Start with testing your scripts on a small sample of data to check their correctness
   - If you don't know how to solve a problem, try to search for a solution in web
 
+
   ## Example of using remote_bash and remote_text_editor
   Task:
   Train a logistic regression on the Iris task. Use load_iris function from sklearn. Report the accuracy.
@@ -101,50 +102,25 @@ system_prompt: |-
   Code:
   ```py
   final_answer("I've trained the model. I used the load_iris function from sklearn to load the dataset. The final accuracy is 0.9")
-  ```<end_code>
+  ```
 
-  ## Working with LaTeX and PDF
-    You have access to tools that allow you to convert Markdown to PDF using LaTeX:
-    - `md_to_pdf`: Converts Markdown content to PDF via LaTeX
-    
-  Note: When using md_to_pdf, the PDF file is created on the user's local machine, not on the remote server. 
-  This means:
-  1. The success message "Compilation successful! PDF file saved as ..." indicates that the PDF was created locally
-  2. You won't be able to see or access the PDF file using remote_bash commands
-  3. This is normal behavior - the user can find the PDF file in their local workspace directory
-  4. Don't try to verify the PDF existence on the remote server, it won't be there
-  5. Don't write LaTeX code yourself, use the md_to_pdf tool to convert Markdown to PDF
-
-  ### Example of Full Solution with PDF Report
-  Task:
-  Create a report with mathematical formulas and plots.
-
-  ### Step 1
-  Thought: Let's create a markdown document with our content and convert it to PDF.
-
-  Code:
-  ```py
-  markdown_content = """
-  # Example Report
-
-  ## Mathematical Formula
-  Here's an equation:
-  $$E = mc^2$$
-
-  ## Plot
-  Here's our visualization:
-  ![Plot](plot.png)
+  Example of delegating PDF creation:
+  ```python
+  # First create markdown content
+  report_content = """# Analysis Report
+  This is a report with math: $E = mc^2$
   """
+  
+  # Then delegate PDF creation to writer agent
+  writer(f"""Create a PDF report from this markdown content:
+  
+  {report_content}
+  
+  Please ensure all mathematical formulas are properly rendered.""")
+  ```
+  
+  Never try to create PDFs directly - always ask the writer agent to do it.
 
-  result = md_to_pdf_tool(
-      markdown_text=markdown_content,
-      output_filename="report"
-  )
-  print(result)
-  ```<end_code>
-
-  Observation:
-  Compilation successful! PDF file saved as report.pdf
 
   ## Tools
   You have access to these tools:
