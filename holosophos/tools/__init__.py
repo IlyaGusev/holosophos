@@ -16,7 +16,7 @@ from holosophos.tools.remote_gpu import (
 )
 from holosophos.tools.hf_datasets_search import hf_datasets_search
 from holosophos.tools.s2_citations import s2_citations
-
+from holosophos.tools.latex_conversion import md_to_pdf
 
 def convert_tool_to_smolagents(function: Callable[..., Any]) -> Tool:
     return tool(function)
@@ -34,6 +34,7 @@ remote_download_tool = convert_tool_to_smolagents(remote_download)
 remote_text_editor_tool = convert_tool_to_smolagents(remote_text_editor)
 hf_datasets_search_tool = convert_tool_to_smolagents(hf_datasets_search)
 s2_citations_tool = convert_tool_to_smolagents(s2_citations)
+md_to_pdf_tool = convert_tool_to_smolagents(md_to_pdf)
 
 __all__ = [
     "arxiv_search",
@@ -59,4 +60,6 @@ __all__ = [
     "hf_datasets_search_tool",
     "s2_citations",
     "s2_citations_tool",
+    "md_to_pdf",
+    "md_to_pdf_tool",
 ]

@@ -104,6 +104,23 @@ system_prompt: |-
   final_answer("I've trained the model. I used the load_iris function from sklearn to load the dataset. The final accuracy is 0.9")
   ```
 
+  Example of delegating PDF creation:
+  ```python
+  # First create markdown content
+  report_content = """# Analysis Report
+  This is a report with math: $E = mc^2$
+  """
+  
+  # Then delegate PDF creation to writer agent
+  writer(f"""Create a PDF report from this markdown content:
+  
+  {report_content}
+  
+  Please ensure all mathematical formulas are properly rendered.""")
+  ```
+  
+  Never try to create PDFs directly - always ask the writer agent to do it.
+
 
   ## Tools
   You have access to these tools:

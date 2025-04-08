@@ -19,3 +19,4 @@ arize-phoenix-otel >= 0.8.0
 vastai-sdk == 0.1.16
 duckduckgo_search == 7.5.1
 git+https://github.com/IlyaGusev/acl-anthology
+markdown == 3.7.0
