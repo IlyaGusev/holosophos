@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, Sequence
 
 import fire  # type: ignore
 from smolagents import CodeAgent  # type: ignore
@@ -6,6 +6,7 @@ from smolagents.models import LiteLLMModel  # type: ignore
 from phoenix.otel import register
 from openinference.instrumentation.smolagents import SmolagentsInstrumentor
 from dotenv import load_dotenv
+from PIL import Image
 
 from holosophos.tools import text_editor_tool, bash_tool
 from holosophos.agents import get_librarian_agent, get_mle_solver_agent
@@ -58,6 +59,7 @@ MODEL5 = "anthropic/claude-3-7-sonnet-20250219"
 
 def run_main_agent(
     query: str = PROMPT4,
+    image_paths: Sequence[str] = tuple(),
     model_name: str = MODEL5,
     max_print_outputs_length: int = 10000,
     verbosity_level: int = 2,
@@ -105,7 +107,10 @@ def run_main_agent(
         prompt_templates=get_prompt("system"),
         max_print_outputs_length=max_print_outputs_length,
     )
-    response: str = agent.run(query)
+    images = None
+    if image_paths:
+        images = [Image.open(path) for path in image_paths]
+    response: str = agent.run(query, images=images)
     return response
 
 
