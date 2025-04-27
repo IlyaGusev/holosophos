@@ -18,6 +18,7 @@ from holosophos.tools.hf_datasets_search import hf_datasets_search
 from holosophos.tools.s2_citations import s2_citations
 from holosophos.tools.latex_conversion import md_to_pdf
 
+
 def convert_tool_to_smolagents(function: Callable[..., Any]) -> Tool:
     return tool(function)
 

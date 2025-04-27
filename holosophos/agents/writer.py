@@ -11,6 +11,7 @@ DESCRIPTION = """This team member is a technical writer that can create PDF repo
 He has access to tools for converting Markdown to PDF using LaTeX.
 Ask him when you need to create PDF reports with mathematical formulas, tables, and plots."""
 
+
 def get_writer_agent(
     model: Model,
     max_steps: int = 42,

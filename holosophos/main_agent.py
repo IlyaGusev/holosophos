@@ -9,7 +9,11 @@ from dotenv import load_dotenv
 from PIL import Image
 
 from holosophos.tools import text_editor_tool, bash_tool
-from holosophos.agents import get_librarian_agent, get_mle_solver_agent, get_writer_agent
+from holosophos.agents import (
+    get_librarian_agent,
+    get_mle_solver_agent,
+    get_writer_agent,
+)
 from holosophos.utils import get_prompt
 
 
