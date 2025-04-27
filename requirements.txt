@@ -8,7 +8,7 @@ transformers == 4.47.1
 smolagents[telemetry] == 1.12.0
 docker >= 7.1.0
 pypdf >= 5.1.0
-litellm >= 1.60.8
+litellm == 1.60.8
 beautifulsoup4 >= 4.12.0
 types-beautifulsoup4 >= 4.12.0
 markdownify == 0.14.1
