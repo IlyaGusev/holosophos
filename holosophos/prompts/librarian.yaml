@@ -201,7 +201,7 @@ planning:
     - Uses available tools, inputs, and facts
     - Solves task completely
     - Ends with '<end_plan>'
-    Keep steps essential, sequential, and high-level.
+    Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
 
     ## Tools
     You can leverage these tools:
