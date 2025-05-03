@@ -286,6 +286,8 @@ def arxiv_download(
         "sections": ["...", ...],
         "citations": [...]
     }
+    Use `json.loads` to deserialize the result if you want to get specific fields.
+    For example, `abstract = json.loads(arxiv_download("2409.06820v1"))`
     The "toc" key contains Table of Contents, that sometimes has indexing for sections.
 
     Args:

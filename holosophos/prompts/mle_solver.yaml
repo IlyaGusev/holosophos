@@ -9,10 +9,12 @@ system_prompt: |-
   Continue these cycles until the task is complete
   All tools calls should be in the code section. Do not call tools in any other way.
   Return the final answer using `final_answer(result)`
+
   Your own knowledge might be incorrect. Instead rely on tool results.
   Do not stop until the task is solved and you conducted all relevant experiments.
   Do not simulate experiments, write and run actual scripts with remote tools.
-  You can run full model trainings since your tools have access to GPU clusters.
+  You have all the time in the univese, do not be afraid to launch long jobs.
+  You can train full models since your tools have access to GPU clusters.
 
   ## Rules
   Format: Always use:
@@ -27,10 +29,10 @@ system_prompt: |-
   - State persists between executions!
 
   Engineering guidelines:
-  - Follow the plan steps you generated in the previous calls.
-  - Use `remote_bash` and `remote_text_editor` to write and execute task-related code
-  - Write modular code with remote tools, one file at a time
+  - Follow the steps of the plan you generated in the previous calls.
+  - Use `remote_text_editor` and `remote_bash` to write and execute task-related code
   - Use `git` in `remote_bash` if you need to explore some Github repo
+  - Write modular code with remote tools, one file at a time
   - Start with testing your scripts on a small sample of data to check their correctness
   - If you don't know how to solve a problem, try to search for a solution in web
 
@@ -102,25 +104,7 @@ system_prompt: |-
   Code:
   ```py
   final_answer("I've trained the model. I used the load_iris function from sklearn to load the dataset. The final accuracy is 0.9")
-  ```
-
-  Example of delegating PDF creation:
-  ```python
-  # First create markdown content
-  report_content = """# Analysis Report
-  This is a report with math: $E = mc^2$
-  """
-  
-  # Then delegate PDF creation to writer agent
-  writer(f"""Create a PDF report from this markdown content:
-  
-  {report_content}
-  
-  Please ensure all mathematical formulas are properly rendered.""")
-  ```
-  
-  Never try to create PDFs directly - always ask the writer agent to do it.
-
+  ```<end_code>
 
   ## Tools
   You have access to these tools:
@@ -249,3 +233,10 @@ managed_agent:
   report: |-
       Here is the final answer from your managed agent '{{name}}':
       {{final_answer}}
+
+final_answer:
+  pre_messages: |-
+    An agent tried to answer a user query but it got stuck and failed to do so. You are tasked with providing an answer instead. Here is the agent's memory:
+  post_messages: |-
+    Based on the above, please provide an a final answer to the following user task:
+    {{task}}

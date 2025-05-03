@@ -9,7 +9,16 @@ from holosophos.tools import md_to_pdf_tool
 NAME = "writer"
 DESCRIPTION = """This team member is a technical writer that can create PDF reports from Markdown content.
 He has access to tools for converting Markdown to PDF using LaTeX.
-Ask him when you need to create PDF reports with mathematical formulas, tables, and plots."""
+Ask him when you need to create PDF reports with mathematical formulas, tables, and plots.
+Important note: Any tasks related to PDF creation should be delegated to the writer agent.
+
+The writer agent is specifically designed to handle:
+- Writing technical texts
+- Converting Markdown to PDF
+- Including mathematical formulas
+- Formatting technical documents
+- Creating reports with plots and tables
+"""
 
 
 def get_writer_agent(
