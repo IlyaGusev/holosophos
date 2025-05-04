@@ -9,7 +9,7 @@ from holosophos.tools import DocumentQATool, CustomVisitWebpageTool
 
 
 NAME = "proposer"
-DESCRIPTION = """This team member generates creative and well-founded ideas for research experiments.
+DESCRIPTION = """This team member generates creative ideas for research experiments.
 He analyzes existing ideas and proposes new research directions, assessing their interestingness, feasibility, and novelty.
 Ask him when you need to come up with new experiments or research approaches.
 Provide a detailed task description and context as an argument."""
