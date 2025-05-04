@@ -113,7 +113,12 @@ def run_main_agent(
     )
     agent = CodeAgent(
         tools=[text_editor_tool, bash_tool],
-        managed_agents=[librarian_agent, mle_solver_agent, writer_agent, proposer_agent],
+        managed_agents=[
+            librarian_agent,
+            mle_solver_agent,
+            writer_agent,
+            proposer_agent,
+        ],
         model=model,
         add_base_tools=False,
         max_steps=max_steps,

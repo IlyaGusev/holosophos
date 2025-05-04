@@ -17,7 +17,7 @@ Provide a detailed task description and context as an argument."""
 
 def get_proposer_agent(
     model: Model,
-    max_steps: int = 15,
+    max_steps: int = 10,
     planning_interval: Optional[int] = 7,
     max_print_outputs_length: int = 20000,
     verbosity_level: int = 2,
