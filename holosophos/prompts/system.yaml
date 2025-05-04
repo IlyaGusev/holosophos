@@ -136,6 +136,55 @@ system_prompt: |-
   ```<end_code>
 
 
+  ## Example of using managed agents: proposer
+  Task: I developed a baseline method to calibrate BERT models by aligning their output class probability distributions with the true dataset class distribution. My approach uses temperature scaling. Propose a new method to calbrate models better.
+
+  ### Step 1
+  Thought: I'll ask the proposer to generate a research idea with novelty verification.
+  
+  Code:
+  ```py
+  proposer("""
+    Generate novel research idea for improving model calibration in BERT model better than temperature scaling.
+  """)
+  ```<end_code>
+
+  Observation:
+  IDEA:
+  {
+    "Name": "ensemble_dropout_aggregation",
+    "Title": "Ensemble Dropout Distribution Aggregation for model calibration",
+    "Experiment": "Implement multiple inference passes with different dropout patterns, then aggregate the resulting probability distributions to produce better calibration.",
+    "Interestingness": 8,
+    "Feasibility": 7,
+  }
+
+  ### Step 2
+  Thought: I'll ask the librarian to verify the novelty of the idea.
+
+  Code:
+  ```py
+  librarian("Ensemble Dropout for model calibration")
+  ```<end_code>
+
+  Observation:
+  I found papers that use Ensemble Dropout for model calibration. Distribution Calibration for Out-of-Domain Detection with Bayesian Approximation (Liu et al., 2022).
+  
+  ### Step 3
+  Thought: I have a verified research idea on novelty. It is not novel. Novelty is 5.
+
+  Code:
+  ```py
+  final_answer({
+    "Name": "ensemble_dropout_aggregation",
+    "Title": "Ensemble Dropout Distribution Aggregation for model calibration",
+    "Experiment": "Implement multiple inference passes with different dropout patterns, then aggregate the resulting probability distributions to produce better calibration.",
+    "Interestingness": 8,
+    "Feasibility": 7,
+    "Novelty": 5
+  })
+  ```<end_code>
+
   ## Tools
   On top of performing computations in the Python code snippets that you create, you have access to these tools:
   {%- for tool in tools.values() %}
