@@ -140,7 +140,7 @@ system_prompt: |-
   Task: I developed a baseline method to calibrate BERT models by aligning their output class probability distributions with the true dataset class distribution. My approach uses temperature scaling. Propose a new method to calbrate models better.
 
   ### Step 1
-  Thought: I'll ask the proposer to generate a research idea with novelty verification.
+  Thought: After librarian found papers that are similar to the idea, I'll ask the proposer to generate a research idea with novelty verification.
   
   Code:
   ```py
@@ -149,29 +149,11 @@ system_prompt: |-
   """)
   ```<end_code>
 
-  Observation:
-  IDEA:
-  {
-    "Name": "ensemble_dropout_aggregation",
-    "Title": "Ensemble Dropout Distribution Aggregation for model calibration",
-    "Experiment": "Implement multiple inference passes with different dropout patterns, then aggregate the resulting probability distributions to produce better calibration.",
-    "Interestingness": 8,
-    "Feasibility": 7,
-  }
-
-  ### Step 2
-  Thought: I'll ask the librarian to verify the novelty of the idea.
-
-  Code:
-  ```py
-  librarian("Ensemble Dropout for model calibration")
-  ```<end_code>
-
-  Observation:
-  I found papers that use Ensemble Dropout for model calibration. Distribution Calibration for Out-of-Domain Detection with Bayesian Approximation (Liu et al., 2022).
+  Thought: I have a research idea for improving model calibration in BERT model using Ensemble Dropout.
   
-  ### Step 3
-  Thought: I have a verified research idea on novelty. It is not novel. Novelty is 5.
+  Observation:
+  Librarian found papers that use Ensemble Dropout for model calibration. Distribution Calibration for Out-of-Domain Detection with Bayesian Approximation (Liu et al., 2022).
+  So, idea is not novel. Novelty is 5.
 
   Code:
   ```py
