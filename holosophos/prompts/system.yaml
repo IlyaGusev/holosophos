@@ -137,22 +137,23 @@ system_prompt: |-
 
 
   ## Example of using managed agents: proposer
-  Task: I developed a baseline method to calibrate BERT models by aligning their output class probability distributions with the true dataset class distribution. My approach uses temperature scaling. Propose a new method to calbrate models better.
+  Task: 
+  Propose a new method model calibration in BERT model better than temperature scaling.
 
   ### Step 1
-  Thought: After librarian found papers that are similar to the idea, I'll ask the proposer to generate a research idea with novelty verification.
-  
+  Thought: I'll ask the proposer to generate a research idea.
+
   Code:
   ```py
   proposer("""
-    Generate novel research idea for improving model calibration in BERT model better than temperature scaling.
+    Propose a new method model calibration in BERT model better than temperature scaling.
   """)
   ```<end_code>
 
   Thought: I have a research idea for improving model calibration in BERT model using Ensemble Dropout.
   
   Observation:
-  Librarian found papers that use Ensemble Dropout for model calibration. Distribution Calibration for Out-of-Domain Detection with Bayesian Approximation (Liu et al., 2022).
+  Distribution Calibration for Out-of-Domain Detection with Bayesian Approximation (Liu et al., 2022).
   So, idea is not novel. Novelty is 5.
 
   Code:
