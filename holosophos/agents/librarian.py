@@ -6,6 +6,7 @@ from smolagents.default_tools import DuckDuckGoSearchTool  # type: ignore
 
 from holosophos.utils import get_prompt
 from holosophos.tools import (
+    anthology_search_tool,
     arxiv_search_tool,
     arxiv_download_tool,
     hf_datasets_search_tool,
@@ -33,6 +34,7 @@ def get_librarian_agent(
         description=DESCRIPTION,
         tools=[
             DuckDuckGoSearchTool(),
+            anthology_search_tool,
             arxiv_search_tool,
             arxiv_download_tool,
             s2_citations_tool,

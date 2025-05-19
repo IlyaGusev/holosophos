@@ -13,6 +13,7 @@ from holosophos.agents import (
     get_librarian_agent,
     get_mle_solver_agent,
     get_writer_agent,
+    get_proposer_agent,
 )
 from holosophos.utils import get_prompt
 
@@ -105,9 +106,19 @@ def run_main_agent(
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
     )
+    proposer_agent = get_proposer_agent(
+        model,
+        max_print_outputs_length=max_print_outputs_length,
+        verbosity_level=verbosity_level,
+    )
     agent = CodeAgent(
         tools=[text_editor_tool, bash_tool],
-        managed_agents=[librarian_agent, mle_solver_agent, writer_agent],
+        managed_agents=[
+            librarian_agent,
+            mle_solver_agent,
+            writer_agent,
+            proposer_agent,
+        ],
         model=model,
         add_base_tools=False,
         max_steps=max_steps,
