@@ -9,7 +9,7 @@ from datetime import datetime, date
 from urllib3.util.retry import Retry
 
 import requests
-import xmltodict  # type: ignore
+import xmltodict
 
 BASE_URL = "http://export.arxiv.org"
 URL_TEMPLATE = "{base_url}/api/query?search_query={query}&start={start}&sortBy={sort_by}&sortOrder={sort_order}&max_results={limit}"

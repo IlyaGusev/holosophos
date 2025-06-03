@@ -1,4 +1,4 @@
-from typing import Dict, Any, Sequence, Generator, Union
+from typing import Dict, Any, Sequence, Generator, Union, cast
 
 import fire  # type: ignore
 from smolagents import CodeAgent, ActionStep, PlanningStep, FinalAnswerStep  # type: ignore
@@ -149,7 +149,9 @@ def run_main_agent(
     if image_paths:
         images = [Image.open(path) for path in image_paths]
     response = agent.run(query, images=images, stream=stream)
-    return response
+    return cast(
+        Union[str, Generator[ActionStep | PlanningStep | FinalAnswerStep, None, None]], response
+    )
 
 
 if __name__ == "__main__":

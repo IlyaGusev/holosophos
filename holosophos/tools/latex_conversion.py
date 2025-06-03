@@ -263,6 +263,7 @@ class Img2Latex:
     def convert(self, instr: str) -> str:
         dom = xml.dom.minidom.parseString(instr)
         img = dom.documentElement
+        assert img is not None
         src = img.getAttribute("src")
         alt = img.getAttribute("alt")
         return IMAGE_TEMPLATE.format(src=src, alt=alt)
@@ -272,6 +273,7 @@ class Link2Latex:
     def convert(self, instr: str) -> str:
         dom = xml.dom.minidom.parseString(instr)
         link = dom.documentElement
+        assert link is not None
         href = link.getAttribute("href")
         matches = re.search(r">([^<]+)", instr)
         desc = ""
