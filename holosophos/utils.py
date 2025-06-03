@@ -24,7 +24,9 @@ def truncate_content(
     target_line: Optional[int] = None,
 ) -> str:
     assert int(prefix_only) + int(suffix_only) + int(target_line is not None) <= 1
-    disclaimer = f"\n\n..._This content has been truncated to stay below {max_length} characters_...\n\n"
+    disclaimer = (
+        f"\n\n..._This content has been truncated to stay below {max_length} characters_...\n\n"
+    )
     half_length = max_length // 2
     if len(content) <= max_length:
         return content

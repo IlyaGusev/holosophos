@@ -250,8 +250,7 @@ class Table2Latex:
             + "|}\n\\hline\n"
         )
         buf += (
-            " & ".join([f"\\textbf{{{header.strip()}}}" for header in headers])
-            + " \\\\\n\\hline\n"
+            " & ".join([f"\\textbf{{{header.strip()}}}" for header in headers]) + " \\\\\n\\hline\n"
         )
         for line in lines[2:]:
             cells = line.strip("|").split("|")
@@ -288,9 +287,7 @@ class ImageTextPostProcessor(markdown.postprocessors.Postprocessor):
         for block in instr.split("\n\n"):
             stripped = block.strip()
             if stripped.startswith("<img"):
-                stripped = re.sub(
-                    r"<\/?plaintext[^>]*>", "", stripped, flags=re.IGNORECASE
-                )
+                stripped = re.sub(r"<\/?plaintext[^>]*>", "", stripped, flags=re.IGNORECASE)
                 new_blocks.append(converter.convert(stripped).strip())
             else:
                 new_blocks.append(block)
@@ -322,11 +319,7 @@ class MathTextPostProcessor(markdown.postprocessors.Postprocessor):
     def run(self, instr: str) -> str:
         instr = re.sub(r"\$\$([^\$]*)\$\$", r"\\[\1\\]", instr)
         instr = re.sub(r"\$([^\$]*)\$", r"\\(\1\\)", instr)
-        instr = (
-            instr.replace("\\lt", "<")
-            .replace(" * ", " \\cdot ")
-            .replace("\\del", "\\partial")
-        )
+        instr = instr.replace("\\lt", "<").replace(" * ", " \\cdot ").replace("\\del", "\\partial")
         return instr
 
 
@@ -346,9 +339,7 @@ class TableTextPostProcessor(markdown.postprocessors.Postprocessor):
 def convert_md_to_latex(md_content: str) -> str:
     md = markdown.Markdown(extensions=[LaTeXExtension()])
     latex_content = md.convert(md_content)
-    latex_content = re.sub(
-        r"<\/?plaintext[^>]*>", "", latex_content, flags=re.IGNORECASE
-    )
+    latex_content = re.sub(r"<\/?plaintext[^>]*>", "", latex_content, flags=re.IGNORECASE)
     return MAIN_TEMPLATE.format(latex_content=latex_content)
 
 
@@ -393,9 +384,7 @@ def md_to_pdf(markdown_text: str, output_filename: str = "output") -> str:
     except subprocess.CalledProcessError as e:
         error_msg = e.stdout.decode("utf-8")
         error_lines = [
-            line
-            for line in error_msg.split("\n")
-            if "error" in line.lower() or "!" in line
+            line for line in error_msg.split("\n") if "error" in line.lower() or "!" in line
         ]
         if error_lines:
             return "Compilation failed. LaTeX errors:\n" + "\n".join(error_lines)

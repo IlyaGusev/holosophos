@@ -13,9 +13,7 @@ BASE_IMAGE = "python:3.9-slim"
 DOCKER_WORKSPACE_DIR_PATH = "/workdir"
 
 
-def cleanup_container(
-    signum: Optional[Any] = None, frame: Optional[Any] = None
-) -> None:
+def cleanup_container(signum: Optional[Any] = None, frame: Optional[Any] = None) -> None:
     global _container
     if _container:
         try:

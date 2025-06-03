@@ -99,16 +99,12 @@ def test_arxiv_search_integration_multiple_pages() -> None:
 
 
 def test_arxiv_search_date_filter() -> None:
-    result = arxiv_search(
-        "au:vaswani", start_date="2017-06-01", end_date="2017-07-01", limit=2
-    )
+    result = arxiv_search("au:vaswani", start_date="2017-06-01", end_date="2017-07-01", limit=2)
     assert "Attention Is All You Need" in result
 
 
 def test_arxiv_search_start_date_only() -> None:
-    result = arxiv_search(
-        'au:vaswani AND ti:"attention is all"', start_date="2017-06-01"
-    )
+    result = arxiv_search('au:vaswani AND ti:"attention is all"', start_date="2017-06-01")
     assert "Attention Is All You Need" in result
 
 

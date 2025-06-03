@@ -56,9 +56,7 @@ signal.signal(signal.SIGTERM, cleanup_machine)
 signal.signal(signal.SIGALRM, cleanup_machine)
 
 
-def wait_for_instance(
-    vast_sdk: VastAI, instance_id: str, max_wait_time: int = 300
-) -> bool:
+def wait_for_instance(vast_sdk: VastAI, instance_id: str, max_wait_time: int = 300) -> bool:
     print(f"Waiting for instance {instance_id} to be ready...")
     start_wait = int(time.time())
     instance_ready = False
@@ -147,7 +145,9 @@ def recieve_rsync(
 
     result = subprocess.run(rsync_cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        error_output = f"Error syncing directory: {remote_path} to {local_path}. Error: {result.stderr}"
+        error_output = (
+            f"Error syncing directory: {remote_path} to {local_path}. Error: {result.stderr}"
+        )
         raise Exception(error_output)
     return result
 
@@ -166,7 +166,9 @@ def send_rsync(
 
     result = subprocess.run(rsync_cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        error_output = f"Error syncing directory: {local_path} to {remote_path}. Error: {result.stderr}"
+        error_output = (
+            f"Error syncing directory: {local_path} to {remote_path}. Error: {result.stderr}"
+        )
         raise Exception(error_output)
     return result
 

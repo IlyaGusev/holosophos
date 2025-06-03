@@ -103,9 +103,7 @@ def s2_citations(
         arxiv_id = arxiv_id.split("v")[0]
     paper_id = f"arxiv:{arxiv_id}"
 
-    url = GRAPH_URL_TEMPLATE.format(
-        paper_id=paper_id, fields=FIELDS, offset=offset, limit=limit
-    )
+    url = GRAPH_URL_TEMPLATE.format(paper_id=paper_id, fields=FIELDS, offset=offset, limit=limit)
     response = _get_results(url)
     result = response.json()
     entries = result["data"]

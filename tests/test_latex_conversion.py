@@ -87,8 +87,7 @@ def test_md_to_latex_tables() -> None:
 def test_md_to_latex_links() -> None:
     latex = convert_md_to_latex(TEST_MD_LINKS)
     assert (
-        "You may be using \\href{https://markdownlivepreview.com/}{Markdown Live Preview}."
-        in latex
+        "You may be using \\href{https://markdownlivepreview.com/}{Markdown Live Preview}." in latex
     )
 
 

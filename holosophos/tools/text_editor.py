@@ -47,9 +47,7 @@ def _insert(path: Path, insert_line: int, new_str: str) -> str:
     lines.insert(insert_line, new_str if new_str.endswith("\n") else new_str + "\n")
     new_content = "".join(lines)
     path.write_text(new_content)
-    return truncate_content(
-        new_content, WRITE_MAX_OUTPUT_LENGTH, target_line=insert_line
-    )
+    return truncate_content(new_content, WRITE_MAX_OUTPUT_LENGTH, target_line=insert_line)
 
 
 def _str_replace(path: Path, old_str: str, new_str: str) -> str:
@@ -62,9 +60,7 @@ def _str_replace(path: Path, old_str: str, new_str: str) -> str:
     _save_file_state(path, content.splitlines(True))
     new_content = content.replace(old_str, new_str)
     path.write_text(new_content)
-    return truncate_content(
-        new_content, WRITE_MAX_OUTPUT_LENGTH, target_line=target_line
-    )
+    return truncate_content(new_content, WRITE_MAX_OUTPUT_LENGTH, target_line=target_line)
 
 
 def _undo_edit(path: Path) -> str:

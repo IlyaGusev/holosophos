@@ -38,9 +38,7 @@ def test_text_editor_view() -> None:
         cmd_result = os.popen(f"cat {str(test_file.resolve())}").read()
         assert result.strip() == cmd_result.strip()
 
-        result = text_editor(
-            "view", name, view_start_line=1, view_end_line=5, show_lines=True
-        )
+        result = text_editor("view", name, view_start_line=1, view_end_line=5, show_lines=True)
         cmd_result = os.popen(f"head -n 5 {str(test_file.resolve())} | cat -n").read()
         assert result.strip().startswith("1")
         assert result.strip() == cmd_result.strip()
@@ -48,9 +46,7 @@ def test_text_editor_view() -> None:
         result = text_editor("view", name, view_start_line=5, show_lines=True)
         assert result.strip().startswith("5")
 
-        result = text_editor(
-            "view", name, view_start_line=5, view_end_line=6, show_lines=True
-        )
+        result = text_editor("view", name, view_start_line=5, view_end_line=6, show_lines=True)
         assert result.strip().startswith("5")
         assert result.splitlines()[-1].strip().startswith("6")
 
@@ -198,9 +194,7 @@ def test_text_editor_large_file_handling() -> None:
 
         large_content = ""
         for i in range(1000):
-            large_content += (
-                f"This is line {i} with some additional content to make it longer\n"
-            )
+            large_content += f"This is line {i} with some additional content to make it longer\n"
         test_file.write_text(large_content)
 
         result = text_editor("view", name)

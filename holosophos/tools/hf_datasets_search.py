@@ -15,9 +15,7 @@ def _format_date(dt: Optional[datetime]) -> str:
 
 def _clean_entry(entry: DatasetInfo) -> Dict[str, Any]:
     try:
-        readme_path = hf_hub_download(
-            repo_id=entry.id, repo_type="dataset", filename="README.md"
-        )
+        readme_path = hf_hub_download(repo_id=entry.id, repo_type="dataset", filename="README.md")
         with open(readme_path, "r", encoding="utf-8") as f:
             readme_content = f.read()
     except Exception:

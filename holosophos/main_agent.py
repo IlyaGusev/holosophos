@@ -123,7 +123,7 @@ def run_main_agent(
     image_paths: Sequence[str] = tuple(),
     model_name: str = MODEL5,
     max_print_outputs_length: int = 10000,
-    verbosity_level: int = 2,
+    verbosity_level: int = 0,
     planning_interval: int = 3,
     max_steps: int = 30,
     enable_phoenix: bool = False,
@@ -148,7 +148,8 @@ def run_main_agent(
     images = None
     if image_paths:
         images = [Image.open(path) for path in image_paths]
-    return agent.run(query, images=images, stream=stream)
+    response = agent.run(query, images=images, stream=stream)
+    return response
 
 
 if __name__ == "__main__":

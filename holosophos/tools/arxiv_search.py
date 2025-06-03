@@ -9,7 +9,7 @@ from datetime import datetime, date
 from urllib3.util.retry import Retry
 
 import requests
-import xmltodict
+import xmltodict  # type: ignore
 
 BASE_URL = "http://export.arxiv.org"
 URL_TEMPLATE = "{base_url}/api/query?search_query={query}&start={start}&sortBy={sort_by}&sortOrder={sort_order}&max_results={limit}"
@@ -88,7 +88,9 @@ def _compose_query(
         if not end_date:
             today = date.today()
             end_date = today.strftime("%Y-%m-%d")
-        date_filter = f"[{_convert_to_yyyymmddtttt(start_date)} TO {_convert_to_yyyymmddtttt(end_date)}]"
+        date_filter = (
+            f"[{_convert_to_yyyymmddtttt(start_date)} TO {_convert_to_yyyymmddtttt(end_date)}]"
+        )
         query = f"({query}) AND submittedDate:{date_filter}"
 
     query = query.replace(" ", "+")
@@ -205,9 +207,7 @@ def arxiv_search(
     assert isinstance(sort_by, str), "Error: sort_by should be a string"
     assert isinstance(sort_order, str), "Error: sort_order should be a string"
     assert query.strip(), "Error: Your query should not be empty"
-    assert (
-        sort_by in SORT_BY_OPTIONS
-    ), f"Error: sort_by should be one of {SORT_BY_OPTIONS}"
+    assert sort_by in SORT_BY_OPTIONS, f"Error: sort_by should be one of {SORT_BY_OPTIONS}"
     assert (
         sort_order in SORT_ORDER_OPTIONS
     ), f"Error: sort_order should be one of {SORT_ORDER_OPTIONS}"

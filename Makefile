@@ -1,9 +1,18 @@
-.PHONY: black style validate test
+.PHONY: black style validate test install serve
+
+install:
+	uv pip install -e .
 
 black:
-	black .
+	uv run black holosophos --line-length 100
+	uv run black tests --line-length 100
 
 validate:
-	black . --exclude "./workdir/*"
-	flake8 . --exclude "./workdir/*"
-	mypy . --strict --explicit-package-bases --exclude "./workdir/*"
+	uv run black holosophos --line-length 100
+	uv run black tests --line-length 100
+	uv run flake8 holosophos
+	uv run flake8 tests
+	uv run mypy holosophos --strict --explicit-package-bases
+
+test:
+	uv run pytest -s

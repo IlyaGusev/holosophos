@@ -2,7 +2,7 @@ from typing import Optional
 
 from smolagents import CodeAgent  # type: ignore
 from smolagents.models import Model  # type: ignore
-from smolagents.default_tools import DuckDuckGoSearchTool # type: ignore
+from smolagents.default_tools import DuckDuckGoSearchTool  # type: ignore
 
 from holosophos.utils import get_prompt
 from holosophos.tools import DocumentQATool, CustomVisitWebpageTool

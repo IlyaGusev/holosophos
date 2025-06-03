@@ -4,7 +4,9 @@ from smolagents.tools import Tool  # type: ignore
 from smolagents.models import Model  # type: ignore
 
 
-SYSTEM_PROMPT = "You are a helpful assistant that answers questions about documents accurately and concisely."
+SYSTEM_PROMPT = (
+    "You are a helpful assistant that answers questions about documents accurately and concisely."
+)
 PROMPT = """Please answer the following questions based solely on the provided document.
 If there is no answer in the document, output "There is no answer in the provided document".
 First cite ALL relevant document fragments, then provide a final answer.

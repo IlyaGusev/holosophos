@@ -10,6 +10,4 @@ def test_visit_webpage() -> None:
 def test_visit_pdf() -> None:
     tool = CustomVisitWebpageTool()
     result = tool("https://aclanthology.org/2024.emnlp-main.695.pdf")
-    assert (
-        "The Mystery of the Pathological Path-star Task for Language Models" in result
-    )
+    assert "The Mystery of the Pathological Path-star Task for Language Models" in result

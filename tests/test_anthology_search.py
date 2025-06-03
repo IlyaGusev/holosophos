@@ -98,9 +98,7 @@ def test_anthology_search_integration_multiple_pages() -> None:
 
 
 def test_anthology_search_start_date_only() -> None:
-    result = anthology_search(
-        'au:wendler AND ti:"Do Llamas work"', start_date="2020-06-01"
-    )
+    result = anthology_search('au:wendler AND ti:"Do Llamas work"', start_date="2020-06-01")
     assert "English" in result
 
 

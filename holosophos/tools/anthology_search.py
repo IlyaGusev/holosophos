@@ -45,9 +45,7 @@ def _clean_entry(entry: Any) -> Dict[str, Any]:
         "id": entry.full_id,
         "title": _format_text_field(entry.title.as_text()),
         "authors": _format_authors(entry.authors),
-        "abstract": (
-            _format_text_field(entry.abstract.as_text()) if entry.abstract else ""
-        ),
+        "abstract": (_format_text_field(entry.abstract.as_text()) if entry.abstract else ""),
         "published": _format_date(entry.year),
         "categories": ", ".join(entry.venue_ids),
         "comment": entry.note if entry.note else "",
@@ -71,21 +69,15 @@ def _parse_query(query: str, paper: Any) -> bool:
     result = False
     for i in range(0, len(conditions), 2):
         condition = conditions[i]
-        field, value = (
-            condition.split(":", 1) if ":" in condition else ("ti", condition)
-        )
+        field, value = condition.split(":", 1) if ":" in condition else ("ti", condition)
         value = value.lower().replace('"', "").replace("'", "")
         match field:
             case "ti":
                 match_found = value in paper.title.as_text().lower()
             case "au":
-                match_found = any(
-                    value in str(author).lower() for author in paper.authors
-                )
+                match_found = any(value in str(author).lower() for author in paper.authors)
             case "abs":
-                match_found = (
-                    paper.abstract and value in paper.abstract.as_text().lower()
-                )
+                match_found = paper.abstract and value in paper.abstract.as_text().lower()
             case "cat":
                 match_found = any(value in cat.lower() for cat in paper.venue_ids)
             case "id":
@@ -162,9 +154,7 @@ def anthology_search(
     assert isinstance(sort_by, str), "Error: sort_by should be a string"
     assert isinstance(sort_order, str), "Error: sort_order should be a string"
     assert query.strip(), "Error: Your query should not be empty"
-    assert (
-        sort_by in SORT_BY_OPTIONS
-    ), f"Error: sort_by should be one of {SORT_BY_OPTIONS}"
+    assert sort_by in SORT_BY_OPTIONS, f"Error: sort_by should be one of {SORT_BY_OPTIONS}"
     assert (
         sort_order in SORT_ORDER_OPTIONS
     ), f"Error: sort_order should be one of {SORT_ORDER_OPTIONS}"
@@ -176,24 +166,18 @@ def anthology_search(
 
     singleton = AnthologySingleton.get()
     all_papers = [
-        paper
-        for paper in singleton.papers()
-        if paper.abstract and str(paper.abstract).strip()
+        paper for paper in singleton.papers() if paper.abstract and str(paper.abstract).strip()
     ]
 
     if start_date or end_date:
         start_year = _convert_to_year(start_date) if start_date else 1900
         end_year = _convert_to_year(end_date) if end_date else datetime.now().year
-        all_papers = [
-            paper for paper in all_papers if start_year <= int(paper.year) <= end_year
-        ]
+        all_papers = [paper for paper in all_papers if start_year <= int(paper.year) <= end_year]
 
     filtered_papers = [paper for paper in all_papers if _parse_query(query, paper)]
 
     if sort_by == "published":
-        filtered_papers.sort(
-            key=lambda x: int(x.year), reverse=(sort_order == "descending")
-        )
+        filtered_papers.sort(key=lambda x: int(x.year), reverse=(sort_order == "descending"))
 
     paged_papers = filtered_papers[offset : offset + limit]
     clean_entries = [_clean_entry(entry) for entry in paged_papers]

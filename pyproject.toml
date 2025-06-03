@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "holosophos"
+version = "0.1.0"
+description = "Holosophos Project"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32.0",
+    "types-requests>=2.32.0",
+    "xmltodict>=0.14.0",
+    "pyyaml>=5.3.1",
+    "types-pyyaml>=5.3.1",
+    "transformers==4.47.1",
+    "smolagents[telemetry]==1.14.0",
+    "docker>=7.1.0",
+    "pypdf>=5.1.0",
+    "litellm==1.60.8",
+    "beautifulsoup4>=4.12.0",
+    "types-beautifulsoup4>=4.12.0",
+    "markdownify==0.14.1",
+    "fire>=0.7.0",
+    "tqdm>=4.66.0",
+    "types-tqdm>=4.66.0",
+    "arize-phoenix-otel>=0.8.0",
+    "vastai-sdk==0.1.16",
+    "duckduckgo_search==7.5.1",
+    "acl-anthology@git+https://github.com/IlyaGusev/acl-anthology",
+    "markdown==3.7.0",
+    "types-markdown==3.7.0.20250322",
+    "gradio==5.29.0"
+]
+
+[tool.flake8]
+exclude = ["*/__init__.py"]
+ignore = "E203,F403,E501,SIM115,PIE786,W503"
+max-line-length = 120
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+strict = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "*"
+ignore_missing_imports = true
+follow_imports = "skip"
+
+[tool.setuptools]
+packages = ["holosophos"]
+include-package-data = false
+
+[[tool.mypy.overrides]]
+module = "pydantic.*"
+follow_imports = "skip"

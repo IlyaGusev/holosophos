@@ -63,9 +63,7 @@ class ArxivHTMLConverter(MarkdownConverter):  # type: ignore
 
         super().__init__(*args, **kwargs)
 
-    def convert_cite(
-        self, el: bs4.element.Tag, text: str, convert_as_inline: bool = False
-    ) -> str:
+    def convert_cite(self, el: bs4.element.Tag, text: str, convert_as_inline: bool = False) -> str:
         citations = text.split(";")
         citations = [c.strip() for c in citations if c.strip()]
         fixed_citations = []
@@ -81,9 +79,7 @@ class ArxivHTMLConverter(MarkdownConverter):  # type: ignore
     def convert_sup(self, *args: Any, **kwargs: Any) -> str:
         return ""
 
-    def convert_span(
-        self, el: bs4.element.Tag, text: str, convert_as_inline: bool = False
-    ) -> str:
+    def convert_span(self, el: bs4.element.Tag, text: str, convert_as_inline: bool = False) -> str:
         if "class" not in el:
             return text
         if "ltx_tag_item" in el["class"]:
@@ -133,9 +129,7 @@ def _generate_toc(soup: bs4.element.Tag) -> TOCEntry:
 
 
 def _convert_soup_to_md(soup: bs4.element.Tag, url: str) -> str:
-    converter = ArxivHTMLConverter(
-        base_url=url, strip=["div", "a"], heading_style="ATX"
-    )
+    converter = ArxivHTMLConverter(base_url=url, strip=["div", "a"], heading_style="ATX")
     md_content: str = converter.convert_soup(soup)
     md_content = md_content.replace("\xa0", " ")
     md_content = "\n".join([line.strip() for line in md_content.split("\n")])
@@ -259,9 +253,7 @@ def _parse_pdf(paper_id: str) -> Dict[str, Any]:
 
     pages: List[str] = parse_pdf_file(pdf_path)
     return {
-        "toc": "\n".join(
-            [f"Page {page_number}" for page_number in range(1, len(pages) + 1)]
-        ),
+        "toc": "\n".join([f"Page {page_number}" for page_number in range(1, len(pages) + 1)]),
         "sections": pages,
         "citations": [],
         "original_format": "pdf",
