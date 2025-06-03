@@ -24,7 +24,7 @@ jobs:
         uv venv .venv
         source .venv/bin/activate
         make install
-    - name: Lint with flake8
+    - name: Lint
       run: |
         make validate
     - name: Tests
