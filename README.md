@@ -6,7 +6,9 @@ Tools and agents for autonomous research.
 
 Dependencies:
 ```
-python3 -m pip install -r requirements.txt
+uv venv .venv
+source .venv/bin/activate
+make install
 ```
 
 Tokens in .env:
@@ -26,5 +28,5 @@ huggingface-cli login
 ## Run
 
 ```
-python3 -m holosophos.main_agent --query "..." --model-name "anthropic/claude-3-5-sonnet-20241022"
+uv run python -m holosophos.main_agent --query "..." --model-name "anthropic/claude-3-5-sonnet-20241022"
 ```
