@@ -1,7 +1,7 @@
-from typing import Dict, Any, Sequence
+from typing import Dict, Any, Sequence, Generator, Union
 
 import fire  # type: ignore
-from smolagents import CodeAgent  # type: ignore
+from smolagents import CodeAgent, ActionStep, PlanningStep, FinalAnswerStep  # type: ignore
 from smolagents.models import LiteLLMModel  # type: ignore
 from phoenix.otel import register
 from openinference.instrumentation.smolagents import SmolagentsInstrumentor
@@ -61,26 +61,14 @@ MODEL4 = "openrouter/google/gemini-2.0-flash-001"
 MODEL5 = "anthropic/claude-3-7-sonnet-20250219"
 
 
-def run_main_agent(
-    query: str = PROMPT4,
-    image_paths: Sequence[str] = tuple(),
+def compose_main_agent(
     model_name: str = MODEL5,
     max_print_outputs_length: int = 10000,
     verbosity_level: int = 2,
     planning_interval: int = 3,
     max_steps: int = 30,
-    enable_phoenix: bool = False,
-    phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
-) -> str:
+) -> CodeAgent:
     load_dotenv()
-    if enable_phoenix and phoenix_project_name and phoenix_endpoint:
-        register(
-            project_name=phoenix_project_name,
-            endpoint=phoenix_endpoint,
-        )
-        SmolagentsInstrumentor().instrument()
-
     model_params: Dict[str, Any] = {
         "temperature": 0.0,
         "max_tokens": 8192,
@@ -105,7 +93,7 @@ def run_main_agent(
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
     )
-    agent = CodeAgent(
+    return CodeAgent(
         tools=[text_editor_tool, bash_tool],
         managed_agents=[librarian_agent, mle_solver_agent, writer_agent],
         model=model,
@@ -116,11 +104,39 @@ def run_main_agent(
         prompt_templates=get_prompt("system"),
         max_print_outputs_length=max_print_outputs_length,
     )
+
+
+def run_main_agent(
+    query: str = PROMPT4,
+    image_paths: Sequence[str] = tuple(),
+    model_name: str = MODEL5,
+    max_print_outputs_length: int = 10000,
+    verbosity_level: int = 2,
+    planning_interval: int = 3,
+    max_steps: int = 30,
+    enable_phoenix: bool = False,
+    phoenix_project_name: str = "holosophos",
+    phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
+    stream: bool = False,
+) -> Union[str, Generator[ActionStep | PlanningStep | FinalAnswerStep, None, None]]:
+    load_dotenv()
+    if enable_phoenix and phoenix_project_name and phoenix_endpoint:
+        register(
+            project_name=phoenix_project_name,
+            endpoint=phoenix_endpoint,
+        )
+        SmolagentsInstrumentor().instrument()
+    agent = compose_main_agent(
+        model_name=model_name,
+        max_print_outputs_length=max_print_outputs_length,
+        verbosity_level=verbosity_level,
+        planning_interval=planning_interval,
+        max_steps=max_steps,
+    )
     images = None
     if image_paths:
         images = [Image.open(path) for path in image_paths]
-    response: str = agent.run(query, images=images)
-    return response
+    return agent.run(query, images=images, stream=stream)
 
 
 if __name__ == "__main__":
