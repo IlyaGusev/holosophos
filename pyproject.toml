@@ -14,7 +14,7 @@ dependencies = [
     "pyyaml>=5.3.1",
     "types-pyyaml>=5.3.1",
     "transformers==4.47.1",
-    "smolagents[telemetry]==1.14.0",
+    "smolagents[telemetry]==1.17.0",
     "docker>=7.1.0",
     "pypdf>=5.1.0",
     "litellm==1.60.8",

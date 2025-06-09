@@ -68,6 +68,7 @@ def compose_main_agent(
     verbosity_level: int = 2,
     planning_interval: int = 3,
     max_steps: int = 30,
+    stream_outputs: bool = False,
 ) -> CodeAgent:
     load_dotenv()
     model_params: Dict[str, Any] = {
@@ -108,6 +109,7 @@ def compose_main_agent(
             proposer_agent,
         ],
         model=model,
+        stream_outputs=stream_outputs,
         add_base_tools=False,
         max_steps=max_steps,
         planning_interval=planning_interval,
