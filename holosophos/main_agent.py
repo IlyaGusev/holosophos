@@ -84,21 +84,25 @@ def compose_main_agent(
         model,
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
+        stream_outputs=stream_outputs,
     )
     mle_solver_agent = get_mle_solver_agent(
         model,
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
+        stream_outputs=stream_outputs,
     )
     writer_agent = get_writer_agent(
         model,
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
+        stream_outputs=stream_outputs,
     )
     proposer_agent = get_proposer_agent(
         model,
         max_print_outputs_length=max_print_outputs_length,
         verbosity_level=verbosity_level,
+        stream_outputs=stream_outputs,
     )
     agent = CodeAgent(
         tools=[text_editor_tool, bash_tool],

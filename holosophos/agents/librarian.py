@@ -28,6 +28,7 @@ def get_librarian_agent(
     planning_interval: Optional[int] = 5,
     max_print_outputs_length: int = 20000,
     verbosity_level: int = 2,
+    stream_outputs: bool = False,
 ) -> CodeAgent:
     return CodeAgent(
         name=NAME,
@@ -50,4 +51,5 @@ def get_librarian_agent(
         max_print_outputs_length=max_print_outputs_length,
         additional_authorized_imports=["json"],
         verbosity_level=verbosity_level,
+        stream_outputs=stream_outputs,
     )
