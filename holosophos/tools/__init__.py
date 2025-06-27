@@ -2,9 +2,12 @@ from typing import Callable, Any
 
 from smolagents.tools import tool, Tool  # type: ignore
 
-from holosophos.tools.arxiv_search import arxiv_search
-from holosophos.tools.anthology_search import anthology_search
-from holosophos.tools.arxiv_download import arxiv_download
+from academia_mcp.tools.arxiv_search import arxiv_search
+from academia_mcp.tools.anthology_search import anthology_search
+from academia_mcp.tools.arxiv_download import arxiv_download
+from academia_mcp.tools.s2_citations import s2_citations
+from academia_mcp.tools.hf_datasets_search import hf_datasets_search
+
 from holosophos.tools.bash import bash
 from holosophos.tools.text_editor import text_editor
 from holosophos.tools.document_qa import DocumentQATool
@@ -14,8 +17,6 @@ from holosophos.tools.remote_gpu import (
     create_remote_text_editor,
     remote_download,
 )
-from holosophos.tools.hf_datasets_search import hf_datasets_search
-from holosophos.tools.s2_citations import s2_citations
 from holosophos.tools.latex_conversion import md_to_pdf
 
 

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "holosophos"
 version = "0.1.0"
 description = "Holosophos Project"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "requests>=2.32.0",
     "types-requests>=2.32.0",
@@ -16,25 +16,24 @@ dependencies = [
     "transformers==4.47.1",
     "smolagents[telemetry]==1.17.0",
     "docker>=7.1.0",
-    "pypdf>=5.1.0",
     "litellm==1.60.8",
     "beautifulsoup4>=4.12.0",
     "types-beautifulsoup4>=4.12.0",
-    "markdownify==0.14.1",
     "fire>=0.7.0",
     "tqdm>=4.66.0",
     "types-tqdm>=4.66.0",
     "arize-phoenix-otel>=0.8.0",
     "vastai-sdk==0.1.16",
     "duckduckgo_search==7.5.1",
-    "acl-anthology==0.5.2",
     "markdown==3.7.0",
     "types-markdown==3.7.0.20250322",
     "gradio==5.29.0",
     "black==25.1.0",
     "mypy==1.16.0",
     "flake8==7.2.0",
-    "types-xmltodict>=0.14.0.20241009"
+    "types-xmltodict>=0.14.0.20241009",
+    "academia-mcp==0.0.2",
+    "pytest>=8.4.1",
 ]
 
 [tool.flake8]
