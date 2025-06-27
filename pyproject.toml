@@ -32,8 +32,8 @@ dependencies = [
     "mypy==1.16.0",
     "flake8==7.2.0",
     "types-xmltodict>=0.14.0.20241009",
-    "academia-mcp==0.0.2",
     "pytest>=8.4.1",
+    "academia-mcp==0.0.4",
 ]
 
 [tool.flake8]
