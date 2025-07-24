@@ -8,15 +8,16 @@ from academia_mcp.tools.arxiv_download import arxiv_download
 from academia_mcp.tools.s2_citations import s2_citations
 from academia_mcp.tools.hf_datasets_search import hf_datasets_search
 
-from holosophos.tools.bash import bash
-from holosophos.tools.text_editor import text_editor
-from holosophos.tools.document_qa import DocumentQATool
-from holosophos.tools.visit_webpage import CustomVisitWebpageTool
-from holosophos.tools.remote_gpu import (
+from mle_kit_mcp.tools.bash import bash
+from mle_kit_mcp.tools.text_editor import text_editor
+from mle_kit_mcp.tools.remote_gpu import (
     remote_bash,
     create_remote_text_editor,
     remote_download,
 )
+
+from holosophos.tools.document_qa import DocumentQATool
+from holosophos.tools.visit_webpage import CustomVisitWebpageTool
 from holosophos.tools.latex_conversion import md_to_pdf
 
 
