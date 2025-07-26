@@ -1,11 +1,7 @@
-from typing import Optional
+from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.llm import LLM
 
-from smolagents import CodeAgent  # type: ignore
-from smolagents.models import Model  # type: ignore
-from smolagents.default_tools import DuckDuckGoSearchTool  # type: ignore
-
-from holosophos.utils import get_prompt
-from holosophos.tools import DocumentQATool, CustomVisitWebpageTool
+from holosophos.files import PROMPTS_DIR_PATH
 
 
 NAME = "proposer"
@@ -15,29 +11,18 @@ Ask him when you need to come up with new experiments or research approaches.
 Provide a detailed task description and context as an argument."""
 
 
-def get_proposer_agent(
-    model: Model,
-    max_steps: int = 10,
-    planning_interval: Optional[int] = 7,
-    max_print_outputs_length: int = 20000,
-    verbosity_level: int = 2,
-    stream_outputs: bool = False,
-) -> CodeAgent:
-    return CodeAgent(
+def get_proposer_agent(model_name: str) -> CodeActAgent:
+    llm = LLM(model_name=model_name)
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "proposer.json")
+    return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tools=[
-            DuckDuckGoSearchTool(),
-            DocumentQATool(model),
-            CustomVisitWebpageTool(),
+        llm=llm,
+        prompts=prompts,
+        tool_names=[
+            # "academia_document_qa",
+            "exa_web_search_exa",
+            "exa_crawling_exa",
         ],
-        model=model,
-        add_base_tools=False,
-        max_steps=max_steps,
-        planning_interval=planning_interval,
-        prompt_templates=get_prompt("proposer"),
-        max_print_outputs_length=max_print_outputs_length,
-        additional_authorized_imports=["json"],
-        verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
+        planning_interval=7,
     )

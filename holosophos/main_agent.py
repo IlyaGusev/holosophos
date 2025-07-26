@@ -1,22 +1,21 @@
-from typing import Dict, Any, Sequence, Generator, Union, cast
-
 import fire  # type: ignore
-from smolagents import CodeAgent, ActionStep, PlanningStep, FinalAnswerStep  # type: ignore
-from smolagents.models import LiteLLMModel  # type: ignore
-from phoenix.otel import register
-from openinference.instrumentation.smolagents import SmolagentsInstrumentor
 from dotenv import load_dotenv
-from PIL import Image
 
-from holosophos.tools import text_editor_tool, bash_tool
+from phoenix.otel import register
+from codearkt.server import run_server
+from codearkt.otel import CodeActInstrumentor
+from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.llm import LLM
+# from PIL import Image
+
+from holosophos.files import PROMPTS_DIR_PATH
+from holosophos.config import MCP_CONFIG
 from holosophos.agents import (
     get_librarian_agent,
     get_mle_solver_agent,
-    get_writer_agent,
+    # get_writer_agent,
     get_proposer_agent,
 )
-from holosophos.utils import get_prompt
-
 
 PROMPT1 = """
 What is the best model for Russian in a role-play benchmark by Ilya Gusev?
@@ -62,103 +61,40 @@ MODEL4 = "openrouter/google/gemini-2.0-flash-001"
 MODEL5 = "anthropic/claude-3-7-sonnet-20250219"
 
 
-def compose_main_agent(
-    model_name: str = MODEL5,
-    max_print_outputs_length: int = 10000,
-    verbosity_level: int = 2,
-    planning_interval: int = 3,
-    max_steps: int = 30,
-    stream_outputs: bool = False,
-) -> CodeAgent:
-    load_dotenv()
-    model_params: Dict[str, Any] = {
-        "temperature": 0.0,
-        "max_tokens": 8192,
-    }
-    if "o1" in model_name or "o3" in model_name:
-        model_params = {"reasoning_effort": "high"}
-
-    model = LiteLLMModel(model_id=model_name, **model_params)
-
-    librarian_agent = get_librarian_agent(
-        model,
-        max_print_outputs_length=max_print_outputs_length,
-        verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
+def compose_main_agent(model_name: str = MODEL5,) -> CodeActAgent:
+    llm = LLM(model_name=model_name)
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
+    return CodeActAgent(
+        name="manager",
+        description="A manager agent",
+        llm=llm,
+        prompts=prompts,
+        managed_agents=[get_librarian_agent(model_name), 
+                        get_mle_solver_agent(model_name),
+                        # get_writer_agent(model_name),
+                        get_proposer_agent(model_name)],
+        tool_names=[],
+        planning_interval=3,
     )
-    mle_solver_agent = get_mle_solver_agent(
-        model,
-        max_print_outputs_length=max_print_outputs_length,
-        verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
-    )
-    writer_agent = get_writer_agent(
-        model,
-        max_print_outputs_length=max_print_outputs_length,
-        verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
-    )
-    proposer_agent = get_proposer_agent(
-        model,
-        max_print_outputs_length=max_print_outputs_length,
-        verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
-    )
-    agent = CodeAgent(
-        tools=[text_editor_tool, bash_tool],
-        managed_agents=[
-            librarian_agent,
-            mle_solver_agent,
-            writer_agent,
-            proposer_agent,
-        ],
-        model=model,
-        stream_outputs=stream_outputs,
-        add_base_tools=False,
-        max_steps=max_steps,
-        planning_interval=planning_interval,
-        verbosity_level=verbosity_level,
-        prompt_templates=get_prompt("system"),
-        max_print_outputs_length=max_print_outputs_length,
-    )
-    return agent
-
 
 def run_main_agent(
-    query: str = PROMPT4,
-    image_paths: Sequence[str] = tuple(),
     model_name: str = MODEL5,
-    max_print_outputs_length: int = 10000,
-    verbosity_level: int = 0,
-    planning_interval: int = 3,
-    max_steps: int = 30,
+    # image_paths: Sequence[str] = tuple(),
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
-    stream: bool = False,
-) -> Union[str, Generator[ActionStep | PlanningStep | FinalAnswerStep, None, None]]:
+    phoenix_endpoint: str = "https://app.phoenix.arize.com",
+) -> None:
     load_dotenv()
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
         register(
             project_name=phoenix_project_name,
-            endpoint=phoenix_endpoint,
+            endpoint=f"{phoenix_endpoint}/v1/traces",
+            auto_instrument=True,
         )
-        SmolagentsInstrumentor().instrument()
-    agent = compose_main_agent(
-        model_name=model_name,
-        max_print_outputs_length=max_print_outputs_length,
-        verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
-        max_steps=max_steps,
-    )
-    images = None
-    if image_paths:
-        images = [Image.open(path) for path in image_paths]
-    response = agent.run(query, images=images, stream=stream)
-    return cast(
-        Union[str, Generator[ActionStep | PlanningStep | FinalAnswerStep, None, None]], response
-    )
-
+        CodeActInstrumentor().instrument()
+    
+    agent = compose_main_agent()
+    run_server(agent, MCP_CONFIG)
 
 if __name__ == "__main__":
     fire.Fire(run_main_agent)

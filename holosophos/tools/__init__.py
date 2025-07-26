@@ -1,7 +1,5 @@
 from typing import Callable, Any
 
-from smolagents.tools import tool, Tool  # type: ignore
-
 from academia_mcp.tools.arxiv_search import arxiv_search
 from academia_mcp.tools.anthology_search import anthology_search
 from academia_mcp.tools.arxiv_download import arxiv_download
@@ -16,28 +14,12 @@ from mle_kit_mcp.tools.remote_gpu import (
     remote_download,
 )
 
-from holosophos.tools.document_qa import DocumentQATool
-from holosophos.tools.visit_webpage import CustomVisitWebpageTool
-from holosophos.tools.latex_conversion import md_to_pdf
-
-
-def convert_tool_to_smolagents(function: Callable[..., Any]) -> Tool:
-    return tool(function)
+# from holosophos.tools.document_qa import DocumentQATool
+# from holosophos.tools.visit_webpage import CustomVisitWebpageTool
+# from holosophos.tools.latex_conversion import md_to_pdf
 
 
 remote_text_editor = create_remote_text_editor(text_editor)
-
-arxiv_search_tool = convert_tool_to_smolagents(arxiv_search)
-arxiv_download_tool = convert_tool_to_smolagents(arxiv_download)
-anthology_search_tool = convert_tool_to_smolagents(anthology_search)
-bash_tool = convert_tool_to_smolagents(bash)
-text_editor_tool = convert_tool_to_smolagents(text_editor)
-remote_bash_tool = convert_tool_to_smolagents(remote_bash)
-remote_download_tool = convert_tool_to_smolagents(remote_download)
-remote_text_editor_tool = convert_tool_to_smolagents(remote_text_editor)
-hf_datasets_search_tool = convert_tool_to_smolagents(hf_datasets_search)
-s2_citations_tool = convert_tool_to_smolagents(s2_citations)
-md_to_pdf_tool = convert_tool_to_smolagents(md_to_pdf)
 
 __all__ = [
     "arxiv_search",
