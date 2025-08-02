@@ -1,6 +1,7 @@
 import json
+import logging
+import asyncio
 from typing import Any, List, Optional
-from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
 import fire  # type: ignore
@@ -18,13 +19,13 @@ class AgentTask:
 
 def run_eval(
     input_path: str,
-    model_name: str = "gpt-4o-mini",
+    model_name: str = "deepseek/deepseek-chat-v3-0324",
     max_workers: int = 1,
-    verbosity_level: int = 2,
+    verbosity_level: int = logging.INFO,
     nrows: Optional[int] = None,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
+    phoenix_endpoint: str = "http://localhost:6006/v1/traces",
 ) -> None:
     with open(input_path) as f:
         records = [json.loads(line) for line in f]
@@ -37,8 +38,8 @@ def run_eval(
         for i, r in enumerate(records)
     ]
 
-    def worker(task: AgentTask) -> Any:
-        answer = run_main_agent(
+    async def worker(task: AgentTask) -> Any:
+        answer = await run_main_agent(
             query=task.query,
             model_name=task.model_name,
             verbosity_level=verbosity_level,
@@ -49,15 +50,26 @@ def run_eval(
         print(f"TARGET: {task.target}\nPREDICTED: {answer}")
         return answer
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        results = list(
-            tqdm(
-                executor.map(worker, tasks),
-                total=len(tasks),
-                desc="Processing queries",
-                unit="query",
-            )
-        )
+    async def run_all_tasks():
+        semaphore = asyncio.Semaphore(max_workers)
+        results = []
+
+        async def sem_worker(task):
+            async with semaphore:
+                return await worker(task)
+
+        coros = [sem_worker(task) for task in tasks]
+        for f in tqdm(
+            asyncio.as_completed(coros),
+            total=len(tasks),
+            desc="Processing queries",
+            unit="query",
+        ):
+            result = await f
+            results.append(result)
+        return results
+
+    results = asyncio.run(run_all_tasks())
 
     correct_count = 0
     for record, result in zip(records, results):
