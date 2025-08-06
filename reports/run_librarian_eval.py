@@ -1,12 +1,15 @@
 import json
 import logging
-import asyncio
 from typing import Any, List, Optional
 from dataclasses import dataclass
 
 import fire  # type: ignore
-from tqdm import tqdm
-from holosophos.main_agent import run_main_agent
+from dotenv import load_dotenv
+from phoenix.otel import register
+from codearkt.otel import CodeActInstrumentor
+from codearkt.server import run_batch
+
+from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 
 
 @dataclass
@@ -17,60 +20,36 @@ class AgentTask:
     target: List[str]
 
 
-def run_eval(
+async def run_eval(
     input_path: str,
     model_name: str = "deepseek/deepseek-chat-v3-0324",
-    max_workers: int = 1,
+    max_workers: int = 4,
     verbosity_level: int = logging.INFO,
     nrows: Optional[int] = None,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
     phoenix_endpoint: str = "http://localhost:6006/v1/traces",
 ) -> None:
+    load_dotenv()
+    if enable_phoenix and phoenix_project_name and phoenix_endpoint:
+        register(
+            project_name=phoenix_project_name,
+            endpoint=phoenix_endpoint,
+            auto_instrument=True,
+        )
+        CodeActInstrumentor().instrument()
+    agent = compose_main_agent(
+        model_name=model_name,
+        verbosity_level=verbosity_level,
+    )
+
     with open(input_path) as f:
         records = [json.loads(line) for line in f]
     if nrows:
         records = records[:nrows]
-    tasks = [
-        AgentTask(
-            query=r["query"], target=r["target"], model_name=model_name, task_id=i
-        )
-        for i, r in enumerate(records)
-    ]
 
-    async def worker(task: AgentTask) -> Any:
-        answer = await run_main_agent(
-            query=task.query,
-            model_name=task.model_name,
-            verbosity_level=verbosity_level,
-            enable_phoenix=enable_phoenix,
-            phoenix_project_name=phoenix_project_name,
-            phoenix_endpoint=phoenix_endpoint,
-        )
-        print(f"TARGET: {task.target}\nPREDICTED: {answer}")
-        return answer
-
-    async def run_all_tasks():
-        semaphore = asyncio.Semaphore(max_workers)
-        results = []
-
-        async def sem_worker(task):
-            async with semaphore:
-                return await worker(task)
-
-        coros = [sem_worker(task) for task in tasks]
-        for f in tqdm(
-            asyncio.as_completed(coros),
-            total=len(tasks),
-            desc="Processing queries",
-            unit="query",
-        ):
-            result = await f
-            results.append(result)
-        return results
-
-    results = asyncio.run(run_all_tasks())
-
+    queries = [r["query"] for r in records]
+    results = await run_batch(queries, agent, mcp_config=MCP_CONFIG, max_concurrency=max_workers)
     correct_count = 0
     for record, result in zip(records, results):
         query = record["query"]
