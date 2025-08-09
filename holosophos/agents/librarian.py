@@ -1,19 +1,11 @@
+import logging
 from typing import Optional
 
-from smolagents import CodeAgent  # type: ignore
-from smolagents.models import Model  # type: ignore
-from smolagents.default_tools import DuckDuckGoSearchTool  # type: ignore
+from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.llm import LLM
 
-from holosophos.utils import get_prompt
-from holosophos.tools import (
-    anthology_search_tool,
-    arxiv_search_tool,
-    arxiv_download_tool,
-    hf_datasets_search_tool,
-    s2_citations_tool,
-    DocumentQATool,
-    CustomVisitWebpageTool,
-)
+from holosophos.files import PROMPTS_DIR_PATH
+
 
 NAME = "librarian"
 DESCRIPTION = """This team member runs gets and analyzes information from papers.
@@ -23,33 +15,28 @@ Give him your task as an argument. Follow the task format described above, inclu
 
 
 def get_librarian_agent(
-    model: Model,
-    max_steps: int = 21,
+    model: LLM,
+    max_iterations: int = 21,
     planning_interval: Optional[int] = 5,
-    max_print_outputs_length: int = 20000,
-    verbosity_level: int = 2,
-    stream_outputs: bool = False,
-) -> CodeAgent:
-    return CodeAgent(
+    verbosity_level: int = logging.INFO,
+) -> CodeActAgent:
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "librarian.yaml")
+    return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tools=[
-            DuckDuckGoSearchTool(),
-            anthology_search_tool,
-            arxiv_search_tool,
-            arxiv_download_tool,
-            s2_citations_tool,
-            hf_datasets_search_tool,
-            DocumentQATool(model),
-            CustomVisitWebpageTool(),
+        tool_names=[
+            "academia_arxiv_download",
+            "academia_arxiv_search",
+            "academia_anthology_search",
+            "academia_s2_citations",
+            "academia_hf_datasets_search",
+            "academia_document_qa",
+            "exa_web_search_exa",
+            "exa_crawling_exa",
         ],
-        model=model,
-        add_base_tools=False,
-        max_steps=max_steps,
+        llm=model,
+        max_iterations=max_iterations,
         planning_interval=planning_interval,
-        prompt_templates=get_prompt("librarian"),
-        max_print_outputs_length=max_print_outputs_length,
-        additional_authorized_imports=["json"],
+        prompts=prompts,
         verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
     )

@@ -1,10 +1,11 @@
+import logging
 from typing import Optional
 
-from smolagents import CodeAgent  # type: ignore
-from smolagents.models import Model  # type: ignore
+from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.llm import LLM
 
-from holosophos.utils import get_prompt
-from holosophos.tools import md_to_pdf_tool
+from holosophos.files import PROMPTS_DIR_PATH
+
 
 NAME = "writer"
 DESCRIPTION = """This team member is a technical writer that can create PDF reports from Markdown content.
@@ -22,23 +23,19 @@ The writer agent is specifically designed to handle:
 
 
 def get_writer_agent(
-    model: Model,
-    max_steps: int = 42,
+    model: LLM,
+    max_iterations: int = 42,
     planning_interval: Optional[int] = 7,
-    max_print_outputs_length: int = 20000,
-    verbosity_level: int = 2,
-    stream_outputs: bool = False,
-) -> CodeAgent:
-    return CodeAgent(
+    verbosity_level: int = logging.INFO,
+) -> CodeActAgent:
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "writer.yaml")
+    return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tools=[md_to_pdf_tool],
-        model=model,
-        add_base_tools=False,
-        max_steps=max_steps,
+        tool_names=[],
+        llm=model,
+        max_iterations=max_iterations,
         planning_interval=planning_interval,
-        prompt_templates=get_prompt("writer"),
-        max_print_outputs_length=max_print_outputs_length,
+        prompts=prompts,
         verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
     )
