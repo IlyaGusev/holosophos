@@ -150,3 +150,6 @@ plan: |
 
 plan_prefix: |
   Here are the facts I know and the plan of action that I will follow to solve the task:
+
+plan_suffix: |
+  Now I will execute the plan and provide the final answer after all steps are completed.

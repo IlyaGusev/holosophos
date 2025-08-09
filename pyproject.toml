@@ -24,7 +24,7 @@ dependencies = [
     "pytest>=8.4.1",
     "academia-mcp==0.0.10",
     "mle-kit-mcp==0.0.1",
-    "codearkt==0.0.12",
+    "codearkt==0.0.14",
 ]
 
 [tool.flake8]
