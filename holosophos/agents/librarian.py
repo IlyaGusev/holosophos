@@ -11,7 +11,7 @@ NAME = "librarian"
 DESCRIPTION = """This team member runs gets and analyzes information from papers.
 He has access to ArXiv, Semantic Scholar, ACL Anthology, and web search.
 Ask him any questions about papers and web articles.
-Give him your task as an argument. Follow the task format described above, include all the details."""
+Give him your full task as an argument. Follow the task format, include all the details."""
 
 
 def get_librarian_agent(

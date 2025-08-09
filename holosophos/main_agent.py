@@ -5,10 +5,12 @@ from typing import Any
 import fire  # type: ignore
 from phoenix.otel import register
 from dotenv import load_dotenv
-from codearkt.codeact import CodeActAgent
+from codearkt.codeact import CodeActAgent, Prompts
 from codearkt.llm import LLM
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_query
+
+from holosophos.files import PROMPTS_DIR_PATH
 
 from holosophos.agents import (
     get_librarian_agent,
@@ -102,6 +104,7 @@ def compose_main_agent(
         verbosity_level=verbosity_level,
         planning_interval=planning_interval,
     )
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
     agent = CodeActAgent(
         name="main_agent",
         description="Main agent",
@@ -116,6 +119,7 @@ def compose_main_agent(
         max_iterations=max_iterations,
         planning_interval=planning_interval,
         verbosity_level=verbosity_level,
+        prompts=prompts,
     )
     return agent
 
