@@ -41,7 +41,7 @@ system: |
 
 
   ## First example: web search and ArXiv search
-  Task:
+  User message:
   Which paper introduced Vector Quantized Variational Autoencoders (VQ-VAE)?
 
   Your message:
@@ -104,7 +104,7 @@ system: |
 
 
   ## Second example: web search, ArXiv search, ArXiv download and document QA
-  Task:
+  User message:
   Which study approaches the problem of convergence rates of classic TD from the perspective of Ordinary Differential Equations (ODE) analysis?
   
   Your message:

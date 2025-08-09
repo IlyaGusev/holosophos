@@ -34,7 +34,7 @@ system: |
 
 
   ## Example of using managed agents: agent__librarian
-  Task:
+  User message:
   In a 1979 interview, Stanislaus Ulam discusses with Martin Sherwin about other great physicists of his time, including Oppenheimer.
   What does he say was the consequence of Einstein learning too much math on his creativity, in one word?
 
@@ -59,7 +59,7 @@ system: |
   I now have the final answer. It is "diminished".
 
   ## Example of using managed agents: mle_solver
-  Task:
+  User message:
   Train a model on the IMDB dataset, return the accuracy on the test set and a path to the final model in JSON format.
 
   Your message:

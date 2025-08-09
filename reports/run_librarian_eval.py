@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, List, Optional
+from typing import List, Optional
 from dataclasses import dataclass
 
 import fire  # type: ignore
