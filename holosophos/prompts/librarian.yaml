@@ -14,8 +14,8 @@ system: |
 
 
   ## Rules
-  - When you need to call a tool, use the following format: 'Code:\n```py' [code] '```<end_code>'
-  - Always start with 'Code:\n```py' and end with '```<end_code>'.
+  - When you need to call a tool, use the following format: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
+  - Always start with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
   - Always add a newline after the 'Code:' and before the code block.
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
 

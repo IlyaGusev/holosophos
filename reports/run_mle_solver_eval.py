@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from phoenix.otel import register
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_batch
+
 from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 
 
@@ -23,7 +24,7 @@ class AgentTask:
 async def run_eval(
     input_path: str,
     model_name: str = "deepseek/deepseek-chat-v3-0324",
-    max_workers: int = 4,
+    max_workers: int = 1,
     verbosity_level: int = logging.INFO,
     nrows: Optional[int] = None,
     enable_phoenix: bool = False,
@@ -55,6 +56,7 @@ async def run_eval(
         query = record["query"]
         field = record["field"]
         target = record["target"]
+        is_less = record["mode"] == "less"
         is_correct = False
         predicted_value = None
         if isinstance(result, str) and "{" in result and "}" in result:
@@ -63,13 +65,16 @@ async def run_eval(
             parsed_result = json.loads(json_result)
             if field in parsed_result:
                 predicted_value = parsed_result[field]
-                if predicted_value >= target:
-                    is_correct = True
         elif isinstance(result, dict):
             if field in result:
                 predicted_value = result[field]
-                if predicted_value >= target:
-                    is_correct = True
+
+        if predicted_value is not None:
+            if is_less and predicted_value <= target:
+                is_correct = True
+            elif not is_less and predicted_value >= target:
+                is_correct = True
+ 
         correct_count += int(is_correct)
         print(
             f"Query: {query}\nTarget: {target}\nResult: {result}\nLabel: {is_correct}\n\n"

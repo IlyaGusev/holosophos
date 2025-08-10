@@ -76,33 +76,41 @@ def compose_main_agent(
     verbosity_level: int = logging.INFO,
     planning_interval: int = 3,
     max_iterations: int = 30,
+    librarian_max_iterations: int = 42,
+    mle_solver_max_iterations: int = 42,
+    writer_max_iterations: int = 42,
+    proposer_max_iterations: int = 10,
+    librarian_planning_interval: int = 3,
+    mle_solver_planning_interval: int = 7,
+    writer_planning_interval: int = 3,
+    proposer_planning_interval: int = 3,
 ) -> CodeActAgent:
     load_dotenv()
     model = LLM(model_name=model_name)
 
     librarian_agent = get_librarian_agent(
-        model,
-        max_iterations=max_iterations,
+        model=model,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
+        max_iterations=librarian_max_iterations,
+        planning_interval=librarian_planning_interval,
     )
     mle_solver_agent = get_mle_solver_agent(
-        model,
-        max_iterations=max_iterations,
+        model=model,
+        max_iterations=mle_solver_max_iterations,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
+        planning_interval=mle_solver_planning_interval,
     )
     writer_agent = get_writer_agent(
-        model,
-        max_iterations=max_iterations,
+        model=model,
+        max_iterations=writer_max_iterations,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
+        planning_interval=writer_planning_interval,
     )
     proposer_agent = get_proposer_agent(
-        model,
-        max_iterations=max_iterations,
+        model=model,
+        max_iterations=proposer_max_iterations,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
+        planning_interval=proposer_planning_interval,
     )
     prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
     agent = CodeActAgent(

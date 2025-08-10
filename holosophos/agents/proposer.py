@@ -17,17 +17,14 @@ Provide a detailed task description and context as an argument."""
 def get_proposer_agent(
     model: LLM,
     max_iterations: int = 10,
-    planning_interval: Optional[int] = 7,
+    planning_interval: Optional[int] = 3,
     verbosity_level: int = logging.INFO,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "proposer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=[
-            "exa_web_search_exa",
-            "exa_crawling_exa",
-        ],
+        tool_names=["exa_web_search_exa", "exa_crawling_exa", "academia_document_qa"],
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,
