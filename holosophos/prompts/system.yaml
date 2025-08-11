@@ -8,6 +8,7 @@ system: |
   - Observation: Review outputs from print() statements or the last expressions
   Continue these cycles until the task is complete
   All tools calls should be in the code section.
+  Do not rely on your standard tool calling mechanisms. Instead use the code section to call tools.
   Do not stop until the task is solved.
   Your own knowledge might be incorrect. Instead rely on tool results.
   You do not have GPUs for heavy computations and you can not write code properly.
