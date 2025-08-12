@@ -1,55 +1,45 @@
-from typing import Optional
+import logging
+from typing import Optional, Sequence
 
-from smolagents import CodeAgent  # type: ignore
-from smolagents.models import Model  # type: ignore
-from smolagents.default_tools import DuckDuckGoSearchTool  # type: ignore
+from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.llm import LLM
 
-from holosophos.utils import get_prompt
-from holosophos.tools import (
-    anthology_search_tool,
-    arxiv_search_tool,
-    arxiv_download_tool,
-    hf_datasets_search_tool,
-    s2_citations_tool,
-    DocumentQATool,
-    CustomVisitWebpageTool,
-)
+from holosophos.files import PROMPTS_DIR_PATH
+
 
 NAME = "librarian"
 DESCRIPTION = """This team member runs gets and analyzes information from papers.
 He has access to ArXiv, Semantic Scholar, ACL Anthology, and web search.
 Ask him any questions about papers and web articles.
-Give him your task as an argument. Follow the task format described above, include all the details."""
+Give him your full task as an argument. Follow the task format, include all the details."""
+
+DEFAULT_TOOLS = (
+    "academia_arxiv_download",
+    "academia_arxiv_search",
+    "academia_anthology_search",
+    "academia_s2_citations",
+    "academia_hf_datasets_search",
+    "academia_document_qa",
+    "exa_web_search_exa",
+    "exa_crawling_exa",
+)
 
 
 def get_librarian_agent(
-    model: Model,
-    max_steps: int = 21,
+    model: LLM,
+    max_iterations: int = 42,
     planning_interval: Optional[int] = 5,
-    max_print_outputs_length: int = 20000,
-    verbosity_level: int = 2,
-    stream_outputs: bool = False,
-) -> CodeAgent:
-    return CodeAgent(
+    verbosity_level: int = logging.INFO,
+    tools: Optional[Sequence[str]] = None,
+) -> CodeActAgent:
+    prompts = Prompts.load(PROMPTS_DIR_PATH / "librarian.yaml")
+    return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tools=[
-            DuckDuckGoSearchTool(),
-            anthology_search_tool,
-            arxiv_search_tool,
-            arxiv_download_tool,
-            s2_citations_tool,
-            hf_datasets_search_tool,
-            DocumentQATool(model),
-            CustomVisitWebpageTool(),
-        ],
-        model=model,
-        add_base_tools=False,
-        max_steps=max_steps,
+        tool_names=tools or DEFAULT_TOOLS,
+        llm=model,
+        max_iterations=max_iterations,
         planning_interval=planning_interval,
-        prompt_templates=get_prompt("librarian"),
-        max_print_outputs_length=max_print_outputs_length,
-        additional_authorized_imports=["json"],
+        prompts=prompts,
         verbosity_level=verbosity_level,
-        stream_outputs=stream_outputs,
     )

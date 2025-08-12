@@ -1,9 +1,15 @@
 import json
-from typing import Any, Optional
+import logging
+from typing import Optional
 from dataclasses import dataclass
 
 import fire  # type: ignore
-from holosophos.main_agent import run_main_agent
+from dotenv import load_dotenv
+from phoenix.otel import register
+from codearkt.otel import CodeActInstrumentor
+from codearkt.server import run_batch
+
+from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 
 
 @dataclass
@@ -15,40 +21,39 @@ class AgentTask:
     target: float
 
 
-def run_eval(
+async def run_eval(
     input_path: str,
-    model_name: str = "gpt-4o-mini",
+    model_name: str = "deepseek/deepseek-chat-v3-0324",
     max_workers: int = 1,
-    verbosity_level: int = 2,
+    verbosity_level: int = logging.INFO,
     nrows: Optional[int] = None,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = "https://app.phoenix.arize.com/v1/traces",
+    phoenix_endpoint: str = "http://localhost:6006/v1/traces",
 ) -> None:
+    load_dotenv()
+    if enable_phoenix and phoenix_project_name and phoenix_endpoint:
+        register(
+            project_name=phoenix_project_name,
+            endpoint=phoenix_endpoint,
+            auto_instrument=True,
+        )
+        CodeActInstrumentor().instrument()
+    agent = compose_main_agent(
+        model_name=model_name,
+        verbosity_level=verbosity_level,
+    )
+
     with open(input_path) as f:
         records = [json.loads(line) for line in f]
     if nrows:
         records = records[:nrows]
-    tasks = [
-        AgentTask(model_name=model_name, task_id=i, **r) for i, r in enumerate(records)
-    ]
 
-    def worker(task: AgentTask) -> Any:
-        answer = run_main_agent(
-            query=task.query,
-            model_name=task.model_name,
-            verbosity_level=verbosity_level,
-            enable_phoenix=enable_phoenix,
-            phoenix_project_name=phoenix_project_name,
-            phoenix_endpoint=phoenix_endpoint,
-        )
-        return answer
+    queries = [r["query"] for r in records]
+    results = await run_batch(queries, agent, mcp_config=MCP_CONFIG, max_concurrency=max_workers)
 
     correct_count = 0
-    total_records = len(records)
-
-    for record, task in zip(records, tasks):
-        result = worker(task)
+    for record, result in zip(records, results):
         query = record["query"]
         field = record["field"]
         target = record["target"]

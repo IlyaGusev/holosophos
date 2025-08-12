@@ -1,9 +1,9 @@
 {"query": "Which paper was first to propose the use of spatiotemporal transformer for BEV generation?", "target": ["2203.17270"], "date": "31-12-2024"}
 {"query": "Which paper was first to describe training autoregressive models on path-star graphs?", "date": "31-12-2024", "target": ["2403.06963"]}
 {"query": "Is there any recent work that used an implicit model to produce a non-parametric distribution over SO(3) that can model objects with large symmetry groups?", "date": "31-12-2024", "target": ["2106.05965"]}
-{"query": "Which paper introduces the MQAR (multi-query associative recall) task?", "date": "31-12-2024", "target": ["2312.04927"]}
-{"query": "Which paper introduces a self-speculative decoding method for llms that allows early exit at initial layers?", "date": "07-02-2025", "target": ["2309.08168"]}
+{"query": "Which paper first introduces the MQAR (multi-query associative recall) task?", "date": "31-12-2024", "target": ["2312.04927"]}
+{"query": "Which paper first introduces a self-speculative decoding method for llms that allows early exit at initial layers?", "date": "07-02-2025", "target": ["2309.08168"]}
 {"query": "Which paper introduces a method where chunking is applied after the transformer model and before pooling?", "date": "07-02-2025", "target": ["2409.04701"]}
-{"query": "Find the paper about uncertainty estimation for LLMs by researchers from skoltech and airi universities. The authors also introduce open source framework", "date": "07-02-2025", "target": ["2311.07383"]}
-{"query": "Provide a complete list of papers that explore whether multilingual language models use English as an internal reference language.", "date": "07-02-2025", "target": ["2402.10588"]}
+{"query": "Find the paper about uncertainty estimation for LLMs by researchers from skoltech and airi universities from the end of 2023. The authors also introduce open source Python framework", "date": "07-02-2025", "target": ["2311.07383"]}
+{"query": "Provide a complete list of papers from 2024 that explore whether multilingual language models use English as an internal reference language.", "date": "07-02-2025", "target": ["2402.10588"]}
 {"query": "Provide a complete list of papers from 2024 about benchmarking role-playing language models by using other language models to simulate users", "date": "09-02-2025", "target": ["2409.06820"]}

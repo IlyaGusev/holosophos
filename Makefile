@@ -13,6 +13,7 @@ validate:
 	uv run flake8 holosophos
 	uv run flake8 tests
 	uv run mypy holosophos --strict --explicit-package-bases
+	uv run mypy tests --strict --explicit-package-bases
 
 test:
 	uv run pytest -s
