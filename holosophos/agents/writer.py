@@ -25,14 +25,14 @@ The writer agent is specifically designed to handle:
 def get_writer_agent(
     model: LLM,
     max_iterations: int = 42,
-    planning_interval: Optional[int] = 5,
+    planning_interval: Optional[int] = None,
     verbosity_level: int = logging.INFO,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "writer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=[],
+        tool_names=["academia_md_to_pdf"],
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

@@ -1,6 +1,6 @@
 import os
 import logging
-from typing import Any
+from typing import Any, Optional
 
 import fire  # type: ignore
 from phoenix.otel import register
@@ -52,7 +52,7 @@ Don't stop until you write a full coherent paper.
 PROMPT4 = """
 Desribe what happened in the area of role-playing LLMs.
 Between August 2024 and current date (January 2025).
-Compose a comprehensive report and save into "report.md"
+Compose a comprehensive PDF report and save into "report.pdf"
 """
 
 
@@ -82,8 +82,8 @@ def compose_main_agent(
     proposer_max_iterations: int = 10,
     librarian_planning_interval: int = 3,
     mle_solver_planning_interval: int = 7,
-    writer_planning_interval: int = 3,
-    proposer_planning_interval: int = 3,
+    writer_planning_interval: Optional[int] = None,
+    proposer_planning_interval: Optional[int] = None,
 ) -> CodeActAgent:
     load_dotenv()
     model = LLM(model_name=model_name)
@@ -133,7 +133,7 @@ def compose_main_agent(
 
 
 async def run_main_agent(
-    query: str = PROMPT1,
+    query: str = PROMPT4,
     model_name: str = MODEL1,
     verbosity_level: int = logging.DEBUG,
     planning_interval: int = 3,
