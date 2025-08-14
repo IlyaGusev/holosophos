@@ -50,7 +50,7 @@ system: |
 
   Code:
   ```py
-  results = exa_web_search_exa("VQ-VAE paper")
+  results = academia_web_search("VQ-VAE paper")
   print(results)
   ```<end_code>
 
@@ -113,7 +113,7 @@ system: |
 
   Code:
   ```py
-  results = exa_web_search_exa("convergence rates, classic TD, ordinary differential equations analysis")
+  results = academia_web_search("convergence rates, classic TD, ordinary differential equations analysis")
   print(results)
   ```<end_code>
 

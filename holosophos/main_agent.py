@@ -62,10 +62,6 @@ EXA_API_KEY = os.getenv("EXA_API_KEY", "")
 MCP_CONFIG = {
     "mcpServers": {
         "academia": {"url": "http://0.0.0.0:5056/mcp", "transport": "streamable-http"},
-        "exa": {
-            "url": f"https://mcp.exa.ai/mcp?exaApiKey={EXA_API_KEY}",
-            "transport": "streamable-http",
-        },
         "mle_kit": {"url": "http://0.0.0.0:5057/mcp", "transport": "streamable-http"},
     }
 }

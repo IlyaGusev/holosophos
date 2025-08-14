@@ -24,7 +24,7 @@ def get_proposer_agent(
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=["exa_web_search_exa", "exa_crawling_exa", "academia_document_qa"],
+        tool_names=["academia_web_search", "academia_visit_webpage", "academia_document_qa"],
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

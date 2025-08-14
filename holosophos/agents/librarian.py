@@ -17,11 +17,12 @@ DEFAULT_TOOLS = (
     "academia_arxiv_download",
     "academia_arxiv_search",
     "academia_anthology_search",
-    "academia_s2_citations",
+    "academia_s2_get_citations",
+    "academia_s2_get_references",
     "academia_hf_datasets_search",
     "academia_document_qa",
-    "exa_web_search_exa",
-    "exa_crawling_exa",
+    "academia_web_search",
+    "academia_visit_webpage",
 )
 
 
