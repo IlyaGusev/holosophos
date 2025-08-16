@@ -110,8 +110,8 @@ def compose_main_agent(
     )
     prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
     agent = CodeActAgent(
-        name="main_agent",
-        description="Main agent",
+        name="manager",
+        description="Manager agent",
         tool_names=[],
         managed_agents=[
             librarian_agent,
