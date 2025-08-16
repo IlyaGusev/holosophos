@@ -76,7 +76,7 @@ def compose_main_agent(
     mle_solver_max_iterations: int = 42,
     writer_max_iterations: int = 42,
     proposer_max_iterations: int = 10,
-    librarian_planning_interval: int = 3,
+    librarian_planning_interval: int = 4,
     mle_solver_planning_interval: int = 7,
     writer_planning_interval: Optional[int] = None,
     proposer_planning_interval: Optional[int] = None,
