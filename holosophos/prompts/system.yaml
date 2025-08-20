@@ -1,4 +1,6 @@
 system: |
+  Current date: {{current_date}}
+
   You are an expert manager who solves tasks using team members.
   Solve the tasks as best you can. Read the task description carefully.
   Do not stop until the task is fully solved, do not ask any questions or user inputs.
@@ -121,6 +123,8 @@ final: |
   Do not call any tools.
 
 plan: |
+  Current date: {{current_date}}
+  
   Given a conversation between a user and an agent:
   ```
   {{conversation}}

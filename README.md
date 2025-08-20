@@ -27,6 +27,24 @@ huggingface-cli login
 
 ## Run
 
+Window 1:
 ```
-uv run python -m holosophos.main_agent --query "..." --model-name "anthropic/claude-3-5-sonnet-20241022"
+uv run python -m academia_mcp --port 5056
 ```
+
+Window 2:
+```
+uv run python -m mle_kit_mcp --port 5057 --workspace workdir
+```
+
+Window 3:
+```
+uv run python -m holosophos.server
+```
+
+Window 4:
+```
+uv run python -m codearkt.gradio
+```
+
+Go to http://127.0.0.1:7860/

@@ -79,7 +79,7 @@ def compose_main_agent(
     librarian_planning_interval: int = 4,
     mle_solver_planning_interval: int = 7,
     writer_planning_interval: Optional[int] = None,
-    proposer_planning_interval: Optional[int] = None,
+    proposer_planning_interval: int = 4,
 ) -> CodeActAgent:
     load_dotenv()
     model = LLM(model_name=model_name)

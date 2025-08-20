@@ -1,4 +1,6 @@
 system: |
+  Current date: {{current_date}}
+
   You are an expert librarian and software engineer who solves tasks using tools.
   Solve the tasks as best you can. Read the task description carefully.
   Do not stop until the task is fully solved, do not ask any questions or user inputs.
@@ -200,6 +202,8 @@ final: |
   Do not call any tools.
 
 plan: |
+  Current date: {{current_date}}
+  
   Given a conversation between a user and an agent:
   ```
   {{conversation}}
@@ -225,7 +229,7 @@ plan: |
   Keep steps essential, sequential, and high-level.
   
   Search guidelines:
-  - Conduct a general web search before an ArXiv search.
+  - Conduct a general web search first, before an ArXiv search.
   - Use different queries, synonyms, phrasings, and sorters.
   - Sort by relevance by default, use sorting by date only when necessary.
   - Prioritize recall. Try as many queries as possible.
