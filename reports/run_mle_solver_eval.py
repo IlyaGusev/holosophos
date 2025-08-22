@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from phoenix.otel import register
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_batch
+from academia_mcp.utils import extract_json
 
 from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 
@@ -60,9 +61,7 @@ async def run_eval(
         is_correct = False
         predicted_value = None
         if isinstance(result, str) and "{" in result and "}" in result:
-            json_result = result[result.find("{") : result.rfind("}") + 1]
-            json_result = json_result.replace("'", '"')
-            parsed_result = json.loads(json_result)
+            parsed_result = extract_json(result)
             if field in parsed_result:
                 predicted_value = parsed_result[field]
         elif isinstance(result, dict):

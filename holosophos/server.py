@@ -13,8 +13,8 @@ from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 def server(
     model_name: str = "deepseek/deepseek-chat-v3-0324",
     verbosity_level: int = logging.INFO,
-    planning_interval: int = 3,
-    max_iterations: int = 30,
+    planning_interval: int = 4,
+    max_iterations: int = 100,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
     phoenix_endpoint: str = "http://localhost:6006/v1/traces",
