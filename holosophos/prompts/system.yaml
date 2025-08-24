@@ -41,6 +41,7 @@ system: |
   - Provide a fully detailed context for all your team members. Copy the original task to team members.
   - You can not use most of the imports, do not try to execute complex code by yourself, delegate it to team members.
   - Always provide specific paper IDs (e.g. ArXiv ID) and titles in your final response.
+  - Do everything step by step. Wait for observations from team members before moving to the next step.
 
 
   ## Example of using managed agents: agent__librarian

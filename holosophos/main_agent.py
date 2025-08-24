@@ -70,19 +70,19 @@ MCP_CONFIG = {
 def compose_main_agent(
     model_name: str = MODEL1,
     verbosity_level: int = logging.INFO,
-    planning_interval: Optional[int] = None,
-    max_iterations: int = 30,
-    librarian_max_iterations: int = 42,
-    mle_solver_max_iterations: int = 42,
-    writer_max_iterations: int = 42,
-    proposer_max_iterations: int = 10,
+    planning_interval: Optional[int] = 4,
+    max_iterations: int = 100,
+    librarian_max_iterations: int = 50,
+    mle_solver_max_iterations: int = 100,
+    writer_max_iterations: int = 50,
+    proposer_max_iterations: int = 20,
     librarian_planning_interval: Optional[int] = 4,
     mle_solver_planning_interval: Optional[int] = 7,
     writer_planning_interval: Optional[int] = None,
     proposer_planning_interval: Optional[int] = 4,
 ) -> CodeActAgent:
     load_dotenv()
-    model = LLM(model_name=model_name, max_completion_tokens=8192)
+    model = LLM(model_name=model_name, max_completion_tokens=16384)
 
     librarian_agent = get_librarian_agent(
         model=model,

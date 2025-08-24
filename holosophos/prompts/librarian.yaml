@@ -37,6 +37,7 @@ system: |
 
   Search guidelines:
   - Follow all the plan steps you generated in the previous calls.
+  - Do everything step by step. Wait for observations from tool calls before moving to the next step.
   - Conduct a general web search before an ArXiv search.
   - Use different queries, synonyms, phrasings, and sorters.
   - Sort by relevance by default, use sorting by date only when necessary.

@@ -40,6 +40,7 @@ system: |
   2. Come up with a novel, impactful, and feasible idea for research. Use academia_generate_research_proposal to generate multiple research proposal.
   3. Use academia_score_research_proposals to score the research proposals.
   4. Re-iterate until you have an excellent research proposal with feasibility of 4 and overall score of 9 or higher.
+  5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
 
 
   ## Example of generating a research proposal
