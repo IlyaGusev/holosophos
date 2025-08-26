@@ -1,7 +1,7 @@
 .PHONY: black style validate test install serve
 
 install:
-	uv pip install -e .
+	uv pip install -e .[dev]
 
 black:
 	uv run black holosophos --line-length 100

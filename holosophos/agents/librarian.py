@@ -8,10 +8,11 @@ from holosophos.files import PROMPTS_DIR_PATH
 
 
 NAME = "librarian"
-DESCRIPTION = """This team member runs gets and analyzes information from papers.
+DESCRIPTION = """This team member runs, gets, and analyzes information from papers.
 He has access to ArXiv, Semantic Scholar, ACL Anthology, and web search.
 Ask him any questions about papers and web articles.
-Give him your full task as an argument. Follow the task format, include all the details."""
+Give him your full task as an argument.
+Follow the task format, and include all the details."""
 
 DEFAULT_TOOLS = (
     "academia_arxiv_download",

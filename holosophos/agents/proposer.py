@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Sequence
 
 from codearkt.codeact import CodeActAgent, Prompts
 from codearkt.llm import LLM
@@ -13,25 +13,28 @@ He analyzes existing ideas and proposes new research directions, assessing their
 Ask him when you need to come up with new experiments or research approaches.
 Provide a detailed task description and context as an argument, as well as the arxiv_id of the baseline paper."""
 
+DEFAULT_TOOLS = (
+    "academia_web_search",
+    "academia_visit_webpage",
+    "academia_document_qa",
+    "academia_extract_bitflip_info",
+    "academia_generate_research_proposal",
+    "academia_score_research_proposals",
+)
+
 
 def get_proposer_agent(
     model: LLM,
     max_iterations: int = 10,
     planning_interval: Optional[int] = 3,
     verbosity_level: int = logging.INFO,
+    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "proposer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=[
-            "academia_web_search",
-            "academia_visit_webpage",
-            "academia_document_qa",
-            "academia_extract_bitflip_info",
-            "academia_generate_research_proposal",
-            "academia_score_research_proposals",
-        ],
+        tool_names=tools or DEFAULT_TOOLS,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,
