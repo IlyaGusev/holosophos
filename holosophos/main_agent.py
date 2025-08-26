@@ -73,7 +73,7 @@ def compose_main_agent(
     planning_interval: Optional[int] = 4,
     max_iterations: int = 100,
     librarian_max_iterations: int = 50,
-    mle_solver_max_iterations: int = 100,
+    mle_solver_max_iterations: int = 150,
     writer_max_iterations: int = 50,
     proposer_max_iterations: int = 20,
     librarian_planning_interval: Optional[int] = 4,
@@ -82,7 +82,7 @@ def compose_main_agent(
     proposer_planning_interval: Optional[int] = 4,
 ) -> CodeActAgent:
     load_dotenv()
-    model = LLM(model_name=model_name, max_completion_tokens=16384)
+    model = LLM(model_name=model_name, max_completion_tokens=8192)
 
     librarian_agent = get_librarian_agent(
         model=model,

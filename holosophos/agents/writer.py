@@ -32,7 +32,14 @@ def get_writer_agent(
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=["academia_md_to_pdf"],
+        tool_names=[
+            "academia_compile_latex_from_str",
+            "academia_get_latex_template",
+            "academia_get_latex_templates_list",
+            "academia_compile_latex_from_file",
+            "mle_kit_bash",
+            "mle_kit_text_editor",
+        ],
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

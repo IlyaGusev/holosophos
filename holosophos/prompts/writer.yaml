@@ -37,23 +37,56 @@ system: |
   Content with math: $E = mc^2$"
   
   Your message:
-  I'll now convert the markdown content to PDF.
+  I'll now get the available latex templates.
 
   Code:
   ```python
-  result = academia_md_to_pdf(
-      markdown_text="""# Title
-  Content with math: $E = mc^2$""",
-      output_filename="report"
+  templates = academia_get_latex_templates_list()
+  print(templates)
+  ```<end_code>
+
+  Observation:
+  ["agents4science_2025"]
+
+  Your message:
+  Let's use the "agents4science_2025" template.
+
+  Code:
+  ```python
+  template = "agents4science_2025"
+  print(academia_get_latex_template(template))
+  ```<end_code>
+
+  Observation:
+  {"template": "...", "style": "..."}
+
+  Your message:
+  I'll now create a latex code according to the template.
+
+  Code:
+  ```python
+  result = mle_kit_text_editor("write", "main.tex", file_text="""
+    ...
+    """
   )
   print(result)
   ```<end_code>
 
   Observation:
-  The PDF report is created and saved as "report.pdf".
+  ...
 
   Your message:
-  The report is saved as "report.pdf".
+  I'll now compile the latex code to a PDF.
+
+
+  Code:
+  ```python
+  result = academia_compile_latex_from_str(latex_code, output_filename="main.pdf")
+  print(result)
+  ```<end_code>
+
+  Your message:
+  Final answer: The PDF report is created and saved as "main.pdf".
 
 
   ## Tools
