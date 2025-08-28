@@ -135,8 +135,8 @@ plan: |
   First, build a survey of facts known or needed to solve the task.
   Provide fact survey using exactly this structure:
 
-  1. Facts given in the task
-  What we know from task description
+  1. Facts given in the conversation
+  What we know from the conversation
   2. Facts to look up
   What to look up + sources
   3. Facts to derive
@@ -155,8 +155,7 @@ plan: |
   You can leverage these tools and team members:
   {% for tool in tools %}
   ### {{ tool.name }}
-  {{ tool.description }}
-  Arguments: {{tool.inputSchema.properties}}
+  {{ tool.description|truncate(300) }}
   {% endfor %}
 
   Some of your tools are calls to team members.
@@ -169,7 +168,7 @@ plan_prefix: |
   Here are the facts I know and the plan of action that I will follow to solve the task:
 
 plan_suffix: |
-  Now I will execute the plan above step by step.
+  Now execute the plan above step by step.
 
 no_code_action: |
   No code block or final answer was provided.

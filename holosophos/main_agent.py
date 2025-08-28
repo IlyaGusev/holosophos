@@ -17,6 +17,7 @@ from holosophos.agents import (
     get_mle_solver_agent,
     get_writer_agent,
     get_proposer_agent,
+    get_reviewer_agent,
 )
 
 
@@ -78,8 +79,10 @@ def compose_main_agent(
     proposer_max_iterations: int = 20,
     librarian_planning_interval: Optional[int] = 4,
     mle_solver_planning_interval: Optional[int] = 7,
-    writer_planning_interval: Optional[int] = None,
+    writer_planning_interval: Optional[int] = 4,
     proposer_planning_interval: Optional[int] = 4,
+    reviewer_max_iterations: int = 20,
+    reviewer_planning_interval: Optional[int] = 4,
 ) -> CodeActAgent:
     load_dotenv()
     model = LLM(model_name=model_name, max_completion_tokens=8192)
@@ -108,6 +111,12 @@ def compose_main_agent(
         verbosity_level=verbosity_level,
         planning_interval=proposer_planning_interval,
     )
+    reviewer_agent = get_reviewer_agent(
+        model=model,
+        max_iterations=reviewer_max_iterations,
+        verbosity_level=verbosity_level,
+        planning_interval=reviewer_planning_interval,
+    )
     prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
     agent = CodeActAgent(
         name="manager",
@@ -118,6 +127,7 @@ def compose_main_agent(
             mle_solver_agent,
             writer_agent,
             proposer_agent,
+            reviewer_agent,
         ],
         llm=model,
         max_iterations=max_iterations,

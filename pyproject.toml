@@ -22,9 +22,18 @@ dependencies = [
     "types-xmltodict>=0.14.0.20241009",
     "pytest>=8.4.1",
     "pytest-asyncio>=1.0.0",
-    "academia-mcp==1.4.2",
+    "academia-mcp==1.6.3",
     "mle-kit-mcp==0.0.7",
-    "codearkt==1.1.2",
+    "codearkt==1.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "black==25.1.0",
+    "mypy==1.16.0",
+    "flake8==7.2.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
 ]
 
 [tool.flake8]

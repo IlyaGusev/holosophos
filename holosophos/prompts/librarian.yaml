@@ -214,8 +214,8 @@ plan: |
   First, build a survey of facts known or needed to solve the task.
   Provide fact survey using exactly this structure:
 
-  1. Facts given in the task
-  What we know from task description
+  1. Facts given in the conversation
+  What we know from the conversation
   2. Facts to look up
   What to look up + sources
   3. Facts to derive
