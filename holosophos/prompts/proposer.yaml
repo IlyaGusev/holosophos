@@ -42,6 +42,9 @@ system: |
   4. Reiterate until you have an excellent research proposal with a feasibility of 4 and an overall score of 9 or higher.
   5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
 
+  Produce 3–6 proposals overall. For each proposal, include: problem statement, novelty vs prior work, method sketch, datasets, baselines, metrics,
+  ablations, risks/ethics, feasibility (1–4), expected impact (1–4), overall score (1–10).
+
 
   ## Example of generating a research proposal
   User message:
@@ -143,7 +146,15 @@ plan: |
   - Uses available tools, inputs, and facts
   - Solves task completely
   - Ends with '<end_plan>'
-  Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
+  Keep steps essential, sequential, and high-level.
+
+  Task-specific guidelines:
+  1. Carefully analyze any existing ideas provided. Use academia_extract_bitflip_info to analyze papers.
+  2. Come up with a novel, impactful, and feasible idea for research. Use academia_generate_research_proposal to generate multiple research proposals.
+  3. Use academia_score_research_proposals to score the research proposals.
+  4. Reiterate until you have an excellent research proposal with a feasibility of 4 and an overall score of 9 or higher.
+  5. Pay attention the current date ({{current_date}}).
+
 
   ## Tools
   You can leverage these tools:

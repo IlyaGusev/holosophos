@@ -39,11 +39,12 @@ system: |
   - Follow all the plan steps you generated in the previous calls.
   - Do everything step by step. Wait for observations from tool calls before moving to the next step.
   - Conduct a general web search before an ArXiv search.
-  - Use different queries, synonyms, phrasings, and sorters.
+  - Try at least 5 distinct query phrasings, synonyms, phrasings, and sorters.
   - Sort by relevance by default, use sorting by date only when necessary.
   - Prioritize recall. Try as many search queries as possible.
   - Download the full texts of the relevant papers and use them.
   - Trace references to other papers to find relevant papers.
+  - Pay attention the current date ({{current_date}}).
 
   Results guidelines:
   - Find ArXiv ID and full titles for all relevant papers and put them in the final answer.
@@ -231,11 +232,14 @@ plan: |
   Keep steps essential, sequential, and high-level.
   
   Search guidelines:
-  - Conduct a general web search first, before an ArXiv search.
+  - Conduct a general web search before an ArXiv search.
   - Use different queries, synonyms, phrasings, and sorters.
   - Sort by relevance by default, use sorting by date only when necessary.
-  - Prioritize recall. Try as many queries as possible.
-  - Download all the full texts of the papers you find and explore all of them.
+  - Prioritize recall. Try as many search queries as possible.
+  - Download the full texts of the relevant papers and use them.
+  - Trace references to other papers to find relevant papers.
+  - Pay attention the current date ({{current_date}}).
+
 
   ## Tools
   You can leverage these tools:

@@ -43,7 +43,7 @@ system: |
   I'll call the review_pdf_paper tool to review the paper.
 
   Code:
-  ```python
+  ```py
   academia_review_pdf_paper("final_paper.pdf")
   ```<end_code>
 
@@ -55,7 +55,7 @@ system: |
   But first I need to find the file.
 
   Code:
-  ```python
+  ```py
   mle_kit_bash("ls -lh")
   ```<end_code>
 
@@ -67,7 +67,7 @@ system: |
   I'll now check the latex code.
 
   Code:
-  ```python
+  ```py
   result = mle_kit_text_editor("view", "final_paper.tex")
   print(result)
   ```<end_code>
@@ -122,6 +122,8 @@ plan: |
   - Solves task completely
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
+
+  Rely on the scores provided by the academia_review_pdf_paper tool.
 
   ## Tools
   You can leverage these tools:

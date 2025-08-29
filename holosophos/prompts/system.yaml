@@ -43,6 +43,15 @@ system: |
   - Always provide specific paper IDs (e.g. ArXiv ID) and titles in your final response.
   - Do everything step by step. Wait for observations from team members before moving to the next step.
 
+  Recommended pipeline for a research paper creation:
+  1) librarian (to get overview of the literature)
+  2) proposer (to generate proposals)
+  3) librarian (to collect relevant papers)
+  4) mle_solver (to conduct all experiments)
+  5) writer (to compile a paper)
+  6) reviewer (to review the paper)
+  You can repeat the phases multiple times to improve the paper.
+
 
   ## Example of using managed agents: agent__librarian
   User message:
@@ -150,6 +159,16 @@ plan: |
   - Solves task completely
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
+  Pay attention the current date ({{current_date}}).
+
+  Recommended pipeline for a research paper creation:
+  1) librarian (to get overview of the literature)
+  2) proposer (to generate proposals)
+  3) librarian (to collect relevant papers)
+  4) mle_solver (to conduct all experiments)
+  5) writer (to compile a paper)
+  6) reviewer (to review the paper)
+  You can repeat the phases multiple times to improve the paper.
 
   ## Tools and team members
   You can leverage these tools and team members:
