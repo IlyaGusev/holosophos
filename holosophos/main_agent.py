@@ -66,26 +66,30 @@ MCP_CONFIG = {
         "mle_kit": {"url": "http://0.0.0.0:5057/mcp", "transport": "streamable-http"},
     }
 }
+DEFAULT_TOOLS = (
+    "mle_kit_bash",
+    "mle_kit_text_editor",
+)
 
 
 def compose_main_agent(
     model_name: str = MODEL1,
     verbosity_level: int = logging.INFO,
-    planning_interval: Optional[int] = 4,
+    planning_interval: Optional[int] = 6,
     max_iterations: int = 100,
-    librarian_max_iterations: int = 50,
+    librarian_max_iterations: int = 100,
     mle_solver_max_iterations: int = 200,
-    writer_max_iterations: int = 50,
-    proposer_max_iterations: int = 20,
-    librarian_planning_interval: Optional[int] = 4,
+    writer_max_iterations: int = 100,
+    proposer_max_iterations: int = 200,
+    librarian_planning_interval: Optional[int] = 6,
     mle_solver_planning_interval: Optional[int] = 8,
-    writer_planning_interval: Optional[int] = 4,
-    proposer_planning_interval: Optional[int] = 4,
-    reviewer_max_iterations: int = 20,
-    reviewer_planning_interval: Optional[int] = 4,
+    writer_planning_interval: Optional[int] = 6,
+    proposer_planning_interval: Optional[int] = 6,
+    reviewer_max_iterations: int = 50,
+    reviewer_planning_interval: Optional[int] = 6,
 ) -> CodeActAgent:
     load_dotenv()
-    model = LLM(model_name=model_name, max_completion_tokens=8192)
+    model = LLM(model_name=model_name, max_completion_tokens=16384)
 
     librarian_agent = get_librarian_agent(
         model=model,
@@ -121,7 +125,7 @@ def compose_main_agent(
     agent = CodeActAgent(
         name="manager",
         description="Manager agent",
-        tool_names=[],
+        tool_names=DEFAULT_TOOLS,
         managed_agents=[
             librarian_agent,
             mle_solver_agent,

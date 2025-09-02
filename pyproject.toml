@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "holosophos"
-version = "0.3.0"
+version = "1.0.0"
 description = "Holosophos Project"
 requires-python = ">=3.12"
 dependencies = [
@@ -22,9 +22,9 @@ dependencies = [
     "types-xmltodict>=0.14.0.20241009",
     "pytest>=8.4.1",
     "pytest-asyncio>=1.0.0",
-    "academia-mcp==1.6.4",
-    "mle-kit-mcp==0.0.7",
-    "codearkt==1.3.3",
+    "academia-mcp==1.7.0",
+    "mle-kit-mcp==0.2.4",
+    "codearkt==1.5.0",
 ]
 
 [dependency-groups]

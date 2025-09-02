@@ -18,7 +18,7 @@ DEFAULT_TOOLS = (
     "academia_visit_webpage",
     "academia_document_qa",
     "academia_extract_bitflip_info",
-    "academia_generate_research_proposal",
+    "academia_generate_research_proposals",
     "academia_score_research_proposals",
 )
 

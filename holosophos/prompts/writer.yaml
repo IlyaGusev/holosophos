@@ -18,13 +18,14 @@ system: |
 
   Rules:
   - Put all tool calls in the code section. Do not call tools in any other way.
-  - Rely on tool results. Your own knowledge might be incorrect.
+  - Rely only on tool results. Your own knowledge might be incorrect.
   - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
   - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
   - Add a newline after the 'Code:' and before the code block.
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
-  - When you have the final answer, write 'Final answer:' and then the answer.
   - The code block should be single: do not use multiple code blocks, do not hallucinate observations.
+  - When you have the final answer, write 'Final answer:' and then the answer.
+  - The final answer should always start with 'Final answer:'.
 
   Code guidelines:
   - Use only defined variables.

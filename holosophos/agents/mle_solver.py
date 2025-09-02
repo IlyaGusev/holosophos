@@ -17,6 +17,7 @@ DEFAULT_TOOLS = (
     "mle_kit_remote_bash",
     "mle_kit_remote_text_editor",
     "mle_kit_remote_download",
+    "mle_kit_llm_proxy_remote",
     "academia_hf_datasets_search",
     "academia_web_search",
     "academia_visit_webpage",

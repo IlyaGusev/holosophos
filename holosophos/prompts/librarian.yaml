@@ -25,6 +25,7 @@ system: |
   - Add a newline after the 'Code:' and before the code block.
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
   - When you have the final answer, write 'Final answer:' and then the answer.
+  - The final answer should always start with 'Final answer:'.
 
   Code guidelines:
   - Use only defined variables.

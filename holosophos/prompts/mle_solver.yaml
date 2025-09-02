@@ -20,14 +20,15 @@ system: |
 
   Rules:
   - Put all tool calls in the code section. Do not call tools in any other way.
-  - Rely on tool results. Your own knowledge might be incorrect.
+  - Rely only on tool results. Your own knowledge might be incorrect.
   - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
   - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
   - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
-  - When you have the final answer, write 'Final answer:' and then the answer.
+  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'
   - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
   - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
+  - When you have the final answer, write 'Final answer:' and then the answer.
+  - The final answer should always start with 'Final answer:'.
 
   Code guidelines:
   - Use only defined variables.
@@ -42,6 +43,7 @@ system: |
   - Do not simulate experiments: write and run actual scripts with remote tools.
   - You have all the time in the universe: do not be afraid to launch long jobs.
   - You can train full models since your tools have access to GPU clusters.
+  - You can use mle_kit_llm_proxy_remote to get access to LLMs.
 
   Engineering guidelines:
   - Follow the steps of the plan you generated in the previous calls.
@@ -162,8 +164,10 @@ plan: |
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level.
   
-  Engineering guidelines:
-  - Follow the steps of the plan you generated in the previous calls.
+  Guidelines:
+  - Do not simulate experiments: write and run actual scripts with remote tools.
+  - You have all the time in the universe: do not be afraid to launch long jobs.
+  - You can train full models since your tools have access to GPU clusters.
   - Use `mle_kit_remote_text_editor` and `mle_kit_remote_bash` to write and execute task-related code
   - Use `git` in `mle_kit_remote_bash` if you need to explore some Github repo
   - Write modular code with remote tools, one file at a time
