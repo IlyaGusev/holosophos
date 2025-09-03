@@ -27,24 +27,28 @@ huggingface-cli login
 
 ## Run
 
-Window 1:
+Window 1 (logs server):
+```
+docker container run -p 6006:6006 -p 4317:4317 arizephoenix/phoenix
+```
+
+Window 2 (Academia MCP):
 ```
 uv run python -m academia_mcp --port 5056
 ```
 
-Window 2:
+Window 3 (MLE kit MCP):
 ```
 uv run python -m mle_kit_mcp --port 5057 --workspace workdir
 ```
 
-Window 3:
+Window 4 (Main server):
 ```
 uv run python -m holosophos.server
 ```
 
-Window 4:
+Window 5 (Gradio or terminal):
 ```
 uv run python -m codearkt.gradio
+uv run python -m codearkt.terminal
 ```
-
-Go to http://127.0.0.1:7860/
