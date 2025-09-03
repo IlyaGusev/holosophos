@@ -75,21 +75,27 @@ DEFAULT_TOOLS = (
 def compose_main_agent(
     model_name: str = MODEL1,
     verbosity_level: int = logging.INFO,
-    planning_interval: Optional[int] = 6,
+    planning_interval: Optional[int] = 7,
     max_iterations: int = 100,
     librarian_max_iterations: int = 100,
     mle_solver_max_iterations: int = 200,
     writer_max_iterations: int = 100,
     proposer_max_iterations: int = 200,
-    librarian_planning_interval: Optional[int] = 6,
-    mle_solver_planning_interval: Optional[int] = 8,
-    writer_planning_interval: Optional[int] = 6,
-    proposer_planning_interval: Optional[int] = 6,
+    librarian_planning_interval: Optional[int] = 7,
+    mle_solver_planning_interval: Optional[int] = 10,
+    writer_planning_interval: Optional[int] = 7,
+    proposer_planning_interval: Optional[int] = 7,
     reviewer_max_iterations: int = 50,
-    reviewer_planning_interval: Optional[int] = 6,
+    reviewer_planning_interval: Optional[int] = 7,
+    max_completion_tokens: int = 16384,
+    max_history_tokens: int = 131072,
 ) -> CodeActAgent:
     load_dotenv()
-    model = LLM(model_name=model_name, max_completion_tokens=16384)
+    model = LLM(
+        model_name=model_name,
+        max_completion_tokens=max_completion_tokens,
+        max_history_tokens=max_history_tokens,
+    )
 
     librarian_agent = get_librarian_agent(
         model=model,

@@ -24,7 +24,7 @@ dependencies = [
     "pytest-asyncio>=1.0.0",
     "academia-mcp==1.7.0",
     "mle-kit-mcp==0.2.4",
-    "codearkt==1.5.0",
+    "codearkt==1.5.1",
 ]
 
 [dependency-groups]
