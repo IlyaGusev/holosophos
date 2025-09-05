@@ -23,8 +23,8 @@ dependencies = [
     "pytest>=8.4.1",
     "pytest-asyncio>=1.0.0",
     "academia-mcp==1.7.0",
-    "mle-kit-mcp==0.2.4",
-    "codearkt==1.5.1",
+    "mle-kit-mcp==0.2.5",
+    "codearkt==1.6.1",
 ]
 
 [dependency-groups]

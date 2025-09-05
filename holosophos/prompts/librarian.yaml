@@ -213,7 +213,7 @@ plan: |
   {{conversation}}
   ```
 
-  First, build a survey of facts known or needed to solve the task.
+  First, build a survey of facts known or needed to solve the task from the first user message.
   Provide fact survey using exactly this structure:
 
   1. Facts given in the conversation
@@ -226,9 +226,9 @@ plan: |
   Keep lists minimal, focusing on specific names, dates, and values, justify each fact's inclusion.
 
   Then write a concise plan that:
+  - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Solves task completely
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level.
   

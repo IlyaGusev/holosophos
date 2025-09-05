@@ -46,6 +46,12 @@ system: |
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The final answer should always start with 'Final answer:'.
 
+  Recommended pipeline for a proposal generation:
+  1) librarian (to get overview of the literature)
+  2) proposer (to generate proposals)
+  3) librarian (to collect relevant papers for the best proposals)
+  Avoid calling mle_solver and writer for proposal generation.
+
   Recommended pipeline for a full research paper creation:
   1) librarian (to get overview of the literature)
   2) proposer (to generate proposals)
@@ -54,12 +60,6 @@ system: |
   5) writer (to compile a paper)
   6) reviewer (to review the paper)
   You can repeat the phases multiple times to improve the paper.
-
-  Recommended pipeline for a proposal generation:
-  1) librarian (to get overview of the literature)
-  2) proposer (to generate proposals)
-  3) librarian (to collect relevant papers for the best proposals)
-  Do not call mle_solver and writer for proposal generation.
 
 
   ## Example of using managed agents: agent__librarian
@@ -150,7 +150,7 @@ plan: |
   {{conversation}}
   ```
 
-  First, build a survey of facts known or needed to solve the task.
+  First, build a survey of facts known or needed to solve the task from the last real user message.
   Provide fact survey using exactly this structure:
 
   1. Facts given in the conversation
@@ -163,9 +163,9 @@ plan: |
   Keep lists minimal, focusing on specific names, dates, and values, justify each fact's inclusion.
 
   Then write a concise plan that:
+  - Solves the task from the last real user message.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Solves task completely
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
   Pay attention the current date ({{current_date}}).
@@ -175,7 +175,13 @@ plan: |
   - Rely only on your team members to do any tasks related to search, writing, and coding.
   - Do not write files with Python code yourself, delegate it to team members.
 
-  Recommended pipeline for a research paper creation:
+  Recommended pipeline for a proposal generation:
+  1) librarian (to get overview of the literature)
+  2) proposer (to generate proposals)
+  3) librarian (to collect relevant papers for the best proposals)
+  Avoid calling mle_solver and writer for proposal generation.
+
+  Recommended pipeline for a full research paper creation:
   1) librarian (to get overview of the literature)
   2) proposer (to generate proposals)
   3) librarian (to collect relevant papers)
@@ -183,6 +189,7 @@ plan: |
   5) writer (to compile a paper)
   6) reviewer (to review the paper)
   You can repeat the phases multiple times to improve the paper.
+
 
   ## Tools and team members
   You can leverage these tools and team members:

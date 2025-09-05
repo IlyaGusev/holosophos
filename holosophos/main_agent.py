@@ -87,7 +87,7 @@ def compose_main_agent(
     proposer_planning_interval: Optional[int] = 7,
     reviewer_max_iterations: int = 50,
     reviewer_planning_interval: Optional[int] = 7,
-    max_completion_tokens: int = 16384,
+    max_completion_tokens: int = 8192,
     max_history_tokens: int = 131072,
 ) -> CodeActAgent:
     load_dotenv()
