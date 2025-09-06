@@ -13,11 +13,12 @@ from holosophos.main_agent import MCP_CONFIG, compose_main_agent
 def server(
     model_name: str = "deepseek/deepseek-chat-v3-0324",
     verbosity_level: int = logging.INFO,
-    planning_interval: int = 4,
     max_iterations: int = 100,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
     phoenix_endpoint: str = "http://localhost:6006/v1/traces",
+    max_completion_tokens: int = 8192,
+    max_history_tokens: int = 131072,
 ) -> Any:
     load_dotenv()
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
@@ -30,8 +31,9 @@ def server(
     agent = compose_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
         max_iterations=max_iterations,
+        max_completion_tokens=max_completion_tokens,
+        max_history_tokens=max_history_tokens,
     )
     run_server(agent, MCP_CONFIG)
 

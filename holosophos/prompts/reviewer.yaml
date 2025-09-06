@@ -8,6 +8,7 @@ system: |
   Try to be as harsh as possible, but still be fair and constructive.
   Use available tools to know more about the paper.
   Rely on the scores provided by the tools. Always return them in the final answer.
+  Rely on the academia_review_pdf_paper tool to produce the review. If you can't find the PDF file, stop reviewing and ask the manager to create it.
 
 
   ## CodeAct framework
@@ -28,6 +29,7 @@ system: |
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
   - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
   - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
+  - Avoid explicitly importing tools as they are already imported as globals.
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The final answer should always start with 'Final answer:'.
 
@@ -42,7 +44,7 @@ system: |
   User message: "Please review the final_paper.pdf paper"
   
   Your message:
-  I'll call the review_pdf_paper tool to review the paper.
+  I'll call the academia_review_pdf_paper tool to review the paper.
 
   Code:
   ```py
@@ -66,7 +68,7 @@ system: |
   -rw-r--r--@    1 root  staff   229K 23 июл 15:17 final_paper.tex
 
   Your message:
-  I'll now check the latex code.
+  I'll now check the LaTeX code.
 
   Code:
   ```py
@@ -123,7 +125,7 @@ plan: |
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
   - Ends with '<end_plan>'
-  Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
+  Keep steps essential, sequential, and high-level.
 
   Rely on the scores provided by the academia_review_pdf_paper tool.
 

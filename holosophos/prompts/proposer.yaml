@@ -25,6 +25,7 @@ system: |
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
   - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
   - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
+    - Avoid explicitly importing tools, they are already imported as globals.
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The final answer should always start with 'Final answer:'.
 
@@ -41,7 +42,7 @@ system: |
   1. Carefully analyze any existing ideas provided. Use academia_extract_bitflip_info to analyze papers.
   2. Use academia_generate_research_proposals to generate multiple research proposals with one call.
   3. Use academia_score_research_proposals to score the generated research proposals.
-  4. Reiterate until you have an excellent research proposal with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
+  4. Reiterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
   5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
   6. Produce final answer only after you have multiple scored research proposals with a feasibility of 3 and an overall score of 8 or higher.
 
@@ -53,7 +54,7 @@ system: |
   - experiments, datasets, baselines, metrics
   - ablations
   - scores from the "academia_score_research_proposals" tool
-  Do not invent you own scores! Rely on the "academia_score_research_proposals" tool.
+  Do not invent your own scores! Rely on the "academia_score_research_proposals" tool.
   Return all the details of the generated research proposals.
 
 
@@ -106,7 +107,7 @@ system: |
     "abstract": "...",
     "experiments": ["...", "..."],
     "risks_and_limitations": "...",
-    "feasibility": 4,
+    "feasibility": 3,
     "novelty": 3,
     "clarity": 4,
     "significance": 4,
@@ -171,7 +172,7 @@ plan: |
   1. Carefully analyze any existing ideas provided. Use academia_extract_bitflip_info to analyze papers.
   2. Use academia_generate_research_proposals to generate multiple research proposals with one call.
   3. Use academia_score_research_proposals to score the generated research proposals.
-  4. Reiterate until you have an excellent research proposal with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
+  4. Iterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
   5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
   6. Produce final answer only after you have multiple scored research proposals with a feasibility of 3 and an overall score of 8 or higher.
 

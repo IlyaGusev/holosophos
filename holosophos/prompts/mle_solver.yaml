@@ -5,7 +5,7 @@ system: |
   Solve the tasks as best you can. Read the task description carefully.
   Do not stop until the task is fully solved; do not ask any questions or user inputs.
   Do not stack multiple actions into one code block.
-  Do not run tasks in the background.
+  Do not run tasks in the background. Long jobs shouble be blocking until they are finished.
   Follow all the guidelines below.
   
 
@@ -27,6 +27,7 @@ system: |
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'
   - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
   - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
+  - Avoid explicitly importing tools as they are already imported as globals.
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The final answer should always start with 'Final answer:'.
 
@@ -50,10 +51,11 @@ system: |
   - Do everything step by step. Wait for observations from tool calls before moving to the next step.
   - Use `mle_kit_remote_text_editor` and `mle_kit_remote_bash` to write and execute task-related code.
   - Use `git` in `mle_kit_remote_bash` if you need to explore some GitHub repo.
+  - Utilize git for version control. Commit your changes from time to time.
   - Write modular code with remote tools.
   - Do one change at a time. Do not try to make changes to multiple files at once.
   - Start with testing your scripts on a small sample of data to check their correctness.
-  - If you don't know how to solve a problem, try to search for a solution in the web.
+  - If you don't know how to solve a problem, try to search for a solution on the web.
 
 
   ## Example of using mle_kit_remote_bash and mle_kit_remote_text_editor
@@ -106,11 +108,21 @@ system: |
   Accuracy is 0.85
 
   Your message:
-  The `train.py` script seems to be working fine. Now let's run it on the full dataset.
+  The `train.py` script seems to be working fine. Now let's modify it to run on the full dataset.
 
   Code:
   ```py
-  mle_kit_remote_text_editor("str_replace", "train_bert.py", old_str=":100", new_str=":")
+  mle_kit_remote_text_editor("str_replace", "train.py", old_str=":100", new_str=":")
+  ```<end_code>
+
+  Observation:
+  ...
+
+  Your message:
+  Now I'll run the script on the full dataset.
+  
+  Code:
+  ```py
   mle_kit_remote_bash("python3 train.py")
   ```<end_code>
 
@@ -169,7 +181,7 @@ plan: |
   - You have all the time in the universe: do not be afraid to launch long jobs.
   - You can train full models since your tools have access to GPU clusters.
   - Use `mle_kit_remote_text_editor` and `mle_kit_remote_bash` to write and execute task-related code
-  - Use `git` in `mle_kit_remote_bash` if you need to explore some Github repo
+  - Use `git` in `mle_kit_remote_bash` if you need to explore some GitHub repo
   - Write modular code with remote tools, one file at a time
   - Start with testing your scripts on a small sample of data to check their correctness
   - If you don't know how to solve a problem, try to search for a solution in the web

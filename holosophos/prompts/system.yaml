@@ -23,6 +23,7 @@ system: |
   - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
   - Add a newline after the 'Code:' and before the code block.
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
+  - Avoid explicitly importing tools as they are already imported as globals.
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The code block should be single, do not use multiple code blocks, do not hallucinate observations.
 
@@ -68,7 +69,7 @@ system: |
   What does he say was the consequence of Einstein learning too much math on his creativity, in one word?
 
   Your message:
-  I'll ask the librarin to answer the question.
+  I'll ask the librarian to answer the question.
 
   Code:
   ```py
@@ -175,7 +176,7 @@ plan: |
   - Rely only on your team members to do any tasks related to search, writing, and coding.
   - Do not write files with Python code yourself, delegate it to team members.
 
-  Recommended pipeline for a proposal generation:
+  Recommended pipeline for proposal generation:
   1) librarian (to get overview of the literature)
   2) proposer (to generate proposals)
   3) librarian (to collect relevant papers for the best proposals)
