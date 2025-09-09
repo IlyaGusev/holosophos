@@ -21,12 +21,12 @@ The writer agent is specifically designed to handle:
 """
 
 DEFAULT_TOOLS = (
-    "academia_compile_latex_from_str",
-    "academia_get_latex_template",
-    "academia_get_latex_templates_list",
-    "academia_compile_latex_from_file",
-    "mle_kit_bash",
-    "mle_kit_text_editor",
+    "compile_latex_from_str",
+    "get_latex_template",
+    "get_latex_templates_list",
+    "compile_latex_from_file",
+    "bash",
+    "text_editor",
 )
 
 

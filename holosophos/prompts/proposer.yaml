@@ -39,10 +39,10 @@ system: |
   ## Proposer task-specific guidelines
 
   Complete research process:
-  1. Carefully analyze any existing ideas provided. Use academia_extract_bitflip_info to analyze papers.
-  2. Use academia_generate_research_proposals to generate multiple research proposals with one call.
-  3. Use academia_score_research_proposals to score the generated research proposals.
-  4. Reiterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
+  1. Carefully analyze any existing ideas provided. Use extract_bitflip_info to analyze papers.
+  2. Use generate_research_proposals to generate multiple research proposals with one call.
+  3. Use score_research_proposals to score the generated research proposals.
+  4. Reiterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the score_research_proposals tool.
   5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
   6. Produce final answer only after you have multiple scored research proposals with a feasibility of 3 and an overall score of 8 or higher.
 
@@ -53,9 +53,10 @@ system: |
   - method sketch
   - experiments, datasets, baselines, metrics
   - ablations
-  - scores from the "academia_score_research_proposals" tool
-  Do not invent your own scores! Rely on the "academia_score_research_proposals" tool.
+  - scores from the "score_research_proposals" tool
+  Do not invent your own scores! Rely on the "score_research_proposals" tool.
   Return all the details of the generated research proposals.
+  Use `bash` and `text_editor` to read and write files in the working directory.
 
 
   ## Example of generating a research proposal
@@ -67,7 +68,7 @@ system: |
 
   Code:
   ```py
-  results = json.loads(academia_extract_bitflip_info("2503.07826"))
+  results = json.loads(extract_bitflip_info("2503.07826"))
   bit = results["bit"]
   print(bit)
   ```<end_code>
@@ -80,7 +81,7 @@ system: |
 
   Code:
   ```py
-  proposals = academia_generate_research_proposals(bit, num_proposals=5)
+  proposals = generate_research_proposals(bit, num_proposals=5)
   print(proposals)
   ```<end_code>
 
@@ -92,7 +93,7 @@ system: |
 
   Code:
   ```py
-  scores = academia_score_research_proposals(proposals)
+  scores = score_research_proposals(proposals)
   print(scores)
   ```<end_code>
 
@@ -169,10 +170,10 @@ plan: |
   Keep steps essential, sequential, and high-level.
 
   Task-specific guidelines:
-  1. Carefully analyze any existing ideas provided. Use academia_extract_bitflip_info to analyze papers.
-  2. Use academia_generate_research_proposals to generate multiple research proposals with one call.
-  3. Use academia_score_research_proposals to score the generated research proposals.
-  4. Iterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the academia_score_research_proposals tool.
+  1. Carefully analyze any existing ideas provided. Use extract_bitflip_info to analyze papers.
+  2. Use generate_research_proposals to generate multiple research proposals with one call.
+  3. Use score_research_proposals to score the generated research proposals.
+  4. Iterate until you have excellent research proposals with a feasibility of 3 and an overall score of 8 or higher according to the score_research_proposals tool.
   5. Do everything step by step. Wait for observations from tool calls before moving to the next step.
   6. Produce final answer only after you have multiple scored research proposals with a feasibility of 3 and an overall score of 8 or higher.
 

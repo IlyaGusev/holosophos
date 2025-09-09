@@ -14,13 +14,13 @@ Give him your detailed task as an argument.
 Follow the task format described above, and include all the details."""
 
 DEFAULT_TOOLS = (
-    "mle_kit_remote_bash",
-    "mle_kit_remote_text_editor",
-    "mle_kit_remote_download",
-    "mle_kit_llm_proxy_remote",
-    "academia_hf_datasets_search",
-    "academia_web_search",
-    "academia_visit_webpage",
+    "remote_bash",
+    "remote_text_editor",
+    "remote_download",
+    "llm_proxy_remote",
+    "hf_datasets_search",
+    "web_search",
+    "visit_webpage",
 )
 
 

@@ -19,6 +19,7 @@ def server(
     phoenix_endpoint: str = "http://localhost:6006/v1/traces",
     max_completion_tokens: int = 8192,
     max_history_tokens: int = 131072,
+    port: int = 5055,
 ) -> Any:
     load_dotenv()
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
@@ -35,7 +36,7 @@ def server(
         max_completion_tokens=max_completion_tokens,
         max_history_tokens=max_history_tokens,
     )
-    run_server(agent, MCP_CONFIG)
+    run_server(agent, MCP_CONFIG, add_mcp_server_prefixes=False, port=port)
 
 
 if __name__ == "__main__":

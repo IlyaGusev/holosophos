@@ -50,7 +50,13 @@ async def run_eval(
         records = records[:nrows]
 
     queries = [r["query"] for r in records]
-    results = await run_batch(queries, agent, mcp_config=MCP_CONFIG, max_concurrency=max_workers)
+    results = await run_batch(
+        queries,
+        agent,
+        mcp_config=MCP_CONFIG,
+        max_concurrency=max_workers,
+        add_mcp_server_prefixes=False,
+    )
 
     correct_count = 0
     for record, result in zip(records, results):

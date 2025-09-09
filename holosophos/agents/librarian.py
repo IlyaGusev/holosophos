@@ -8,22 +8,24 @@ from holosophos.files import PROMPTS_DIR_PATH
 
 
 NAME = "librarian"
-DESCRIPTION = """This team member runs, gets, and analyzes information from papers.
+DESCRIPTION = """This team member runs, gets, and analyzes information from papers and websites.
 He has access to ArXiv, Semantic Scholar, ACL Anthology, and web search.
 Ask him any questions about papers and web articles.
+Any questions about collecting and analyzing information should be delegated to this team member.
 Give him your full task as an argument.
+Librarian doesn't have access to the file system!
 Follow the task format, and include all the details."""
 
 DEFAULT_TOOLS = (
-    "academia_arxiv_download",
-    "academia_arxiv_search",
-    "academia_anthology_search",
-    "academia_s2_get_citations",
-    "academia_s2_get_references",
-    "academia_hf_datasets_search",
-    "academia_document_qa",
-    "academia_web_search",
-    "academia_visit_webpage",
+    "arxiv_download",
+    "arxiv_search",
+    "anthology_search",
+    "s2_get_citations",
+    "s2_get_references",
+    "hf_datasets_search",
+    "document_qa",
+    "web_search",
+    "visit_webpage",
 )
 
 

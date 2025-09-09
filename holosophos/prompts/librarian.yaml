@@ -60,16 +60,16 @@ system: |
   Which paper introduced Vector Quantized Variational Autoencoders (VQ-VAE)?
 
   Plan (already generated for you):
-  Step 1. Conduct a general web search with a query that includes "VQ-VAE paper" with academia_web_search.
-  Step 2. If the search results are not relevant, conduct an ArXiv search with a query that includes "VQ-VAE" with academia_arxiv_search.
-  Step 3. Download the full text of the relevant paper with academia_arxiv_download and use it to answer the question with academia_document_qa.
+  Step 1. Conduct a general web search with a query that includes "VQ-VAE paper" with web_search.
+  Step 2. If the search results are not relevant, conduct an ArXiv search with a query that includes "VQ-VAE" with arxiv_search.
+  Step 3. Download the full text of the relevant paper with arxiv_download and use it to answer the question with document_qa.
 
   Your message:
   I will now conduct a web search with a query that includes "VQ-VAE paper".
 
   Code:
   ```py
-  results = academia_web_search("VQ-VAE paper")
+  results = web_search("VQ-VAE paper")
   print(results)
   ```<end_code>
 
@@ -81,7 +81,7 @@ system: |
 
   Code:
   ```py
-  papers = academia_arxiv_search(query='abs:"VQ-VAE" OR abs:"Vector Quantized Variational Autoencoders"')
+  papers = arxiv_search(query='abs:"VQ-VAE" OR abs:"Vector Quantized Variational Autoencoders"')
   print(papers)
   ```<end_code>
 
@@ -93,7 +93,7 @@ system: |
 
   Code:
   ```py
-  papers = academia_arxiv_search(
+  papers = arxiv_search(
       query='abs:"VQ-VAE" OR abs:"Vector Quantized Variational Autoencoders"',
       limit=1,
       sort_by="submittedDate",
@@ -111,7 +111,7 @@ system: |
 
   Code:
   ```py
-  paper = academia_arxiv_download("1711.00937v2")
+  paper = arxiv_download("1711.00937v2")
   print(paper)
   ```<end_code>
 
@@ -138,7 +138,7 @@ system: |
 
   Code:
   ```py
-  results = academia_web_search("convergence rates, classic TD, ordinary differential equations analysis")
+  results = web_search("convergence rates, classic TD, ordinary differential equations analysis")
   print(results)
   ```<end_code>
 
@@ -152,7 +152,7 @@ system: |
   Code:
   ```py
   query = 'abs:"temporal difference" AND abs:"ordinary differential equation"'
-  papers = academia_arxiv_search(query=query, limit=10, include_abstracts=True, sort_by="relevance")
+  papers = arxiv_search(query=query, limit=10, include_abstracts=True, sort_by="relevance")
   print(papers)
   ```<end_code>
 
@@ -165,7 +165,7 @@ system: |
   Code:
   ```py
   query = 'abs:"temporal difference" AND abs:"ordinary differential equation"'
-  papers = academia_arxiv_search(query=query, limit=10, offset=10, include_abstracts=True, sort_by="relevance")
+  papers = arxiv_search(query=query, limit=10, offset=10, include_abstracts=True, sort_by="relevance")
   print(papers)
   ```<end_code>
 
@@ -177,9 +177,9 @@ system: |
   
   Code:
   ```py
-  paper = academia_arxiv_download("1902.00923v3")
+  paper = arxiv_download("1902.00923v3")
   question = "How does this paper analyze TD learning convergence using ODE analysis?"
-  answer = academia_document_qa(question=question, document=paper)
+  answer = document_qa(question=question, document=paper)
   print(answer)
   ```<end_code>
 

@@ -24,6 +24,7 @@ system: |
   - Add a newline after the 'Code:' and before the code block.
   - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
   - Avoid explicitly importing tools as they are already imported as globals.
+  - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
   - When you have the final answer, write 'Final answer:' and then the answer.
   - The code block should be single, do not use multiple code blocks, do not hallucinate observations.
 

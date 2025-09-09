@@ -17,16 +17,15 @@ def extract_first_number(text: str) -> Optional[int]:
 async def test_librarian_case1() -> None:
     query = "Which work introduces Point-E, a language-guided DM?"
     model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
-    agent = get_librarian_agent(
-        model=model, tools=["academia_arxiv_search", "academia_arxiv_download"]
-    )
+    agent = get_librarian_agent(model=model, tools=["arxiv_search", "arxiv_download"])
     answer = await run_query(
         query,
         agent,
         additional_tools={
-            "academia_arxiv_search": arxiv_search,
-            "academia_arxiv_download": arxiv_download,
+            "arxiv_search": arxiv_search,
+            "arxiv_download": arxiv_download,
         },
+        add_mcp_server_prefixes=False,
     )
     assert "2212.08751" in str(answer)
 
@@ -36,16 +35,17 @@ async def test_librarian_case2() -> None:
     model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
     agent = get_librarian_agent(
         model=model,
-        tools=["academia_arxiv_search", "academia_arxiv_download"],
+        tools=["arxiv_search", "arxiv_download"],
         verbosity_level=logging.DEBUG,
     )
     answer = await run_query(
         query,
         agent,
         additional_tools={
-            "academia_arxiv_search": arxiv_search,
-            "academia_arxiv_download": arxiv_download,
+            "arxiv_search": arxiv_search,
+            "arxiv_download": arxiv_download,
         },
+        add_mcp_server_prefixes=False,
     )
     assert "2208.09141" in str(answer)
 
@@ -56,16 +56,15 @@ async def test_librarian_case3() -> None:
         "Return only one number as a string and nothing else."
     )
     model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
-    agent = get_librarian_agent(
-        model=model, tools=["academia_arxiv_search", "academia_s2_get_citations"]
-    )
+    agent = get_librarian_agent(model=model, tools=["arxiv_search", "s2_get_citations"])
     answer = await run_query(
         query,
         agent,
         additional_tools={
-            "academia_arxiv_search": arxiv_search,
-            "academia_s2_get_citations": s2_get_citations,
+            "arxiv_search": arxiv_search,
+            "s2_get_citations": s2_get_citations,
         },
+        add_mcp_server_prefixes=False,
     )
     int_answer = extract_first_number(answer.strip())
     assert int_answer is not None

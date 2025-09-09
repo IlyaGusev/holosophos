@@ -11,18 +11,17 @@ NAME = "reviewer"
 DESCRIPTION = """This team member is a peer reviewer for top CS/ML venues (e.g., NeurIPS/ICML/ACL).
 He has access to tools for reviewing papers.
 Ask him when you need to review a paper.
-It has it's own tools to access the paper.
+He has it's own tools to access the paper.
 Important note: Any tasks related to paper review should be delegated to the reviewer agent.
-Always review the generated papers.
 """
 
 DEFAULT_TOOLS = (
-    "academia_review_pdf_paper",
-    "academia_download_pdf_paper",
-    "academia_visit_webpage",
-    "academia_web_search",
-    "mle_kit_bash",
-    "mle_kit_text_editor",
+    "review_pdf_paper",
+    "download_pdf_paper",
+    "visit_webpage",
+    "web_search",
+    "bash",
+    "text_editor",
 )
 
 

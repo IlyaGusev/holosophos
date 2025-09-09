@@ -67,8 +67,8 @@ MCP_CONFIG = {
     }
 }
 DEFAULT_TOOLS = (
-    "mle_kit_bash",
-    "mle_kit_text_editor",
+    "bash",
+    "text_editor",
 )
 
 

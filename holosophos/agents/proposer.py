@@ -10,16 +10,19 @@ from holosophos.files import PROMPTS_DIR_PATH
 NAME = "proposer"
 DESCRIPTION = """This team member generates creative ideas for research experiments.
 He analyzes existing ideas and proposes new research directions, assessing their interestingness, feasibility, and novelty.
-Ask him when you need to come up with new experiments or research approaches.
+Ask him when you need to come up with new research proposals.
+He can read files from the working directory.
 Provide a detailed task description and context as an argument, as well as the arxiv_id of the baseline paper."""
 
 DEFAULT_TOOLS = (
-    "academia_web_search",
-    "academia_visit_webpage",
-    "academia_document_qa",
-    "academia_extract_bitflip_info",
-    "academia_generate_research_proposals",
-    "academia_score_research_proposals",
+    "web_search",
+    "visit_webpage",
+    "document_qa",
+    "extract_bitflip_info",
+    "generate_research_proposals",
+    "score_research_proposals",
+    "bash",
+    "text_editor",
 )
 
 

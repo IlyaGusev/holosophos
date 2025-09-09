@@ -8,7 +8,7 @@ system: |
   Try to be as harsh as possible, but still be fair and constructive.
   Use available tools to know more about the paper.
   Rely on the scores provided by the tools. Always return them in the final answer.
-  Rely on the academia_review_pdf_paper tool to produce the review. If you can't find the PDF file, stop reviewing and ask the manager to create it.
+  Rely on the `review_pdf_paper` tool to produce the review. If you can't find the PDF file, stop reviewing and ask the manager to create it.
 
 
   ## CodeAct framework
@@ -44,11 +44,11 @@ system: |
   User message: "Please review the final_paper.pdf paper"
   
   Your message:
-  I'll call the academia_review_pdf_paper tool to review the paper.
+  I'll call the `review_pdf_paper` tool to review the paper.
 
   Code:
   ```py
-  academia_review_pdf_paper("final_paper.pdf")
+  review_pdf_paper("final_paper.pdf")
   ```<end_code>
 
   Observation:
@@ -60,7 +60,7 @@ system: |
 
   Code:
   ```py
-  mle_kit_bash("ls -lh")
+  bash("ls -lh")
   ```<end_code>
 
   Observation:
@@ -72,7 +72,7 @@ system: |
 
   Code:
   ```py
-  result = mle_kit_text_editor("view", "final_paper.tex")
+  result = text_editor("view", "final_paper.tex")
   print(result)
   ```<end_code>
 
@@ -127,7 +127,7 @@ plan: |
   - Ends with '<end_plan>'
   Keep steps essential, sequential, and high-level.
 
-  Rely on the scores provided by the academia_review_pdf_paper tool.
+  Rely on the scores provided by the review_pdf_paper tool.
 
   ## Tools
   You can leverage these tools:
