@@ -26,6 +26,7 @@ DEFAULT_TOOLS = (
     "document_qa",
     "web_search",
     "visit_webpage",
+    "text_editor",
 )
 
 

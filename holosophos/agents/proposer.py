@@ -21,7 +21,6 @@ DEFAULT_TOOLS = (
     "extract_bitflip_info",
     "generate_research_proposals",
     "score_research_proposals",
-    "bash",
     "text_editor",
 )
 

@@ -22,8 +22,8 @@ dependencies = [
     "types-xmltodict>=0.14.0.20241009",
     "pytest>=8.4.1",
     "pytest-asyncio>=1.0.0",
-    "academia-mcp==1.7.3",
-    "mle-kit-mcp==1.0.2",
+    "academia-mcp==1.8.0",
+    "mle-kit-mcp==1.1.0",
     "codearkt==1.6.6",
 ]
 

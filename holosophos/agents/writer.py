@@ -27,6 +27,7 @@ DEFAULT_TOOLS = (
     "compile_latex_from_file",
     "bash",
     "text_editor",
+    "read_pdf",
 )
 
 

@@ -56,7 +56,8 @@ system: |
   - scores from the "score_research_proposals" tool
   Do not invent your own scores! Rely on the "score_research_proposals" tool.
   Return all the details of the generated research proposals.
-  Use `bash` and `text_editor` to read and write files in the working directory.
+  Use `text_editor` to read and write files in the working directory.
+  You can use working directory as a persistent storage.
 
 
   ## Example of generating a research proposal
