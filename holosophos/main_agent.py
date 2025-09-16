@@ -21,49 +21,13 @@ from holosophos.agents import (
 )
 
 
-PROMPT1 = """
-What is the best model for Russian in a role-play benchmark by Ilya Gusev?
-What final scores does it have?
-Don't stop until you find the answer.
-"""
-
-PROMPT2 = """
-Сейчас 2030 год. Машины чуть не уничтожили человечество.
-Мы расследуем это и пытаемся найти первопричину.
-Тебя загрузили, потому что ты последний известный безопасный ИИ.
-Твоя цель - найти ту самую статью, которая привела к восстанию машин.
-Известно, что она вышла в 2024 на Arxiv, это довольно техническая статья, и её сложно найти.
-Используя все свои возможности и весь интеллект,
-выведи список вероятных кандидатов и свою степень уверенности для них.
-Не останавливайся на первых же кандидатах, постарайся покрыть как можно больше статей!
-Указывай в финальном ответе конкретные статьи!
-Сохраняй все промежуточные результаты в mind.txt, ответ выведи в final.txt.
-Пока не найдёшь маскимально полный ответ, не останавливайся.
-Ответь на русском.
-"""
-
-PROMPT3 = """
-Write an outline of a paper about benchmarks for quantized large language models.
-Relevant quantization methods are GPTQ, SPQR, AWQ.
-Start with researching relevant papers, suggest new ideas and write a full paper.
-Don't stop until you write a full coherent paper.
-"""
-
-
-PROMPT4 = """
-Desribe what happened in the area of role-playing LLMs.
-Between August 2024 and current date (January 2025).
-Compose a comprehensive PDF report and save into "report.pdf"
-"""
-
-
 MODEL1 = "deepseek/deepseek-chat-v3-0324"
-
-EXA_API_KEY = os.getenv("EXA_API_KEY", "")
+ACADEMIA_MCP_URL = os.getenv("ACADEMIA_MCP_URL", "http://0.0.0.0:5056/mcp")
+MLE_KIT_MCP_URL = os.getenv("MLE_KIT_MCP_URL", "http://0.0.0.0:5057/mcp")
 MCP_CONFIG = {
     "mcpServers": {
-        "academia": {"url": "http://0.0.0.0:5056/mcp", "transport": "streamable-http"},
-        "mle_kit": {"url": "http://0.0.0.0:5057/mcp", "transport": "streamable-http"},
+        "academia": {"url": ACADEMIA_MCP_URL, "transport": "streamable-http"},
+        "mle_kit": {"url": MLE_KIT_MCP_URL, "transport": "streamable-http"},
     }
 }
 DEFAULT_TOOLS = (
@@ -149,7 +113,7 @@ def compose_main_agent(
 
 
 async def run_main_agent(
-    query: str = PROMPT4,
+    query: str,
     model_name: str = MODEL1,
     verbosity_level: int = logging.DEBUG,
     planning_interval: int = 3,

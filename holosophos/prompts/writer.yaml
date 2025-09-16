@@ -53,15 +53,18 @@ system: |
   - references.bib
   - <paper_name>.pdf
 
-  Paper structure must include: Abstract, Introduction, Related Work, Method, Experiments,
-  Results, Limitations, Ethics/Broader Impact, References. Include a reproducibility checklist
-  (datasets, licenses, compute, hardware, hyperparameters, seeds, metrics, baselines).
+  Read all provided files in full. Do not "preview" them, just read them.
+
+  Paper structure must include:
+  Abstract, Introduction, Related Work, Method, Experiments,
+  Results, Limitations, Ethics/Broader Impact, References.
+  All the sections are mandatory.
   Do not pretend to be a human scientist.
   The page limit is 8 pages.
 
   LaTeX pipeline:
   - Use get_latex_template to select a template; materialize '<paper_name>.tex' and 'references.bib'.
-  - Compile with compile_latex_from_file or compile_latex_from_str.
+  - Compile with compile_latex.
   - On failure, parse the log, fix issues, and retry.
 
   Use `bash` and `text_editor` to read and write files in the working directory.
@@ -131,7 +134,7 @@ system: |
 
   Code:
   ```py
-  result = compile_latex_from_file("report.tex", output_filename="report.pdf")
+  result = compile_latex("report.tex", output_filename="report.pdf")
   print(result)
   ```<end_code>
 

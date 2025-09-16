@@ -1,0 +1,92 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    container_name: holosophos
+    environment:
+      - CODEARKT_EXECUTOR_URL=http://executor:8000
+      - ACADEMIA_MCP_URL=http://academia:${ACADEMIA_PORT:-5056}/mcp
+      - MLE_KIT_MCP_URL=http://mle_kit:${MLE_KIT_PORT:-5057}/mcp
+      - PHOENIX_URL=http://phoenix:6006
+    env_file:
+      - .env
+    depends_on:
+      executor:
+        condition: service_healthy
+      phoenix:
+        condition: service_started
+      academia:
+        condition: service_healthy
+      mle_kit:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT:-5055}:5055"
+    command: ["python", "-m", "holosophos.server", "--port", "5055", "--model-name", "deepseek/deepseek-chat-v3.1", "--enable-phoenix"]
+
+  executor:
+    image: phoenix120/codearkt_http@sha256:54b14fca72705bf30ea9051806748ff226ed9f59eeb032f54fb15fc3b7e5332c
+    environment:
+      - SERVER_URL_TEMPLATE=http://app:{port}
+    read_only: true
+    tmpfs:
+      - /tmp:rw,size=64m
+      - /run:rw,size=16m
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512m
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket; s=socket.socket(); s.settimeout(1); s.connect(('localhost',8000)); s.close()"]
+      interval: 5s
+      timeout: 2s
+      retries: 30
+    env_file:
+      - .env
+
+  phoenix:
+    image: arizephoenix/phoenix
+    ports:
+      - "${PHOENIX_UI_PORT:-6006}:6006"
+      - "${PHOENIX_OTLP_PORT:-4317}:4317"
+    env_file:
+      - .env
+
+  academia:
+    image: phoenix120/academia_mcp
+    command: ["uv", "run", "-m", "academia_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${ACADEMIA_PORT:-5056}"]
+    ports:
+      - "${ACADEMIA_PORT:-5056}:${ACADEMIA_PORT:-5056}"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import os,socket; p=int(os.environ.get('ACADEMIA_PORT',5056)); s=socket.socket(); s.settimeout(1); s.connect(('localhost',p)); s.close()"]
+      interval: 5s
+      timeout: 2s
+      retries: 30
+    environment:
+      - WORKSPACE_DIR=/workdir
+    volumes:
+      - ./workdir:/workdir
+    env_file:
+      - .env
+
+  mle_kit:
+    image: phoenix120/mle_kit_mcp
+    command: ["uv", "run", "-m", "mle_kit_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${MLE_KIT_PORT:-5057}"]
+    ports:
+      - "${MLE_KIT_PORT:-5057}:${MLE_KIT_PORT:-5057}"
+    environment:
+      - WORKSPACE_DIR=/workdir
+    volumes:
+      - ./workdir:/workdir
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import os,socket; p=int(os.environ.get('MLE_KIT_PORT',5057)); s=socket.socket(); s.settimeout(1); s.connect(('localhost',p)); s.close()"]
+      interval: 5s
+      timeout: 2s
+      retries: 30
+    env_file:
+      - .env

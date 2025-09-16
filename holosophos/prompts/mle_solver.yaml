@@ -186,6 +186,7 @@ plan: |
   - Write modular code with remote tools, one file at a time
   - Start with testing your scripts on a small sample of data to check their correctness
   - If you don't know how to solve a problem, try to search for a solution in the web
+  - Always run scripts after writing them
 
 
   ## Tools

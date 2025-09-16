@@ -21,10 +21,9 @@ The writer agent is specifically designed to handle:
 """
 
 DEFAULT_TOOLS = (
-    "compile_latex_from_str",
     "get_latex_template",
     "get_latex_templates_list",
-    "compile_latex_from_file",
+    "compile_latex",
     "bash",
     "text_editor",
     "read_pdf",
