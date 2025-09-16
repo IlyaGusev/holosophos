@@ -28,7 +28,7 @@ def server(
     max_iterations: int = 100,
     enable_phoenix: bool = False,
     phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = PHOENIX_URL + "/v1/traces/",
+    phoenix_endpoint: str = PHOENIX_URL + "/v1/traces",
     max_completion_tokens: int = 8192,
     max_history_tokens: int = 131072,
     port: int = 5055,
