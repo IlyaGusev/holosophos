@@ -1,4 +1,4 @@
-.PHONY: black style validate test install serve
+.PHONY: install black validate test
 
 install:
 	uv pip install -e .[dev]
