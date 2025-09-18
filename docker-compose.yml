@@ -1,6 +1,7 @@
 services:
   app:
     build:
+      context: .
       dockerfile: Dockerfile
     container_name: holosophos
     environment:
@@ -8,6 +9,7 @@ services:
       - ACADEMIA_MCP_URL=http://academia:${ACADEMIA_PORT:-5056}/mcp
       - MLE_KIT_MCP_URL=http://mle_kit:${MLE_KIT_PORT:-5057}/mcp
       - PHOENIX_URL=http://phoenix:6006
+      - MODEL_NAME=deepseek/deepseek-chat-v3.1
     env_file:
       - .env
     depends_on:
@@ -21,7 +23,7 @@ services:
         condition: service_healthy
     ports:
       - "${APP_PORT:-5055}:5055"
-    command: ["python", "-m", "holosophos.server", "--port", "5055", "--model-name", "deepseek/deepseek-chat-v3.1", "--enable-phoenix"]
+    command: ["python", "-m", "holosophos.server", "--port", "5055", "--enable-phoenix"]
 
   executor:
     image: phoenix120/codearkt_http@sha256:54b14fca72705bf30ea9051806748ff226ed9f59eeb032f54fb15fc3b7e5332c

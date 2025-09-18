@@ -1,5 +1,4 @@
 import re
-import logging
 from typing import Optional
 
 from codearkt.server import run_query
@@ -14,10 +13,14 @@ def extract_first_number(text: str) -> Optional[int]:
     return int(match.group()) if match else None
 
 
-async def test_librarian_case1() -> None:
+async def test_librarian_case1(deepseek: LLM) -> None:
     query = "Which work introduces Point-E, a language-guided DM?"
-    model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
-    agent = get_librarian_agent(model=model, tools=["arxiv_search", "arxiv_download"])
+    agent = get_librarian_agent(
+        model=deepseek,
+        tools=["arxiv_search", "arxiv_download"],
+        max_iterations=40,
+        planning_interval=5,
+    )
     answer = await run_query(
         query,
         agent,
@@ -30,13 +33,13 @@ async def test_librarian_case1() -> None:
     assert "2212.08751" in str(answer)
 
 
-async def test_librarian_case2() -> None:
+async def test_librarian_case2(deepseek: LLM) -> None:
     query = "What paper was first to propose generating sign pose sequences from gloss sequences by employing VQVAE?"
-    model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
     agent = get_librarian_agent(
-        model=model,
+        model=deepseek,
         tools=["arxiv_search", "arxiv_download"],
-        verbosity_level=logging.DEBUG,
+        max_iterations=40,
+        planning_interval=5,
     )
     answer = await run_query(
         query,
@@ -50,13 +53,17 @@ async def test_librarian_case2() -> None:
     assert "2208.09141" in str(answer)
 
 
-async def test_librarian_case3() -> None:
+async def test_librarian_case3(deepseek: LLM) -> None:
     query = (
         "How many citations does the transformers paper have according to Semantic Scholar? "
         "Return only one number as a string and nothing else."
     )
-    model = LLM(model_name="deepseek/deepseek-chat-v3-0324", temperature=0.0)
-    agent = get_librarian_agent(model=model, tools=["arxiv_search", "s2_get_citations"])
+    agent = get_librarian_agent(
+        model=deepseek,
+        tools=["arxiv_search", "s2_get_citations"],
+        max_iterations=40,
+        planning_interval=5,
+    )
     answer = await run_query(
         query,
         agent,

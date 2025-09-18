@@ -20,28 +20,19 @@ The writer agent is specifically designed to handle:
 - Creating reports with plots and tables
 """
 
-DEFAULT_TOOLS = (
-    "get_latex_template",
-    "get_latex_templates_list",
-    "compile_latex",
-    "bash",
-    "text_editor",
-    "read_pdf",
-)
-
 
 def get_writer_agent(
     model: LLM,
-    max_iterations: int = 42,
-    planning_interval: Optional[int] = None,
+    max_iterations: int,
+    planning_interval: Optional[int],
+    tools: Sequence[str],
     verbosity_level: int = logging.INFO,
-    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "writer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=tools or DEFAULT_TOOLS,
+        tool_names=tools,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

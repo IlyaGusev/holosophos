@@ -1,16 +1,15 @@
-import os
 import logging
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 import fire  # type: ignore
 from phoenix.otel import register
-from dotenv import load_dotenv
 from codearkt.codeact import CodeActAgent, Prompts
 from codearkt.llm import LLM
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_query
 
 from holosophos.files import PROMPTS_DIR_PATH
+from holosophos.settings import settings
 
 from holosophos.agents import (
     get_librarian_agent,
@@ -21,40 +20,23 @@ from holosophos.agents import (
 )
 
 
-MODEL1 = "deepseek/deepseek-chat-v3-0324"
-ACADEMIA_MCP_URL = os.getenv("ACADEMIA_MCP_URL", "http://0.0.0.0:5056/mcp")
-MLE_KIT_MCP_URL = os.getenv("MLE_KIT_MCP_URL", "http://0.0.0.0:5057/mcp")
 MCP_CONFIG = {
     "mcpServers": {
-        "academia": {"url": ACADEMIA_MCP_URL, "transport": "streamable-http"},
-        "mle_kit": {"url": MLE_KIT_MCP_URL, "transport": "streamable-http"},
+        "academia": {"url": settings.ACADEMIA_MCP_URL, "transport": "streamable-http"},
+        "mle_kit": {"url": settings.MLE_KIT_MCP_URL, "transport": "streamable-http"},
     }
 }
-DEFAULT_TOOLS = (
-    "bash",
-    "text_editor",
-)
+AGENTS = ("librarian", "mle_solver", "writer", "proposer", "reviewer")
 
 
 def compose_main_agent(
-    model_name: str = MODEL1,
+    model_name: str = settings.MODEL_NAME,
+    max_completion_tokens: int = settings.MAX_COMPLETION_TOKENS,
+    max_history_tokens: int = settings.MAX_HISTORY_TOKENS,
     verbosity_level: int = logging.INFO,
-    planning_interval: Optional[int] = 9,
-    max_iterations: int = 100,
-    librarian_max_iterations: int = 100,
-    mle_solver_max_iterations: int = 200,
-    writer_max_iterations: int = 100,
-    proposer_max_iterations: int = 200,
-    librarian_planning_interval: Optional[int] = 9,
-    mle_solver_planning_interval: Optional[int] = 14,
-    writer_planning_interval: Optional[int] = 9,
-    proposer_planning_interval: Optional[int] = 9,
-    reviewer_max_iterations: int = 50,
-    reviewer_planning_interval: Optional[int] = 9,
-    max_completion_tokens: int = 8192,
-    max_history_tokens: int = 131072,
+    tools: Optional[Sequence[str]] = None,
+    included_agents: Sequence[str] = AGENTS,
 ) -> CodeActAgent:
-    load_dotenv()
     model = LLM(
         model_name=model_name,
         max_completion_tokens=max_completion_tokens,
@@ -64,48 +46,51 @@ def compose_main_agent(
     librarian_agent = get_librarian_agent(
         model=model,
         verbosity_level=verbosity_level,
-        max_iterations=librarian_max_iterations,
-        planning_interval=librarian_planning_interval,
+        max_iterations=settings.LIBRARIAN_MAX_ITERATIONS,
+        planning_interval=settings.LIBRARIAN_PLANNING_INTERVAL,
+        tools=settings.LIBRARIAN_TOOLS,
     )
     mle_solver_agent = get_mle_solver_agent(
         model=model,
-        max_iterations=mle_solver_max_iterations,
+        max_iterations=settings.MLE_SOLVER_MAX_ITERATIONS,
         verbosity_level=verbosity_level,
-        planning_interval=mle_solver_planning_interval,
+        planning_interval=settings.MLE_SOLVER_PLANNING_INTERVAL,
+        tools=settings.MLE_SOLVER_TOOLS,
     )
     writer_agent = get_writer_agent(
         model=model,
-        max_iterations=writer_max_iterations,
+        max_iterations=settings.WRITER_MAX_ITERATIONS,
         verbosity_level=verbosity_level,
-        planning_interval=writer_planning_interval,
+        planning_interval=settings.WRITER_PLANNING_INTERVAL,
+        tools=settings.WRITER_TOOLS,
     )
     proposer_agent = get_proposer_agent(
         model=model,
-        max_iterations=proposer_max_iterations,
+        max_iterations=settings.PROPOSER_MAX_ITERATIONS,
         verbosity_level=verbosity_level,
-        planning_interval=proposer_planning_interval,
+        planning_interval=settings.PROPOSER_PLANNING_INTERVAL,
+        tools=settings.PROPOSER_TOOLS,
     )
     reviewer_agent = get_reviewer_agent(
         model=model,
-        max_iterations=reviewer_max_iterations,
+        max_iterations=settings.REVIEWER_MAX_ITERATIONS,
         verbosity_level=verbosity_level,
-        planning_interval=reviewer_planning_interval,
+        planning_interval=settings.REVIEWER_PLANNING_INTERVAL,
+        tools=settings.REVIEWER_TOOLS,
     )
     prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
+    agents = (librarian_agent, mle_solver_agent, writer_agent, proposer_agent, reviewer_agent)
+    managed_agents = [agent for agent in agents if agent.name in included_agents]
+    if tools is None:
+        tools = settings.MANAGER_TOOLS
     agent = CodeActAgent(
         name="manager",
         description="Manager agent",
-        tool_names=DEFAULT_TOOLS,
-        managed_agents=[
-            librarian_agent,
-            mle_solver_agent,
-            writer_agent,
-            proposer_agent,
-            reviewer_agent,
-        ],
+        tool_names=tools,
+        managed_agents=managed_agents,
         llm=model,
-        max_iterations=max_iterations,
-        planning_interval=planning_interval,
+        max_iterations=settings.MANAGER_MAX_ITERATIONS,
+        planning_interval=settings.MANAGER_PLANNING_INTERVAL,
         verbosity_level=verbosity_level,
         prompts=prompts,
     )
@@ -114,15 +99,12 @@ def compose_main_agent(
 
 async def run_main_agent(
     query: str,
-    model_name: str = MODEL1,
+    model_name: str = settings.MODEL_NAME,
     verbosity_level: int = logging.DEBUG,
-    planning_interval: int = 3,
-    max_iterations: int = 30,
     enable_phoenix: bool = False,
-    phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = "http://localhost:6006/v1/traces",
+    phoenix_project_name: str = settings.PHOENIX_PROJECT_NAME,
+    phoenix_endpoint: str = settings.RESOLVED_PHOENIX_ENDPOINT,
 ) -> Any:
-    load_dotenv()
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
         register(
             project_name=phoenix_project_name,
@@ -133,8 +115,6 @@ async def run_main_agent(
     agent = compose_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
-        planning_interval=planning_interval,
-        max_iterations=max_iterations,
     )
     return await run_query(query, agent, mcp_config=MCP_CONFIG)
 

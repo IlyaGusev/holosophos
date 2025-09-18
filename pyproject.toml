@@ -8,23 +8,17 @@ version = "1.0.0"
 description = "Holosophos Project"
 requires-python = ">=3.12"
 dependencies = [
-    "requests>=2.32.0",
-    "types-requests>=2.32.0",
-    "xmltodict>=0.14.0",
     "pyyaml>=5.3.1",
     "types-pyyaml>=5.3.1",
     "docker>=7.1.0",
     "fire>=0.7.0",
     "tqdm>=4.66.0",
     "types-tqdm>=4.66.0",
-    "arize-phoenix-otel>=0.8.0",
     "gradio==5.29.0",
-    "types-xmltodict>=0.14.0.20241009",
-    "pytest>=8.4.1",
-    "pytest-asyncio>=1.0.0",
     "academia-mcp==1.9.0",
     "mle-kit-mcp==1.2.0",
     "codearkt==1.7.2",
+    "pydantic-settings>=2.6.1",
 ]
 
 [dependency-groups]
@@ -66,3 +60,6 @@ follow_imports = "skip"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_test_loop_scope = "function"
+testpaths = [
+    "tests"
+]

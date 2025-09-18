@@ -16,32 +16,19 @@ Give him your full task as an argument.
 Librarian doesn't have access to the file system!
 Follow the task format, and include all the details."""
 
-DEFAULT_TOOLS = (
-    "arxiv_download",
-    "arxiv_search",
-    "anthology_search",
-    "s2_get_citations",
-    "s2_get_references",
-    "hf_datasets_search",
-    "document_qa",
-    "web_search",
-    "visit_webpage",
-    "text_editor",
-)
-
 
 def get_librarian_agent(
     model: LLM,
-    max_iterations: int = 42,
-    planning_interval: Optional[int] = 5,
+    max_iterations: int,
+    planning_interval: Optional[int],
+    tools: Sequence[str],
     verbosity_level: int = logging.INFO,
-    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "librarian.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=tools or DEFAULT_TOOLS,
+        tool_names=tools,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

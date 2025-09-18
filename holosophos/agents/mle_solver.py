@@ -13,29 +13,19 @@ Ask him when you need to solve any programming tasks that require a GPU.
 Give him your detailed task as an argument.
 Follow the task format described above, and include all the details."""
 
-DEFAULT_TOOLS = (
-    "remote_bash",
-    "remote_text_editor",
-    "remote_download",
-    "llm_proxy_remote",
-    "hf_datasets_search",
-    "web_search",
-    "visit_webpage",
-)
-
 
 def get_mle_solver_agent(
     model: LLM,
-    max_iterations: int = 42,
-    planning_interval: Optional[int] = 7,
+    max_iterations: int,
+    planning_interval: Optional[int],
+    tools: Sequence[str],
     verbosity_level: int = logging.INFO,
-    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "mle_solver.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=tools or DEFAULT_TOOLS,
+        tool_names=tools,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

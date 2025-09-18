@@ -1,18 +1,15 @@
-import os
 import logging
 from logging.config import dictConfig
 from typing import Any
 
 import fire  # type: ignore
 from uvicorn.config import LOGGING_CONFIG as UVICORN_LOGGING_CONFIG
-from dotenv import load_dotenv
 from phoenix.otel import register
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_server
 
 from holosophos.main_agent import MCP_CONFIG, compose_main_agent
-
-PHOENIX_URL = os.getenv("PHOENIX_URL", "http://localhost:6006")
+from holosophos.settings import settings
 
 
 def configure_uvicorn_style_logging(level: int = logging.INFO) -> None:
@@ -23,20 +20,18 @@ def configure_uvicorn_style_logging(level: int = logging.INFO) -> None:
 
 
 def server(
-    model_name: str = "deepseek/deepseek-chat-v3-0324",
-    verbosity_level: int = logging.INFO,
-    max_iterations: int = 100,
-    enable_phoenix: bool = False,
-    phoenix_project_name: str = "holosophos",
-    phoenix_endpoint: str = PHOENIX_URL + "/v1/traces",
-    max_completion_tokens: int = 8192,
-    max_history_tokens: int = 131072,
-    port: int = 5055,
+    model_name: str = settings.MODEL_NAME,
+    verbosity_level: int = settings.VERBOSITY_LEVEL,
+    enable_phoenix: bool = settings.ENABLE_PHOENIX,
+    phoenix_project_name: str = settings.PHOENIX_PROJECT_NAME,
+    phoenix_endpoint: str = settings.RESOLVED_PHOENIX_ENDPOINT,
+    max_completion_tokens: int = settings.MAX_COMPLETION_TOKENS,
+    max_history_tokens: int = settings.MAX_HISTORY_TOKENS,
+    port: int = settings.PORT,
 ) -> Any:
-    load_dotenv()
-    configure_uvicorn_style_logging()
+    configure_uvicorn_style_logging(verbosity_level)
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(verbosity_level)
     logger.info(f"Running with {model_name} model")
     logger.info(f"Context: {max_history_tokens} tokens")
     logger.info(f"Output: {max_completion_tokens} tokens")
@@ -50,7 +45,6 @@ def server(
     agent = compose_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
-        max_iterations=max_iterations,
         max_completion_tokens=max_completion_tokens,
         max_history_tokens=max_history_tokens,
     )

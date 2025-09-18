@@ -14,29 +14,19 @@ Ask him when you need to come up with new research proposals.
 He can read files from the working directory.
 Provide a detailed task description and context as an argument, as well as the arxiv_id of the baseline paper."""
 
-DEFAULT_TOOLS = (
-    "web_search",
-    "visit_webpage",
-    "document_qa",
-    "extract_bitflip_info",
-    "generate_research_proposals",
-    "score_research_proposals",
-    "text_editor",
-)
-
 
 def get_proposer_agent(
     model: LLM,
-    max_iterations: int = 10,
-    planning_interval: Optional[int] = 3,
+    max_iterations: int,
+    planning_interval: Optional[int],
+    tools: Sequence[str],
     verbosity_level: int = logging.INFO,
-    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "proposer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=tools or DEFAULT_TOOLS,
+        tool_names=tools,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,

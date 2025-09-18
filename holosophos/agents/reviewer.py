@@ -15,28 +15,19 @@ He has it's own tools to access the paper.
 Important note: Any tasks related to paper review should be delegated to the reviewer agent.
 """
 
-DEFAULT_TOOLS = (
-    "review_pdf_paper",
-    "download_pdf_paper",
-    "visit_webpage",
-    "web_search",
-    "bash",
-    "text_editor",
-)
-
 
 def get_reviewer_agent(
     model: LLM,
-    max_iterations: int = 42,
-    planning_interval: Optional[int] = None,
+    max_iterations: int,
+    planning_interval: Optional[int],
+    tools: Sequence[str],
     verbosity_level: int = logging.INFO,
-    tools: Optional[Sequence[str]] = None,
 ) -> CodeActAgent:
     prompts = Prompts.load(PROMPTS_DIR_PATH / "reviewer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,
-        tool_names=tools or DEFAULT_TOOLS,
+        tool_names=tools,
         llm=model,
         max_iterations=max_iterations,
         planning_interval=planning_interval,
