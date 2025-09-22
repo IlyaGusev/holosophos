@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     PHOENIX_ENDPOINT: Optional[str] = None
 
     PORT: int = 5055
+    WORKSPACE_DIR: str = "./workdir"
 
     VERBOSITY_LEVEL: int = logging.INFO
 
@@ -26,6 +27,8 @@ class Settings(BaseSettings):
     MANAGER_TOOLS: Sequence[str] = (
         "bash",
         "text_editor",
+        "describe_image",
+        "speech_to_text",
     )
 
     LIBRARIAN_MAX_ITERATIONS: int = 100
@@ -36,11 +39,14 @@ class Settings(BaseSettings):
         "anthology_search",
         "s2_get_citations",
         "s2_get_references",
+        "s2_corpus_id_from_arxiv_id",
+        "s2_get_info",
         "hf_datasets_search",
         "document_qa",
         "web_search",
         "visit_webpage",
         "text_editor",
+        "describe_image",
     )
 
     MLE_SOLVER_MAX_ITERATIONS: int = 200
@@ -53,6 +59,7 @@ class Settings(BaseSettings):
         "hf_datasets_search",
         "web_search",
         "visit_webpage",
+        "describe_image",
     )
 
     WRITER_MAX_ITERATIONS: int = 100
@@ -64,6 +71,7 @@ class Settings(BaseSettings):
         "bash",
         "text_editor",
         "read_pdf",
+        "describe_image",
     )
 
     PROPOSER_MAX_ITERATIONS: int = 200
@@ -87,6 +95,7 @@ class Settings(BaseSettings):
         "web_search",
         "bash",
         "text_editor",
+        "describe_image",
     )
 
     model_config = SettingsConfigDict(

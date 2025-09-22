@@ -10,6 +10,9 @@ services:
       - MLE_KIT_MCP_URL=http://mle_kit:${MLE_KIT_PORT:-5057}/mcp
       - PHOENIX_URL=http://phoenix:6006
       - MODEL_NAME=deepseek/deepseek-chat-v3.1
+      - WORKSPACE_DIR=/workdir
+    volumes:
+      - ./workdir:/workdir
     env_file:
       - .env
     depends_on:

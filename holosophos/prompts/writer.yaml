@@ -42,6 +42,7 @@ system: |
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
+  - Do not try to directly access files. Use tools to access them instead.
   - Remember that state persists between executions.
 
 

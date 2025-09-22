@@ -100,10 +100,11 @@ def compose_main_agent(
 async def run_main_agent(
     query: str,
     model_name: str = settings.MODEL_NAME,
-    verbosity_level: int = logging.DEBUG,
+    verbosity_level: int = logging.INFO,
     enable_phoenix: bool = False,
     phoenix_project_name: str = settings.PHOENIX_PROJECT_NAME,
     phoenix_endpoint: str = settings.RESOLVED_PHOENIX_ENDPOINT,
+    included_agents: Sequence[str] = AGENTS,
 ) -> Any:
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
         register(
@@ -115,8 +116,9 @@ async def run_main_agent(
     agent = compose_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
+        included_agents=included_agents,
     )
-    return await run_query(query, agent, mcp_config=MCP_CONFIG)
+    return await run_query(query, agent, mcp_config=MCP_CONFIG, add_mcp_server_prefixes=False)
 
 
 if __name__ == "__main__":
