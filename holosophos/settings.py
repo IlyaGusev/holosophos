@@ -29,6 +29,8 @@ class Settings(BaseSettings):
         "text_editor",
         "describe_image",
         "speech_to_text",
+        "use_glob",
+        "use_grep",
     )
 
     LIBRARIAN_MAX_ITERATIONS: int = 100

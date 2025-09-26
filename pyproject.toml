@@ -15,9 +15,9 @@ dependencies = [
     "tqdm>=4.66.0",
     "types-tqdm>=4.66.0",
     "gradio==5.29.0",
-    "academia-mcp==1.10.2",
-    "mle-kit-mcp==1.2.0",
-    "codearkt==1.7.9",
+    "academia-mcp==1.10.5",
+    "mle-kit-mcp==1.2.2",
+    "codearkt==1.8.7",
     "pydantic-settings>=2.6.1",
 ]
 

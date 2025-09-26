@@ -8,9 +8,9 @@ from typing import Optional
 import fire  # type: ignore
 import pandas as pd
 from datasets import load_dataset
-from codearkt.server import run_batch
 from phoenix.otel import register
 from codearkt.otel import CodeActInstrumentor
+from codearkt.server import run_batch
 
 from holosophos.utils import render_prompt
 from holosophos.main_agent import compose_main_agent, MCP_CONFIG
@@ -131,12 +131,6 @@ async def run_gaia(
     )
     eval_df = pd.DataFrame(eval_ds)
     tasks_to_run = eval_df.to_dict(orient="records")
-
-    agent = compose_main_agent(
-        model_name=model_name,
-        verbosity_level=verbosity_level,
-        included_agents=("librarian",),
-    )
     tasks = []
     true_answers = []
     for example in tasks_to_run[:nrows]:
@@ -151,6 +145,11 @@ async def run_gaia(
         tasks.append(task)
         true_answers.append(example["true_answer"])
 
+    agent = compose_main_agent(
+        model_name=model_name,
+        verbosity_level=verbosity_level,
+        included_agents=("librarian",),
+    )
     predicted_answers = await run_batch(
         tasks,
         agent,
