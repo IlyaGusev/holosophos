@@ -29,7 +29,7 @@ services:
     command: ["python", "-m", "holosophos.server", "--port", "5055", "--enable-phoenix"]
 
   executor:
-    image: phoenix120/codearkt_http@sha256:54b14fca72705bf30ea9051806748ff226ed9f59eeb032f54fb15fc3b7e5332c
+    image: phoenix120/codearkt_http@sha256:80d6a882a7e0f195aa9f112065c0f13c829778243ac013c69437a7d7d66053e4
     environment:
       - SERVER_URL_TEMPLATE=http://app:{port}
     read_only: true
@@ -62,7 +62,7 @@ services:
       - .env
 
   academia:
-    image: phoenix120/academia_mcp
+    image: phoenix120/academia_mcp:1.10.9
     command: ["uv", "run", "-m", "academia_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${ACADEMIA_PORT:-5056}"]
     ports:
       - "${ACADEMIA_PORT:-5056}:${ACADEMIA_PORT:-5056}"
@@ -79,7 +79,7 @@ services:
       - .env
 
   mle_kit:
-    image: phoenix120/mle_kit_mcp
+    image: phoenix120/mle_kit_mcp:1.2.2
     command: ["uv", "run", "-m", "mle_kit_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${MLE_KIT_PORT:-5057}"]
     ports:
       - "${MLE_KIT_PORT:-5057}:${MLE_KIT_PORT:-5057}"
