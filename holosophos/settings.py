@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     MODEL_NAME: str = "deepseek/deepseek-chat-v3-0324"
-    MAX_COMPLETION_TOKENS: int = 8192
+    MAX_COMPLETION_TOKENS: int = 16384
     MAX_HISTORY_TOKENS: int = 131072
 
     ACADEMIA_MCP_URL: str = "http://0.0.0.0:5056/mcp"
@@ -29,11 +29,9 @@ class Settings(BaseSettings):
         "text_editor",
         "describe_image",
         "speech_to_text",
-        "use_glob",
-        "use_grep",
     )
 
-    LIBRARIAN_MAX_ITERATIONS: int = 100
+    LIBRARIAN_MAX_ITERATIONS: int = 150
     LIBRARIAN_PLANNING_INTERVAL: int = 9
     LIBRARIAN_TOOLS: Sequence[str] = (
         "arxiv_download",
@@ -49,11 +47,12 @@ class Settings(BaseSettings):
         "visit_webpage",
         "text_editor",
         "describe_image",
+        "yt_transcript",
     )
 
     MLE_SOLVER_MAX_ITERATIONS: int = 200
     MLE_SOLVER_PLANNING_INTERVAL: int = 14
-    MLE_SOLVER_TOOLS: Sequence[str] = (
+    MLE_SOLVER_TOOLS_REMOTE: Sequence[str] = (
         "remote_bash",
         "remote_text_editor",
         "remote_download",
@@ -63,6 +62,16 @@ class Settings(BaseSettings):
         "visit_webpage",
         "describe_image",
     )
+    MLE_SOLVER_TOOLS: Sequence[str] = (
+        "bash",
+        "text_editor",
+        "llm_proxy_local",
+        "hf_datasets_search",
+        "web_search",
+        "visit_webpage",
+        "describe_image",
+    )
+    MLE_SOLVER_IS_REMOTE: bool = False
 
     WRITER_MAX_ITERATIONS: int = 100
     WRITER_PLANNING_INTERVAL: int = 9

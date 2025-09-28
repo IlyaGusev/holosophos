@@ -3,11 +3,11 @@ import logging
 import re
 import string
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
 
 import fire  # type: ignore
-import pandas as pd
-from datasets import load_dataset
+import pandas as pd  # type: ignore
+from datasets import load_dataset  # type: ignore
 from phoenix.otel import register
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_batch
@@ -31,7 +31,7 @@ Here is the question:
 {% if attached_files %}Attached files (copied to the workspace):
 {{attached_files}}{% endif %}
 
-Return only the answer after the 'Final answer:' line.
+Return only the answer after the 'Final answer:'.
 Don't provide any explanations after the 'Final answer:' line.
 Answer the given question exactly as requested, read the question carefully.
 For instance if are asked "how many thousand hours..." and the answer is 2000 hours, return "2" not "2000".
@@ -56,7 +56,7 @@ def _split_string(
     return re.split(pattern, s)
 
 
-def _normalize_str(input_str, remove_punct=True) -> str:
+def _normalize_str(input_str: str, remove_punct: bool = True) -> str:
     no_spaces = re.sub(r"\s", "", input_str)
     if remove_punct:
         translator = str.maketrans("", "", string.punctuation)
@@ -69,12 +69,13 @@ def _answer_scorer(
     model_answer: Optional[str],
     ground_truth: str,
 ) -> bool:
-    def is_float(element: any) -> bool:
+    def is_float(element: Any) -> bool:
         try:
             float(element)
             return True
         except ValueError:
             return False
+
     if model_answer is None:
         model_answer = "None"
 
@@ -105,6 +106,14 @@ def _answer_scorer(
         return _normalize_str(model_answer) == _normalize_str(ground_truth)
 
 
+def _get_final_answer(text: str) -> str:
+    if "Final answer:**" in text:
+        return text.split("Final answer:**")[-1].strip()
+    if "Final answer:" in text:
+        return text.split("Final answer:")[-1].strip()
+    return text.strip()
+
+
 async def run_gaia(
     split: str = "validation",
     model_name: str = "deepseek/deepseek-chat-v3.1",
@@ -116,7 +125,9 @@ async def run_gaia(
     phoenix_endpoint: str = settings.RESOLVED_PHOENIX_ENDPOINT,
     predictions_path: str = "predictions.jsonl",
     files_only: bool = False,
-):
+    max_completion_tokens: int = settings.MAX_COMPLETION_TOKENS,
+    max_history_tokens: int = settings.MAX_HISTORY_TOKENS,
+) -> None:
     if enable_phoenix and phoenix_project_name and phoenix_endpoint:
         register(
             project_name=phoenix_project_name,
@@ -141,14 +152,18 @@ async def run_gaia(
         if file_path:
             file_name = file_path.split("/")[-1]
             shutil.copy(file_path, Path(settings.WORKSPACE_DIR) / file_name)
-        task = render_prompt(QUESTION_PROMPT, question=example["question"], attached_files=file_name)
+        task = render_prompt(
+            QUESTION_PROMPT, question=example["question"], attached_files=file_name
+        )
         tasks.append(task)
         true_answers.append(example["true_answer"])
 
     agent = compose_main_agent(
         model_name=model_name,
         verbosity_level=verbosity_level,
-        included_agents=("librarian",),
+        included_agents=("librarian", "mle_solver"),
+        max_completion_tokens=max_completion_tokens,
+        max_history_tokens=max_history_tokens,
     )
     predicted_answers = await run_batch(
         tasks,
@@ -163,7 +178,7 @@ async def run_gaia(
     correct_count = 0
     all_count = 0
     for predicted_answer, true_answer in zip(predicted_answers, true_answers):
-        predicted_answer = predicted_answer.split("Final answer:")[-1].strip()
+        predicted_answer = _get_final_answer(predicted_answer)
         is_correct = _answer_scorer(predicted_answer, true_answer)
         print(f"True answer: {true_answer}\nPredicted answer: {predicted_answer}")
         print(f"Is correct: {is_correct}")

@@ -79,9 +79,7 @@ async def run_eval(
                 if predicted_value >= target:
                     is_correct = True
         correct_count += int(is_correct)
-        print(
-            f"Query: {query}\nTarget: {target}\nResult: {result}\nLabel: {is_correct}\n\n"
-        )
+        print(f"Query: {query}\nTarget: {target}\nResult: {result}\nLabel: {is_correct}\n\n")
     print(f"Overall accuracy: {correct_count / len(records) * 100.0:.1f}")
 
 

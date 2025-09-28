@@ -55,7 +55,12 @@ def compose_main_agent(
         max_iterations=settings.MLE_SOLVER_MAX_ITERATIONS,
         verbosity_level=verbosity_level,
         planning_interval=settings.MLE_SOLVER_PLANNING_INTERVAL,
-        tools=settings.MLE_SOLVER_TOOLS,
+        is_remote=settings.MLE_SOLVER_IS_REMOTE,
+        tools=(
+            settings.MLE_SOLVER_TOOLS_REMOTE
+            if settings.MLE_SOLVER_IS_REMOTE
+            else settings.MLE_SOLVER_TOOLS
+        ),
     )
     writer_agent = get_writer_agent(
         model=model,
