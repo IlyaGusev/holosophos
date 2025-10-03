@@ -63,6 +63,3 @@ asyncio_default_test_loop_scope = "function"
 testpaths = [
     "tests"
 ]
-
-[tool.uv.sources]
-codearkt = { path = "../codearkt" }
