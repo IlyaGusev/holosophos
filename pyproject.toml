@@ -17,7 +17,7 @@ dependencies = [
     "gradio==5.29.0",
     "academia-mcp==1.11.1",
     "mle-kit-mcp==1.2.3",
-    "codearkt==1.8.14",
+    "codearkt==1.8.15",
     "pydantic-settings>=2.6.1",
 ]
 

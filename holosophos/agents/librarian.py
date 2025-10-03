@@ -1,7 +1,8 @@
 import logging
 from typing import Optional, Sequence
 
-from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.codeact import CodeActAgent
+from codearkt.prompt_storage import PromptStorage
 from codearkt.llm import LLM
 
 from holosophos.files import PROMPTS_DIR_PATH
@@ -24,7 +25,7 @@ def get_librarian_agent(
     tools: Sequence[str],
     verbosity_level: int = logging.INFO,
 ) -> CodeActAgent:
-    prompts = Prompts.load(PROMPTS_DIR_PATH / "librarian.yaml")
+    prompts = PromptStorage.load(PROMPTS_DIR_PATH / "librarian.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,

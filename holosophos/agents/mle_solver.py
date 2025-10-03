@@ -1,7 +1,8 @@
 import logging
 from typing import Optional, Sequence
 
-from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.codeact import CodeActAgent
+from codearkt.prompt_storage import PromptStorage
 from codearkt.llm import LLM
 
 from holosophos.files import PROMPTS_DIR_PATH
@@ -23,9 +24,9 @@ def get_mle_solver_agent(
     is_remote: bool = False,
 ) -> CodeActAgent:
     if is_remote:
-        prompts = Prompts.load(PROMPTS_DIR_PATH / "mle_solver_remote.yaml")
+        prompts = PromptStorage.load(PROMPTS_DIR_PATH / "mle_solver_remote.yaml")
     else:
-        prompts = Prompts.load(PROMPTS_DIR_PATH / "mle_solver.yaml")
+        prompts = PromptStorage.load(PROMPTS_DIR_PATH / "mle_solver.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,

@@ -1,7 +1,8 @@
 import logging
 from typing import Optional, Sequence
 
-from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.codeact import CodeActAgent
+from codearkt.prompt_storage import PromptStorage
 from codearkt.llm import LLM
 
 from holosophos.files import PROMPTS_DIR_PATH
@@ -28,7 +29,7 @@ def get_writer_agent(
     tools: Sequence[str],
     verbosity_level: int = logging.INFO,
 ) -> CodeActAgent:
-    prompts = Prompts.load(PROMPTS_DIR_PATH / "writer.yaml")
+    prompts = PromptStorage.load(PROMPTS_DIR_PATH / "writer.yaml")
     return CodeActAgent(
         name=NAME,
         description=DESCRIPTION,

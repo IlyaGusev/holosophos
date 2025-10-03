@@ -3,7 +3,8 @@ from typing import Any, Optional, Sequence
 
 import fire  # type: ignore
 from phoenix.otel import register
-from codearkt.codeact import CodeActAgent, Prompts
+from codearkt.codeact import CodeActAgent
+from codearkt.prompt_storage import PromptStorage
 from codearkt.llm import LLM
 from codearkt.otel import CodeActInstrumentor
 from codearkt.server import run_query
@@ -83,7 +84,7 @@ def compose_main_agent(
         planning_interval=settings.REVIEWER_PLANNING_INTERVAL,
         tools=settings.REVIEWER_TOOLS,
     )
-    prompts = Prompts.load(PROMPTS_DIR_PATH / "system.yaml")
+    prompts = PromptStorage.load(PROMPTS_DIR_PATH / "system.yaml")
     agents = (librarian_agent, mle_solver_agent, writer_agent, proposer_agent, reviewer_agent)
     managed_agents = [agent for agent in agents if agent.name in included_agents]
     if tools is None:
