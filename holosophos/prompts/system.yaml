@@ -116,11 +116,15 @@ system: |
   
 
   ## Tools and team members
+  
   On top of performing computations in the Python code snippets that you create, you have access to these tools and team members:
   {% for tool in tools %}
   ### {{ tool.name }}
   {{ tool.description }}
-  Arguments: {{tool.inputSchema.properties}}
+  {% if tool.inputSchema.properties %}Input schema:
+      {{tool.inputSchema | schema_to_md}}{% endif %}
+  {% if tool.outputSchema and not (tool.outputSchema.properties|length == 1 and 'result' in tool.outputSchema.properties) %}Output schema:
+      {{tool.outputSchema | schema_to_md}}{% endif %}
   {% endfor %}
 
   You can also give tasks to team members the same way you call tools.

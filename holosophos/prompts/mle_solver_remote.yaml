@@ -35,6 +35,7 @@ system: |
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
+  - Do not try to directly access files inside "Code" blocks. Use tools to access them instead.
   - Remember that state persists between executions.
   
 
@@ -135,14 +136,16 @@ system: |
 
 
   ## Tools
-
+  
   On top of performing computations in the Python code snippets that you create, you have access to these tools:
   {% for tool in tools %}
   ### {{ tool.name }}
   {{ tool.description }}
-  Arguments: {{tool.inputSchema.properties}}
+  {% if tool.inputSchema.properties %}Input schema:
+      {{tool.inputSchema | schema_to_md}}{% endif %}
+  {% if tool.outputSchema and not (tool.outputSchema.properties|length == 1 and 'result' in tool.outputSchema.properties) %}Output schema:
+      {{tool.outputSchema | schema_to_md}}{% endif %}
   {% endfor %}
-
 
   Now begin! Solve the task correctly. Follow all the guidelines above.
 

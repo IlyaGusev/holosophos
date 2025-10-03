@@ -15,9 +15,9 @@ dependencies = [
     "tqdm>=4.66.0",
     "types-tqdm>=4.66.0",
     "gradio==5.29.0",
-    "academia-mcp==1.10.8",
-    "mle-kit-mcp==1.2.2",
-    "codearkt==1.8.10",
+    "academia-mcp==1.11.1",
+    "mle-kit-mcp==1.2.3",
+    "codearkt==1.8.14",
     "pydantic-settings>=2.6.1",
 ]
 
@@ -63,3 +63,6 @@ asyncio_default_test_loop_scope = "function"
 testpaths = [
     "tests"
 ]
+
+[tool.uv.sources]
+codearkt = { path = "../codearkt" }
