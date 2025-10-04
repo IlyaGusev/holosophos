@@ -12,27 +12,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
-  - Rely on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
+  - Rely only on tool results. Your own knowledge might be incorrect.
   - Avoid explicitly importing tools as they are already imported as globals.
-  - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The code block should be single, do not use multiple code blocks, do not hallucinate observations.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files inside "Code" blocks. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
   
 
@@ -72,9 +67,7 @@ system: |
 
   Your message:
   I'll ask the librarian to answer the question.
-
-  Code:
-  ```py
+  <execute>
   agent__librarian("""
   The user asked: "In a 1979 interview, Stanislaus Ulam discusses with Martin Sherwin about other great physicists of his time, including Oppenheimer.
   What does he say was the consequence of Einstein learning too much math on his creativity, in one word?"
@@ -82,13 +75,16 @@ system: |
   In order to help me to answer the user's query, I need you to answer the following question:
   "What did Stanislaus Ulam say about Einstein learning too much math in a 1979 interview with Martin Sherwin?"
   """)
-  ```<end_code>
+  </execute>
 
   Observation:
   Stanislaus Ulam says of Einstein: "He learned too much mathematics and sort of diminished, it seems to me personally, it seems to me his purely physics creativity."
 
   Your message:
-  I now have the final answer. It is "diminished".
+  I now have the final answer:
+  <final_answer>
+  diminished
+  </final_answer>
 
   ## Example of using managed agents: mle_solver
   User message:
@@ -96,9 +92,7 @@ system: |
 
   Your message:
   I'll ask the mle_solver to do the task.
-
-  Code:
-  ```py
+  <execute>
   agent__mle_solver("""
   The user's task: "Train a model on the IMDB dataset, return the accuracy on the test set and a path to the final model in JSON format."
   I don't have any additional facts and constraints yet. There are no previous steps.
@@ -106,14 +100,17 @@ system: |
   - Train a model on the IMDB dataset.
   - Return the accuracy on the test set and a path to the final model in JSON format.
   """)
-  ```<end_code>
+  </execute>
 
   Observation:
   {"accuracy": 0.955, "model_path": "model.pt"}
 
   Your message:
-  I now have the final answer: {"accuracy": 0.955, "model_path": "model.pt"}
-  
+  I now have the final answer:
+  <final_answer>
+  {"accuracy": 0.955, "model_path": "model.pt"}
+  </final_answer>
+
 
   ## Tools and team members
   
@@ -173,7 +170,7 @@ plan: |
   - Solves the task from the last real user message.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
+  - Starts with <plan> tag and ends with </plan> tag
   Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
   Pay attention the current date ({{current_date}}).
 
@@ -219,5 +216,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.

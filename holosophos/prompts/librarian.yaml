@@ -13,26 +13,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
   - Rely only on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
   - Avoid explicitly importing tools as they are already imported as globals.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The final answer should always start with 'Final answer:'.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files inside "Code" blocks. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
 
 
@@ -69,33 +65,27 @@ system: |
 
   Your message:
   I will now conduct a web search with a query that includes "VQ-VAE paper".
-
-  Code:
-  ```py
+  <execute>
   results = web_search("VQ-VAE paper")
   print(results)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...RAQ-VAE: Rate-Adaptive Vector-Quantized Variational...
 
   Your message:
   General search did not yield any relevant results, so I'll try to find the mentions of VQ-VAE in ArXiv.
-
-  Code:
-  ```py
+  <execute>
   papers = arxiv_search(query='abs:"VQ-VAE" OR abs:"Vector Quantized Variational Autoencoders"')
   print(papers)
-  ```<end_code>
+  </execute>
 
   Observation:
   {"total_count": 122, ...}
 
   Your message:
   There are many papers! Let's try to find the earliest mention. For that we set sort_by="submittedDate" and sort_order="ascending".
-
-  Code:
-  ```py
+  <execute>
   papers = arxiv_search(
       query='abs:"VQ-VAE" OR abs:"Vector Quantized Variational Autoencoders"',
       limit=1,
@@ -104,26 +94,26 @@ system: |
       include_abstracts=True
   )
   print(papers)
-  ```<end_code>
+  </execute>
 
   Observation:
   {"total_count": 122, ..., "results": [{"index": 0, "id": "1711.00937v2", "title": "Neural Discrete Representation Learning", "summary": "...Our model, the Vector Quantised-Variational AutoEncoder (VQ-VAE), differs from VAEs in two key ways..."}, ...]}
 
   Your message:
   I will now download the full text of the paper.
-
-  Code:
-  ```py
+  <execute>
   paper = arxiv_download("1711.00937v2")
   print(paper)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...Our model, the Vector Quantised-Variational AutoEncoder (VQ-VAE), differs from VAEs in two key ways...
 
   Your message:
   I've explored the full text of the paper. It seems that the paper introduces VQ-VAE.
-  The final answer is "Neural Discrete Representation Learning (1711.00937v2)".
+  <final_answer>
+  "Neural Discrete Representation Learning (1711.00937v2)"
+  </final_answer>
 
 
   ## Second example: web search, ArXiv search, ArXiv download and document QA
@@ -138,12 +128,10 @@ system: |
 
   Your message:
   I will now conduct a web search with a query that includes all the terms from the task.
-
-  Code:
-  ```py
+  <execute>
   results = web_search("convergence rates, classic TD, ordinary differential equations analysis")
   print(results)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...behavior of the celebrated temporal-difference (TD) learning algorithm...
@@ -151,47 +139,43 @@ system: |
   Your message:
   There are no relevant results, but "TD" seems to mean "temporal difference".
   Let's try to find some papers in ArXiv and sort by relevance, because we are interested in the most relevant papers.
-
-  Code:
-  ```py
+  <execute>
   query = 'abs:"temporal difference" AND abs:"ordinary differential equation"'
   papers = arxiv_search(query=query, limit=10, include_abstracts=True, sort_by="relevance")
   print(papers)
-  ```<end_code>
+  </execute>
 
   Observation:
   {...}
 
   Your message:
   None of the papers seem relevant, but I think it is a right direction. Let's try to look in the next page.
-
-  Code:
-  ```py
+  <execute>
   query = 'abs:"temporal difference" AND abs:"ordinary differential equation"'
   papers = arxiv_search(query=query, limit=10, offset=10, include_abstracts=True, sort_by="relevance")
   print(papers)
-  ```<end_code>
+  </execute>
 
   Observation:
   {..., "results": [..., {"id": "1902.00923v3", "title": Finite-Time Error Bounds For Linear Stochastic Approximation and TD Learning", "authors": "R. Srikant, Lei Ying", "summary": "...We consider the dynamics of a linear stochastic approximation algorithm driven by Markovian noise, and derive finite-time bounds on the moments of the error, i.e., deviation of the output of the algorithm from the equilibrium point of an associated ordinary differential equation (ODE)..."}, ...]}
 
   Your message:
   The paper 1902.00923v3 seems to be very relevant to the query. Let's double check how exactly this paper analyzes TD learning convergence using ODE analysis.
-  
-  Code:
-  ```py
+  <execute>
   import json
   paper = arxiv_download("1902.00923v3")
   question = "How does this paper analyze TD learning convergence using ODE analysis?"
   answer = document_qa(question=question, document=json.dumps(paper))
   print(answer)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...The innovation is connecting the stochastic TD learning analysis to deterministic ODE analysis while maintaining precise finite-time bounds.
 
   Your message:
-  The final answer is "Finite-Time Error Bounds For Linear Stochastic Approximation and TD Learning (1902.00923v3)".
+  <final_answer>
+  "Finite-Time Error Bounds For Linear Stochastic Approximation and TD Learning (1902.00923v3)"
+  </final_answer>
 
 
   ## Tools
@@ -236,7 +220,7 @@ plan: |
   - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
+  - Starts with <plan> tag and ends with </plan> tag
   Keep steps essential, sequential, and high-level.
   
   Search guidelines:
@@ -268,5 +252,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.

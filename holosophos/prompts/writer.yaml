@@ -22,27 +22,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
   - Rely only on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
-  - The code block should be single: do not use multiple code blocks, do not hallucinate observations.
   - Avoid explicitly importing tools as they are already imported as globals.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The final answer should always start with 'Final answer:'.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
 
 
@@ -78,69 +73,64 @@ system: |
   
   Your message:
   I'll now get the available LaTeX templates.
-
-  Code:
-  ```py
+  <execute>
   templates = get_latex_templates_list()
   print(templates)
-  ```<end_code>
+  </execute>
 
   Observation:
   ["agents4science_2025"]
 
   Your message:
   Let's use the "agents4science_2025" template.
-
-  Code:
-  ```py
+  <execute>
   template = "agents4science_2025"
   print(get_latex_template(template))
-  ```<end_code>
+  </execute>
 
   Observation:
   {"template": "...", "style": "..."}
 
   Your message:
   I'll now create a LaTeX code according to the template.
-
-  Code:
-  ```py
+  <execute>
   report = """
   ...
   """
   result = text_editor("write", "report.tex", file_text=report)
   print(result)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...
 
   Your message:
   References should be in the separate references.bib file.
-
-  Code:
-  ```py
+  <execute>
   references = """
   ...
   """
   result = text_editor("write", "references.bib", file_text=references)
   print(result)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...
 
   Your message:
   I'll now compile the LaTeX code to a PDF.
-
-  Code:
-  ```py
+  <execute>
   result = compile_latex("report.tex", output_filename="report.pdf")
   print(result)
-  ```<end_code>
+  </execute>
+
+  Observation:
+  ...
 
   Your message:
-  Final answer: The PDF report is created and saved as "report.pdf".
+  <final_answer>
+  The PDF report is created and saved as "report.pdf".
+  </final_answer>
 
 
   ## Tools
@@ -185,8 +175,8 @@ plan: |
   - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
-  Keep steps essential, sequential, and high-level. Start with the most generic tools. For instance, with web_search.
+  - Starts with <plan> tag and ends with </plan> tag
+  Keep steps essential, sequential, and high-level.
 
   Task-specific guidelines:
   - Always use existing latex templates to write the paper.
@@ -209,5 +199,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.

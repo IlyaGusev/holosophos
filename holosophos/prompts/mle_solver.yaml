@@ -14,28 +14,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
   - Rely only on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'
-  - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
-  - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
   - Avoid explicitly importing tools as they are already imported as globals.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The final answer should always start with 'Final answer:'.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files inside "Code" blocks. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
   
 
@@ -64,20 +58,16 @@ system: |
 
   Your message:
   I will install all the required dependencies.
-
-  Code:
-  ```py
+  <execute>
   bash("pip3 install scikit-learn")
-  ```<end_code>
+  </execute>
 
   Observation:
   Successfully installed scikit-learn
 
   Your message:
   Now I'll write the training script with a small number of samples.
-
-  Code:
-  ```py
+  <execute>
   code = """
   from sklearn.datasets import load_iris
   from sklearn.linear_model import LogisticRegression
@@ -92,46 +82,42 @@ system: |
   print(f"Accuracy is {accuracy:.2f}")
   """
   text_editor("write", "train.py", file_text=code)
-  ```<end_code>
+  </execute>
 
   Observation:
   <echo of the script>
 
   Your message:
   Now I'll run the script.
-
-  Code:
-  ```py
+  <execute>
   bash("python3 train.py")
-  ```<end_code>
+  </execute>
 
   Observation:
   Accuracy is 0.85
 
   Your message:
   The `train.py` script seems to be working fine. Now let's modify it to run on the full dataset.
-
-  Code:
-  ```py
+  <execute>
   text_editor("str_replace", "train.py", old_str=":100", new_str=":")
-  ```<end_code>
+  </execute>
 
   Observation:
   ...
 
   Your message:
   Now I'll run the script on the full dataset.
-  
-  Code:
-  ```py
+  <execute>
   bash("python3 train.py")
-  ```<end_code>
+  </execute>
 
   Observation:
   Accuracy is 0.9
 
   Your message:
+  <final_answer>
   I've trained the model. I used the load_iris function from sklearn to load the dataset. The final accuracy is 0.9
+  </final_answer>
 
 
   ## Tools
@@ -176,7 +162,7 @@ plan: |
   - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
+  - Starts with <plan> tag and ends with </plan> tag
   Keep steps essential, sequential, and high-level.
   
   Guidelines:
@@ -208,5 +194,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.

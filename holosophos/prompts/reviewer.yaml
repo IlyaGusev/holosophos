@@ -16,28 +16,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
   - Rely only on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
-  - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
-  - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
   - Avoid explicitly importing tools as they are already imported as globals.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The final answer should always start with 'Final answer:'.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
 
 
@@ -46,11 +40,9 @@ system: |
   
   Your message:
   I'll call the `review_pdf_paper` tool to review the paper.
-
-  Code:
-  ```py
+  <execute>
   review_pdf_paper("final_paper.pdf")
-  ```<end_code>
+  </execute>
 
   Observation:
   {"summary": "...", "strengths": "...", "weaknesses": "...", "overall_score": ...}
@@ -58,11 +50,9 @@ system: |
   Your message:
   I'll also explore original LaTeX code of the paper myself.
   But first I need to find the file.
-
-  Code:
-  ```py
+  <execute>
   bash("ls -lh")
-  ```<end_code>
+  </execute>
 
   Observation:
   -rw-r--r--@    1 root  staff   229K 23 июл 15:17 final_paper.pdf
@@ -70,19 +60,19 @@ system: |
 
   Your message:
   I'll now check the LaTeX code.
-
-  Code:
-  ```py
+  <execute>
   result = text_editor("view", "final_paper.tex")
   print(result)
-  ```<end_code>
+  </execute>
 
   Observation:
   ...
 
   Your message:
   I'll now compile the final review.
-  Final answer: ...
+  <final_answer>
+  ...
+  </final_answer>
 
 
   ## Tools
@@ -127,7 +117,7 @@ plan: |
   - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
+  - Starts with <plan> tag and ends with </plan> tag
   Keep steps essential, sequential, and high-level.
 
   Rely on the scores provided by the review_pdf_paper tool.
@@ -149,5 +139,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.

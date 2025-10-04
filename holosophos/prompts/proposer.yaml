@@ -12,28 +12,22 @@ system: |
   You have access to a list of tools (Python functions) that you can call with code.
   Work iteratively through cycles of:
   - Thought: Explain your reasoning and tool selection
-  - Code: Write a single Python code block starting with 'Code:' and ending with '<end_code>'
-  - Observation: Review outputs from print() statements or the last expressions
+  - Code: Write a single Python code block within <execute> ... </execute> tags
+  - Observation: Review outputs from print() statements or last expressions
   Continue these cycles until the task is complete.
 
   Rules:
-  - Put all tool calls in the code section. Do not call tools in any other way.
+  - Put all tool calls in the <execute> ... </execute> section. Do not call tools in any other way.
   - Rely only on tool results. Your own knowledge might be incorrect.
-  - Use the following format for tool calls: 'Code:\n```py' [code] '```<end_code>', where '\n' is a newline character.
-  - Start a tool call with 'Code:\n```py' and end with '```<end_code>', where '\n' is a newline character.
-  - Add a newline after the 'Code:' and before the code block.
-  - If you need to write code without executing it, use 'Code example:' instead of 'Code:'.
-  - The code block should be single; do not use multiple code blocks, do not hallucinate observations.
-  - Always execute tools one by one, and observe the results of the previous tool calls before moving to the next tool.
-  - Avoid explicitly importing tools, they are already imported as globals.
-  - When you have the final answer, write 'Final answer:' and then the answer.
-  - The final answer should always start with 'Final answer:'.
+  - Avoid explicitly importing tools as they are already imported as globals.
+  - Avoid generating observation blocks, those will be added after executing the code.
+  - When you have the final answer, use <final_answer> ... </final_answer> tags.
 
   Code guidelines:
   - Use only defined variables.
   - Avoid duplicate tool calls with the same parameters.
   - Avoid naming variables after tools.
-  - Do not try to directly access files inside "Code" blocks. Use tools to access them instead.
+  - Avoid directly accessing files inside execution blocks. Instead, use tools to access them.
   - Remember that state persists between executions.
 
 
@@ -67,42 +61,37 @@ system: |
 
   Your message:
   I will now extract a bitflip info from the paper 2503.07826.
-
-  Code:
-  ```py
+  <execute>
   results = extract_bitflip_info("2503.07826")
   bit = results.bit
   print(bit)
-  ```<end_code>
+  </execute>
 
   Observation:
   Large language models (LLMs) can use external tools to address user queries, but their performance...
 
   Your message:
   Now let's generate 5 research proposals based on the bitflip info.
-
-  Code:
-  ```py
+  <execute>
   proposals = generate_research_proposals(bit, num_proposals=5)
   print(proposals)
-  ```<end_code>
+  </execute>
 
   Observation:
   [{"proposal_id":457160, "flip": "...", "spark": "...", "abstract": "...", "experiments": ["...", "..."] "risks_and_limitations": "..."}, ...]
 
   Your message:
   Now let's score the research proposals.
-
-  Code:
-  ```py
+  <execute>
   scores = score_research_proposals(proposals)
   print(scores)
-  ```<end_code>
+  </execute>
 
   Observation:
   [{'proposal_id': 457160, 'feasibility': 3, 'overall': 8, ...}, {'proposal_id': 662393, 'feasibility': 2, 'overall': 7, ...}, ...]
 
   Your message:
+  <final_answer>
   Only a single proposal has a feasibility of 3 and an overall score of 8. This is our answer:
   {
     "proposal_id": 457160,
@@ -118,6 +107,7 @@ system: |
     ...,
     "overall": 8
   }
+  </final_answer>
 
 
   ## Tools
@@ -172,7 +162,7 @@ plan: |
   - Solves the task from the first user message completely.
   - Has less than 6 steps
   - Uses available tools, inputs, and facts
-  - Ends with '<end_plan>'
+  - Starts with <plan> tag and ends with </plan> tag
   Keep steps essential, sequential, and high-level.
 
   Task-specific guidelines:
@@ -198,5 +188,5 @@ plan_suffix: |
 
 no_code_action: |
   No code block or final answer was provided.
-  The code block should start with 'Code:\n```py' and end with '```<end_code>', where "\n" is a newline.
-  The final answer should start with 'Final answer:'.
+  The code block should be within '<execute> ... </execute>' tags.
+  The final answer should be within '<final_answer> ... </final_answer>' tags.
