@@ -1,6 +1,12 @@
 ### Holosophos
 
-Autonomous research assistant composed of specialized agents for literature discovery, experiment execution on remote GPUs, technical writing, idea generation, and paper review. Holosophos runs on top of the [CodeArkt framework](https://github.com/IlyaGusev/codearkt) and integrates external MCP servers and optional tracing via Phoenix.
+Autonomous research assistant composed of specialized agents for literature discovery, experiment execution on remote GPUs, technical writing, idea generation, and paper review.
+
+Built on top of:
+- [CodeArkt agentic framework](https://github.com/IlyaGusev/codearkt)
+- [Academia MCP server](https://github.com/IlyaGusev/academia_mcp)
+- [MLE kit MCP server](https://github.com/IlyaGusev/mle_kit_mcp)
+
 
 ### Features
 - **Manager agent**: Orchestrates task flow across specialized agents.
