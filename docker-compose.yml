@@ -29,7 +29,7 @@ services:
     command: ["python", "-m", "holosophos.server", "--port", "5055", "--enable-phoenix"]
 
   executor:
-    image: phoenix120/codearkt_http@sha256:80d6a882a7e0f195aa9f112065c0f13c829778243ac013c69437a7d7d66053e4
+    image: phoenix120/codearkt_http@sha256:8866223c75d644f51d0da5f12a8400ae4aa62262d5331b0e69dc7a3576055873
     environment:
       - SERVER_URL_TEMPLATE=http://app:{port}
     read_only: true
@@ -38,11 +38,14 @@ services:
       - /run:rw,size=16m
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     deploy:
       resources:
         limits:
           cpus: "0.5"
-          memory: 512m
+          memory: 1g
+          pids: 256
     expose:
       - "8000"
     healthcheck:
@@ -62,7 +65,7 @@ services:
       - .env
 
   academia:
-    image: phoenix120/academia_mcp:1.10.9
+    image: phoenix120/academia_mcp:1.11.3
     command: ["uv", "run", "-m", "academia_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${ACADEMIA_PORT:-5056}"]
     ports:
       - "${ACADEMIA_PORT:-5056}:${ACADEMIA_PORT:-5056}"
@@ -79,12 +82,13 @@ services:
       - .env
 
   mle_kit:
-    image: phoenix120/mle_kit_mcp:1.2.2
+    image: phoenix120/mle_kit_mcp:1.2.8
     command: ["uv", "run", "-m", "mle_kit_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${MLE_KIT_PORT:-5057}"]
     ports:
       - "${MLE_KIT_PORT:-5057}:${MLE_KIT_PORT:-5057}"
     environment:
       - WORKSPACE_DIR=/workdir
+      - HOST_WORKSPACE_DIR=${PWD}/workdir
     volumes:
       - ./workdir:/workdir
       - /var/run/docker.sock:/var/run/docker.sock
