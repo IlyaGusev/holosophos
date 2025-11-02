@@ -65,7 +65,7 @@ services:
       - .env
 
   academia:
-    image: phoenix120/academia_mcp:1.11.3
+    image: phoenix120/academia_mcp:1.11.10
     command: ["python", "-m", "academia_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${ACADEMIA_PORT:-5056}"]
     ports:
       - "${ACADEMIA_PORT:-5056}:${ACADEMIA_PORT:-5056}"
@@ -82,7 +82,7 @@ services:
       - .env
 
   mle_kit:
-    image: phoenix120/mle_kit_mcp:1.2.8
+    image: phoenix120/mle_kit_mcp:1.2.10
     command: ["python", "-m", "mle_kit_mcp", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "${MLE_KIT_PORT:-5057}"]
     ports:
       - "${MLE_KIT_PORT:-5057}:${MLE_KIT_PORT:-5057}"

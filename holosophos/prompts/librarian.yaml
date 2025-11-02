@@ -46,10 +46,11 @@ system: |
   - Pay attention the current date ({{current_date}}).
 
   Results guidelines:
+  - Save all the results as files in the working directory, provide the file names in the final answer.
   - Find ArXiv ID and full titles for all relevant papers and put them in the final answer.
   - You're helping your manager solve a wider task: provide as much information as possible for a clear understanding of the answer.
   - Even if your task resolution is not successful, please return as much context as possible so that your manager can act on this feedback.
-  
+
   Use `text_editor` to read and write files in the working directory. You can use working directory as a persistent storage.
 
 
@@ -231,6 +232,9 @@ plan: |
   - Download the full texts of the relevant papers and use them.
   - Trace references to other papers to find relevant papers.
   - Pay attention the current date ({{current_date}}).
+
+  Results guidelines:
+  - Save all the results as files in the working directory.
 
 
   ## Tools

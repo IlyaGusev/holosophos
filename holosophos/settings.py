@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     MANAGER_PLANNING_INTERVAL: int = 9
     MANAGER_TOOLS: Sequence[str] = (
         "bash",
+        "install_with_apt",
         "text_editor",
         "describe_image",
         "speech_to_text",
@@ -39,8 +40,8 @@ class Settings(BaseSettings):
         "anthology_search",
         "s2_get_citations",
         "s2_get_references",
-        "s2_corpus_id_from_arxiv_id",
         "s2_get_info",
+        "s2_search",
         "hf_datasets_search",
         "document_qa",
         "web_search",
@@ -64,6 +65,7 @@ class Settings(BaseSettings):
     )
     MLE_SOLVER_TOOLS: Sequence[str] = (
         "bash",
+        "install_with_apt",
         "text_editor",
         "llm_proxy_local",
         "hf_datasets_search",
@@ -80,6 +82,7 @@ class Settings(BaseSettings):
         "get_latex_templates_list",
         "compile_latex",
         "bash",
+        "install_with_apt",
         "text_editor",
         "read_pdf",
         "describe_image",
