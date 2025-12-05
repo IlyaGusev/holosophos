@@ -53,10 +53,6 @@ module = "*"
 ignore_missing_imports = true
 follow_imports = "skip"
 
-[tool.setuptools]
-packages = ["holosophos"]
-include-package-data = true
-
 [tool.setuptools.package-data]
 "holosophos" = ["prompts/*.yaml"]
 
