@@ -30,6 +30,10 @@ dev = [
     "pytest-asyncio>=1.1.0",
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["holosophos*", "holosophos/agents*"]
+
 [tool.flake8]
 exclude = ["*/__init__.py"]
 ignore = "E203,F403,E501,SIM115,PIE786,W503,E226"
@@ -51,7 +55,10 @@ follow_imports = "skip"
 
 [tool.setuptools]
 packages = ["holosophos"]
-include-package-data = false
+include-package-data = true
+
+[tool.setuptools.package-data]
+"holosophos" = ["prompts/*.yaml"]
 
 [[tool.mypy.overrides]]
 module = "pydantic.*"
